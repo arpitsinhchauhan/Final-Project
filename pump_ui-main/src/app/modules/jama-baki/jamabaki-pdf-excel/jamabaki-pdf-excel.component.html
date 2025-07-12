@@ -1,0 +1,50 @@
+<div *ngIf="JamabakiList.length > 0">
+    <div class="button-group">
+        <button mat-raised-button  (click)="exportToExcel()">
+          <mat-icon>file_download</mat-icon>
+          Export to Excel
+        </button>
+        <button mat-raised-button  (click)="printTable()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          PDF
+        </button>
+        <button mat-raised-button  (click)="cancel()">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </div>
+    <table id="JamabakiTable">
+        <thead>
+            <tr>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Jama
+                </th>
+                <th>
+                    Baki
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let items of JamabakiList">
+                <td>{{items.date  | date: 'dd-MM-yyyy'}}</td>
+                <td>{{items.name}}</td>
+                <td>{{items.jama}}</td>
+                <td>{{items.baki}}</td>
+            </tr>
+            <tr>
+                <td colspan="2" style="text-align: right;"><strong>Total :</strong></td>
+                <td style="background-color: #d0b6b6;"><strong>{{ getTotalJama() | number:'1.2-2' }}</strong></td>
+                <td style="background-color: #d0b6b6;"><strong>{{ getTotalBaki() | number:'1.2-2' }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="JamabakiList.length === 0">
+    No data available.
+</div>

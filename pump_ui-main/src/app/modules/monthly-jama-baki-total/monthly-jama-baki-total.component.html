@@ -1,0 +1,46 @@
+<div class="button-group">
+    <button mat-raised-button  (click)="exportToExcel()">
+      <mat-icon>file_download</mat-icon>
+      Export to Excel
+    </button>
+    <button mat-raised-button  (click)="printTable()">
+      <mat-icon>picture_as_pdf</mat-icon>
+      PDF
+    </button>
+    <button mat-raised-button  (click)="cancel()">
+      <mat-icon>cancel</mat-icon>
+      Cancel
+    </button>
+  </div>
+
+<p *ngFor="let items of productList">{{data.name}}</p>
+<table id="JamaBakilistTable">
+    <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Name</th>
+        <th scope="col">Jama</th>
+        <th scope="col">Baki</th>
+    </tr>
+    <tr *ngFor="let items of productList">
+        <td>{{items.date}}</td>
+        <td>{{items.name}}</td>
+        <!-- //*ngIf="this.data.name === items.jama; else receiveAmount" -->
+        <td>{{ items.jama }}</td>
+        <ng-template #receiveAmount>
+            <td>-</td>
+        </ng-template>
+        <!-- *ngIf="this.data.name === items.baki; else senderAmount" -->
+        <td>{{ items.baki }}</td>
+        <ng-template #senderAmount>
+            <td>-</td>
+        </ng-template>
+    <tr>
+        <td colspan="2"><strong>Total</strong></td>
+        <td style="color: blue;"><strong>{{ senderAmountTotal }}</strong></td>
+        <td style="color: red;"><strong>{{ receiverAmountTotal }}</strong></td>
+    </tr>
+    <tr>
+        <td colspan="2"><strong>TotalAmount</strong></td>
+        <td colspan="3" style="background-color: rgb(90, 236, 90);"><strong>{{ totalDifference }}</strong></td>
+    </tr>
+</table>

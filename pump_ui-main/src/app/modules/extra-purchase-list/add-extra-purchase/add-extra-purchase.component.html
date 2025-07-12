@@ -1,0 +1,43 @@
+
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Extra Purchase :-</h4>
+    </div>
+    <div style="display:inline;width:50%">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput [(ngModel)]="extraDetails.date" type="date" (change)="updateDate()">
+            </mat-form-field>
+        </div>
+        <div style="display:inline;margin-left:50%">
+            <button (click)="cancel()">Cancel</button>
+        <button (click)="order()">Add</button>
+        </div>
+    </div>
+    <br />
+    <table class="style">
+        <tr>
+            <!-- <th style="width: 16%;">RowId</th> -->
+            <th>Type</th>
+            <th>Quantity </th>
+            <th>Total</th>
+            <th>Vat</th>
+            <th>Cess</th>
+            <th>JTCPERCENTAGE</th>
+            <th>TotalPurshace</th>
+        </tr>
+        <tr *ngFor="let item of row; let i = index">
+            <td><input type="text" [(ngModel)]="item.extraType" readonly/></td>
+            <td><input type="number" [(ngModel)]="item.extra_quantity" class="no-spinner" [ngClass]="{'invalid-input': !isNumber(item.extra_quantity)}" /></td>
+            <td><input type="number" [(ngModel)]="item.extra_total" class="no-spinner" [ngClass]="{'invalid-input': !isNumber(item.extra_total)}" /></td>
+            <td><input type="number" [(ngModel)]="item.extra_vat" class="no-spinner" [ngClass]="{'invalid-input': !isNumber(item.extra_vat)}" /></td>
+            <td><input type="number" [(ngModel)]="item.extra_cess" class="no-spinner" [ngClass]="{'invalid-input': !isNumber(item.extra_cess)}" /></td>
+            <td><input type="number" [(ngModel)]="item.extra_jtcpercentage" class="no-spinner" [ngClass]="{'invalid-input': !isNumber(item.extra_jtcpercentage)}" /></td>
+            <td><input type="number" [(ngModel)]="item.extra_total_purchase" class="no-spinner" [ngClass]="{'invalid-input': !isNumber(item.extra_total_purchase)}" /></td>
+        </tr>
+        <tr>
+            <td colspan="2">GrandTotal:</td>
+            <td><input type="text" [value]="totalPrice()" /></td>
+        </tr>
+    </table>
+</div>

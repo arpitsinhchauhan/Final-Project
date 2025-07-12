@@ -1,0 +1,64 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Extra Edit Purchase Details</h4>
+    </div>
+    <mat-card-content class="row" style="margin-top: 10px;">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput [(ngModel)]="extraPurchaseDetails.date" type="date">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field style="margin-top: 4%;">
+                <mat-label>Type</mat-label>
+                <mat-select [(ngModel)]="extraPurchaseDetails.extraType">
+                    <mat-option value="XP Petrol">XP Petrol</mat-option>
+                    <mat-option value="Power Diesel">Power Diesel</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Quantity</mat-label>
+                <input matInput [(ngModel)]="extraPurchaseDetails.extra_quantity" type="text">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Total</mat-label>
+                <input matInput [(ngModel)]="extraPurchaseDetails.extra_total" (input)="calculateTotalPurchase()" type="text">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Vat</mat-label>
+                <input matInput [(ngModel)]="extraPurchaseDetails.extra_vat" (input)="calculateTotalPurchase()" type="text">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Cess</mat-label>
+                <input matInput [(ngModel)]="extraPurchaseDetails.extra_cess" (input)="calculateTotalPurchase()" type="text">
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Jtcpercentage</mat-label>
+                <input matInput [(ngModel)]="extraPurchaseDetails.extra_jtcpercentage" (input)="calculateTotalPurchase()" type="text">
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <p>TotalSell :- {{ extraPurchaseDetails.extra_total_purchase | number:'1.2-2' }}</p>
+        </div>
+    </mat-card-content>
+
+    <button mat-raised-button type="button" class="btn btn-danger pull-right" *ngIf="data"
+        (click)="Edit(extraPurchaseDetails)">Edit</button>
+    <button mat-raised-button type="button" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+</div>

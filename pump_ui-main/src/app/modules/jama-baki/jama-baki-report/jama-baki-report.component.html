@@ -1,0 +1,119 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Jama & Baki :-</h4>
+    </div>
+    <div style="display:inline;width:100%">
+        <div class="col-md-6" style="display: flex; align-items: center; gap: 10px;">
+            <mat-form-field style="flex: 1;">
+                <input matInput [(ngModel)]="purchaDipStockseDetails.date" type="date">
+            </mat-form-field>
+
+            <button class="nav-link me-2" (click)="AddCustomer()" title="Add Customer">
+                <i class="material-icons">person_add</i>
+            </button>
+        </div>
+
+        <div style="display:inline;">
+            <button (click)="addTable()">Add Row</button>
+        </div>
+        <div style="display:inline;margin-left:25%">
+            <button (click)="cancel()">cancel</button>
+            <button (click)="order()">Add</button>
+        </div>
+    </div>
+    <br />
+    <table class="style">
+        <tr>
+            <th style="width: 16%;">idJamabaki</th>
+            <th>Name</th>
+            <th>Jama</th>
+            <th>Baki</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let item of row; let i = index">
+            <td><input style="text-align: center;" type="text" [(ngModel)]="item.idJamabaki" /></td>
+            <td>
+                <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252); width: 100%;">
+                    <mat-label>Receiver</mat-label>
+                    <mat-select [(ngModel)]="item.name" (openedChange)="onReceiverOpened()">
+                        <!-- Search Box inside mat-select -->
+                        <mat-option disabled>
+                            <div class="search-box">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" placeholder="Search receiver..." [(ngModel)]="receiverSearch"
+                                    (ngModelChange)="filterReceivers()" class="search-input" />
+                            </div>
+                        </mat-option>
+
+                        <!-- Filtered options -->
+                        <mat-option *ngFor="let name of filteredNames" [value]="name">
+                            {{ name }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+
+            <td><input type="text" [(ngModel)]="item.jama" style="background-color: skyblue;" /></td>
+            <td><input type="text" [(ngModel)]="item.baki" style="background-color: indianred;" /></td>
+            <td>
+                <button (click)="deleteRow(i)"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">Total:</td>
+            <td><input type="text" [value]="totalJama()" /></td>
+            <td><input type="text" [value]="totalBaki()" /></td>
+        </tr>
+        <tr>
+        </tr>
+    </table>
+</div>
+
+<!-- <div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Jama & Baki :-</h4>
+    </div>
+    <div style="display:inline;width:100%">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput [(ngModel)]="purchaDipStockseDetails.date" type="Date">
+            </mat-form-field>
+        </div>
+        <div style="display:inline;">
+            <button (click)="addTable()">Add Row</button>
+        </div>
+        <div style="display:inline;margin-left:45%">
+            <button (click)="order()">Add</button>
+        </div>
+    </div>
+    <br />
+    <table class="style">
+        <tr>
+            <th style="width: 16%;">idJamabaki</th>
+            <th>Sender</th>
+            <th>Receiver</th>
+            <th>Amonut</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let item of row; let i = index">
+            <td><input style="text-align: center;" type="text" [(ngModel)]="item.idJamabaki" /></td>
+            <td><input type="text" [(ngModel)]="data.name" /></td>
+            <td>
+                <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252);">
+                    <mat-label>Receiver</mat-label>
+                    <mat-select [(ngModel)]="item.receiver">
+                        <mat-option *ngFor="let name of names" [value]="name">{{ name }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </td>
+            <td><input type="text" [(ngModel)]="item.amount" /></td>
+            <td>
+                <button (click)="deleteRow(i)"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">GrandTotal:</td>
+            <td><input type="text" [value]="totalPrice()" /></td>
+        </tr>
+    </table>
+</div> -->

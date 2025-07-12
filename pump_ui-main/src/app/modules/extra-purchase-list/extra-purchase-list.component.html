@@ -1,0 +1,98 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Extra Purchase :-</h4>
+                        <div class="search-add-container">
+                            <mat-form-field appearance="none" class="search-field">
+                               <mat-label>Search by Type or Date</mat-label>
+                               <input matInput type="text" class="search-input" [(ngModel)]="searchTerm" (input)="searchData()" placeholder="Search...">
+                               <button  mat-icon-button matSuffix (click)="clearSearch()" aria-label="Clear">
+                                  <mat-icon style="color: black;" *ngIf="!searchTerm" >search</mat-icon>
+                                  <mat-icon style="color: black;" *ngIf="searchTerm" >close</mat-icon>
+                               </button>
+                            </mat-form-field>
+                            <div class="button-group">
+                               <button mat-raised-button class="action-button" (click)="openDialog()">
+                                  <mat-icon>control_point</mat-icon>
+                                  ADD
+                               </button>
+                               <button mat-raised-button class="action-button excel-button" (click)="openExcelPdf()">Excel</button>
+                            </div>
+                         </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Extra_Types
+                                    </th>
+                                    <th>
+                                        Extra_Quantity
+                                    </th>
+                                    <th>
+                                        Extra_Total
+                                    </th>
+                                    <th>
+                                        Extra_Vat
+                                    </th>
+                                    <th>
+                                        Extra_Cess
+                                    </th>
+                                    <th>
+                                        Extra_JTCpercentage
+                                    </th>
+                                    <th>
+                                        Extra_TotalPurshace
+                                    </th>
+                                    <th>
+                                        Edit
+                                    </th>
+                                    <th>
+                                        Delete
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let items of extraPurchaseList |  paginate: { itemsPerPage: 4, currentPage: currentPage}">
+                                        <td>{{items.date   | date: 'dd-MM-yyyy'}}</td>
+                                        <td>{{items.extraType}}</td>
+                                        <td>{{items.extra_quantity}}</td>
+                                        <td>{{items.extra_total}}</td>
+                                        <td>{{items.extra_vat}}</td>
+                                        <td>{{items.extra_cess}}</td>
+                                        <td>{{items.extra_jtcpercentage}}</td>
+                                        <td>{{items.extra_total_purchase}}</td>
+                                        <td>
+                                            <a mat-icon-button (click)="openEditDialog(items)">
+                                                <mat-icon mat-icon-button id="pencilButton">edit</mat-icon>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <a mat-icon-button (click)="deleteRow(items.id)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+
+                            </table>
+                            <div style="margin-left: 74%;">
+                                <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

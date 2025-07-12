@@ -1,0 +1,67 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Oil :-</h4>
+    </div>
+    <div style="display:inline;width:100%">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput [(ngModel)]="purchaDipStockseDetails.date" type="Date">
+            </mat-form-field>
+            <button mat-raised-button color="primary" (click)="oilType()">OilType Add</button>
+        </div>
+        <div style="display:inline;">
+            <button (click)="addTable()">Add Row</button>
+        </div>
+        <div style="display:inline;margin-left:25%">
+            <button (click)="cancel()">cancel</button>
+            <button (click)="order()">Add</button>
+        </div>
+    </div>
+    <br />
+    <table class="style">
+        <tr>
+            <th style="width: 16%;">RowId</th>
+            <th>OilType</th>
+            <th>Price</th>
+            <th>Delete</th>
+        </tr>
+        <tr *ngFor="let item of row; let i = index">
+            <td><input style="text-align: center;" type="text" [(ngModel)]="item.id" /></td>
+            <td>
+                <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252); width: 100%;">
+                  <mat-select [(ngModel)]="item.value" (openedChange)="onSelectOpened()">
+                    
+                    <!-- Static Search Box -->
+                    <mat-option disabled>
+                      <div style="display: flex; align-items: center; padding: 4px;">
+                        <span style="margin-right: 8px; font-size: 18px;">🔍</span>
+                        <input
+                          type="text"
+                          placeholder="Search..."
+                          [(ngModel)]="searchText"
+                          (ngModelChange)="onSearchChange()"
+                          style="padding: 6px 8px; font-size: 16px; width: 100%; border: none; outline: none; background: transparent;"
+                        />
+                      </div>
+                    </mat-option>
+              
+                    <!-- Filtered Options -->
+                    <mat-option *ngFor="let value of filteredExpenses" [value]="value">
+                      {{ value }}
+                    </mat-option>
+              
+                  </mat-select>
+                </mat-form-field>
+              </td>
+              
+            <td><input type="text" [(ngModel)]="item.price" /></td>
+            <td>
+                <button (click)="deleteRow(i)"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">GrandTotal:</td>
+            <td><input type="text" [value]="totalPrice()" /></td>
+        </tr>
+    </table>
+</div>

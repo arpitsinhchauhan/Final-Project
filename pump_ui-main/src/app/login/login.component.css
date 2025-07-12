@@ -1,0 +1,72 @@
+.login-image {
+    background-image: url('assets\img\Capture.JPG');
+    background-size: cover;
+    background-position: center;
+    border-radius: 1rem 0 0 1rem;
+    height: 100%;
+    width: 100%;
+}
+
+.logo-container::before {
+    content: "";
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    margin-right: 12px;
+    background-image: url('assets\img\gas1.png');
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+.custom-bg {
+    position: relative;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.custom-bg::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('assets\img\istockphoto-1329937925-612x612.jpg');
+    background-size: cover;
+    background-position: center;
+    filter: blur(8px);
+    z-index: 0;
+}
+
+.custom-bg > .container {
+    position: relative;
+    z-index: 1;
+}
+
+.card {
+    max-width: 700px; /* Limits width of the card */
+    margin: auto;      /* Centers it horizontally */
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-body {
+    padding: 2rem !important; /* Tighten spacing inside the card */
+  }
+  
+  .custom-bg {
+    background-color: #f5f5f5; /* Optional fallback for blurred bg */
+  }
+  
+  
+  @media (max-width: 768px) {
+    .card {
+      margin: 1rem;
+    }
+  
+    .login-image {
+      display: none; /* Hide image on small screens */
+    }
+  }
+  

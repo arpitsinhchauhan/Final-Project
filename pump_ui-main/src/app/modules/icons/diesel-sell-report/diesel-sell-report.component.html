@@ -1,0 +1,61 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Add Diesel Details :-</h4>
+    </div>
+    <div style="display:inline;width:100%">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput [(ngModel)]="purchaDipStockseDetails.date" type="date" (change)="updateDate()">
+            </mat-form-field>
+        </div>
+        <div style="display: flex; align-items: center;">
+            <mat-form-field style="margin-right: 20px;">
+                <mat-select [(ngModel)]="selectedNumber" placeholder="Select Number">
+                    <mat-option *ngFor="let number of numbers" [value]="number">
+                        {{ number }}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button (click)="cancel()" style="margin-left: 30%;">Cancel</button>
+            <button (click)="order()">Add</button>
+        </div>
+    </div>
+    <br />
+    <table class="style">
+        <tr>
+            <!-- <th style="width: 16%;">RowId</th> -->
+            <th>pump </th>
+            <th>close </th>
+            <th>Open</th>
+            <th>total</th>
+            <th>testing</th>
+            <th>ltr</th>
+            <th>rate</th>
+            <th>totalsell</th>
+            <!-- <th>Delete</th> -->
+        </tr>
+        <tr *ngFor="let item of row; let i = index" [hidden]="i >= selectedNumber">
+            <!-- <td><input style="text-align: center;" type="text" [(ngModel)]="item.idkharch" /></td> -->
+            <td><input type="text" [(ngModel)]="item.pump" readonly /></td>
+            <td><input type="number" [(ngModel)]="item.close_meter" (input)="calculateTotals(item)" class="no-spinner"
+                    [ngClass]="{'invalid-input': !isNumber(item.close_meter)}" /></td>
+            <td><input type="number" [(ngModel)]="item.open_meter" (input)="calculateTotals(item)" class="no-spinner"
+                    [ngClass]="{'invalid-input': !isNumber(item.open_meter)}" /></td>
+            <td><input type="number" [(ngModel)]="item.total" readonly /></td>
+            <td><input type="number" [(ngModel)]="item.testing" (input)="calculateTotals(item)" class="no-spinner"
+                    [ngClass]="{'invalid-input': !isNumber(item.testing)}" /></td>
+            <td><input type="number" [(ngModel)]="item.diesel_ltr" readonly /></td>
+            <td><input type="number" [(ngModel)]="item.rate" (input)="calculateTotals(item)" class="no-spinner"
+                    [ngClass]="{'invalid-input': !isNumber(item.rate)}" /></td>
+            <td><input type="number" [(ngModel)]="item.total_sell" readonly /></td>
+
+            <!-- <td>
+              <button (click)="deleteRow(i)"><i class="fa fa-trash"></i></button>
+          </td> -->
+        </tr>
+        <tr>
+            <td colspan="2">GrandTotal:</td>
+            <td><input type="text" [value]="totalPrice()" /></td>
+        </tr>
+    </table>
+</div>

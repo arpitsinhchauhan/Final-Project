@@ -1,0 +1,168 @@
+<div class="main-content">
+   <div class="container-fluid">
+      <!-- <div class="row">
+         <div class="col-md-4 date-container">
+            <input matInput type="date" [(ngModel)]="selectedDate" class="date-input">
+            <button mat-raised-button class="btn btn-danger" style="margin-left: 4%;" (click)="downloadPDF()">&Pdf</button>
+         </div>
+         <div class="col-md-6 d-flex align-items-center">
+            <p class="mb-0 mr-3">Select the Back Page</p>
+            <input matInput type="date" [(ngModel)]="selectedDateBakepage" class="date-input"
+            style="width: 47%;height: 62%;">
+            <button mat-raised-button class="btn btn-danger" style="margin-left: 4%;"
+               (click)="backPage()">&BackPage</button>
+            <button mat-raised-button (click)="openITReturn()">Openit</button>
+         </div>
+         </div> -->
+      <div class="row" style="width: 102%;">
+         <div class="col-md-6">
+            <div class="card">
+               <div class="card-header card-header-danger">
+                  <h4 class="card-title ">Employee Details :-</h4>
+                  <button mat-raised-button (click)="EmployeeDetails()"
+                     class="pull-right">
+                     <mat-icon>control_point</mat-icon>
+                     ADD
+                  </button>
+               </div>
+               <div class="card-body">
+                  <div class="table-responsive">
+                     <table class="table">
+                        <thead class=" text-primary">
+                           <th>
+                              Photo
+                           </th>
+                           <th>
+                              Name
+                           </th>
+                           <th>
+                              Account Number
+                           </th>
+                           <th>
+                              Phone Number
+                           </th>
+                           <th>
+                              Employee ID
+                           </th>
+                        </thead>
+                        <tbody>
+                           <tr *ngFor="let items of productList;let i = index " (click)="openDetails(items)">
+                           <td>
+                              <img [src]="thumbnails[i]" alt="Employee Photo"
+                                 style="width: 50px; height: 50px; border-radius: 50%;" />
+                           </td>
+                           <td>{{items.name}}</td>
+                           <td>{{items.phoneNumber}}</td>
+                           <td>{{items.accountNumber}}</td>
+                           <td>{{items.employeeId}}</td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+            <div>
+               <div class="card">
+                  <div class="card-header card-header-danger">
+                     <h4 class="card-title">Profit & Loss:</h4>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="stats" style="margin-top: 4%;margin-left: 5%;">
+                           <input type="date" [(ngModel)]="startDatePdf">
+                           <input type="date" [(ngModel)]="endDatePdf" style="margin-left: 6%;">
+                           <button mat-raised-button (click)="pdf()" style="width: 27%;margin-left: 4%;">
+                              <mat-icon>save</mat-icon>
+                              Pdf
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="card">
+               <div class="card-header card-header-danger">
+                  <h4 class="card-title">Customer Details Jama & Baki:</h4>
+               </div>
+               <div class="card-body">
+                  <div class="row">
+                     <div class="col-md-4">
+                        <label for="start-date">Start Date:</label>
+                        <input type="date" id="start-date" [(ngModel)]="startDateJb" class="form-control" required />
+                     </div>
+                     <div class="col-md-4">
+                        <label for="end-date">End Date:</label>
+                        <input type="date" id="end-date" [(ngModel)]="endDateJb" class="form-control" required />
+                     </div>
+                  </div>
+                  <div class="row" *ngIf="startDateJb && endDateJb">
+                     <div class="col-md-8">
+                        <mat-form-field appearance="fill">
+                           <mat-label>Select Customer</mat-label>
+                           <mat-select placeholder="Select Customer" [(ngModel)]="selectedCustomer"
+                           (selectionChange)="onCustomerSelectionChange($event)">
+                           <mat-option *ngFor="let customer of customers" [value]="customer">
+                           {{ customer }}
+                           </mat-option>
+                           </mat-select>
+                        </mat-form-field>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="col-md-12">
+               <div class="card">
+                  <div class="card-header card-header-danger">
+                     <h4 class="card-title ">All Detail Set in Excel :-</h4>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-12">
+                        <div class="stats" style="margin-top: 4%;margin-left: 5%;">
+                           <input type="date" [(ngModel)]="startDate">
+                           <input type="date" [(ngModel)]="endDate" style="margin-left: 6%;">
+                           <button mat-raised-button (click)="exportToExcel()" style="width: 27%;margin-left: 4%;">
+                              <mat-icon>save</mat-icon>
+                              Export to Excel
+                           </button>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="card">
+                  <div class="card-header card-header-danger">
+                     <h4 class="card-title">Expenses Details :-</h4>
+                  </div>
+                  <div class="card-body">
+                     <div class="row">
+                        <div class="col-md-4">
+                           <label for="start-date">Start Date:</label>
+                           <input type="date" id="start-date" [(ngModel)]="startDateExpen" class="form-control" required />
+                        </div>
+                        <div class="col-md-4">
+                           <label for="end-date">End Date:</label>
+                           <input type="date" id="end-date" [(ngModel)]="endDateExpen" class="form-control" required />
+                        </div>
+                     </div>
+                     <div class="row" *ngIf="startDateExpen && endDateExpen">
+                        <div class="col-md-8">
+                           <mat-form-field appearance="fill" style="width: 100%;">
+                              <mat-label>Select Expense</mat-label>
+                              <mat-select placeholder="Select Expense"
+                              [(ngModel)]="selectedExpense"
+                              (selectionChange)="expensesExcel($event)">
+                              <mat-option *ngFor="let expense of expensesList" [value]="expense">
+                              {{ expense }}
+                              </mat-option>
+                              </mat-select>
+                           </mat-form-field>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

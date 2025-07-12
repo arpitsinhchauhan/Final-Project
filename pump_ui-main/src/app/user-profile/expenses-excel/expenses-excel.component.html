@@ -1,0 +1,41 @@
+<div class="button-group">
+    <button mat-raised-button  (click)="exportToExcel()">
+      <mat-icon>file_download</mat-icon>
+      Export to Excel
+    </button>
+    <button mat-raised-button  (click)="printTable()">
+      <mat-icon>picture_as_pdf</mat-icon>
+      PDF
+    </button>
+    <button mat-raised-button  (click)="cancel()">
+      <mat-icon>cancel</mat-icon>
+      Cancel
+    </button>
+  </div>
+<table id="ExpenseTable">
+    <thead>
+      <tr>
+        <th scope="col">Date</th>
+        <th scope="col">Expense</th>
+        <th scope="col">Total</th>
+        <th scope="col">Note</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of expenseList">
+        <td>{{ item.date  | date: 'dd-MM-yyyy'}}</td>
+        <td>{{ item.expenses }}</td>
+        <td>{{ item.price }}</td>
+        <td>{{ item.note }}</td>
+      </tr>
+      
+    </tbody>
+    <tfoot>
+      <tr>
+        <td colspan="2"><strong>Grand Total</strong></td>
+        <td><strong>{{ getTotalPrice() }}</strong></td>
+        <td></td>
+      </tr>
+    </tfoot>
+  </table>
+  

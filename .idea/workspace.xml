@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="fcc8e432-836b-4573-ade2-12481a386dd7" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/10.pack" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/10.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/11.pack" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/11.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/13.pack" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/13.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/index.pack" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/index.pack.old" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pump_ui-main/src/app/components/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/src/app/components/navbar/navbar.component.ts" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="PUSH_TAGS">
+      <GitPushTagMode>
+        <option name="argument" value="--follow-tags" />
+        <option name="title" value="Current Branch" />
+      </GitPushTagMode>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/pump_ui-main" />
+    <option name="ROOT_SYNC" value="SYNC" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;arpitsinhchauhan&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/arpitsinhchauhan/Final_Project.git&quot;,
+    &quot;accountId&quot;: &quot;e397ad85-4279-434a-bf14-f2fccc924195&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2zkzmTDqxVi41yfCUxh95Lvntki" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/Final Project&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
+  }
+}</component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="fcc8e432-836b-4573-ade2-12481a386dd7" name="Changes" comment="" />
+      <created>1752290018355</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1752290018355</updated>
+    </task>
+    <servers />
+  </component>
+</project>

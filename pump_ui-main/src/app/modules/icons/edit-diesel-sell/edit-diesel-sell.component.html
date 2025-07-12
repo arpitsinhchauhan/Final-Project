@@ -1,0 +1,68 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Add Diesel Details</h4>
+    </div>
+
+    <mat-card-content class="row" style="margin-top: 10px;">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput [(ngModel)]="dieselDetails.date" type="date">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field style="margin-top: 4%;">
+                <mat-label>Pump</mat-label>
+                <mat-select [(ngModel)]="dieselDetails.pump">
+  <mat-option *ngFor="let pump of pumpList" [value]="pump">{{ pump }}</mat-option>
+</mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>CloseMeter</mat-label>
+                <input matInput [(ngModel)]="dieselDetails.close_meter" type="text" (ngModelChange)="calculateValues()">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>OpenMeter</mat-label>
+                <input matInput [(ngModel)]="dieselDetails.open_meter" type="text" (ngModelChange)="calculateValues()">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <p>Total: {{ (dieselDetails.total) | number:'1.2-2' }}</p>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Testing</mat-label>
+                <input matInput [(ngModel)]="dieselDetails.testing" type="text" (ngModelChange)="calculateValues()">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <p>Petrol_ltr: {{ (dieselDetails.diesel_ltr)  | number:'1.2-2' }}</p>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Rate</mat-label>
+                <input matInput [(ngModel)]="dieselDetails.rate" type="text" (ngModelChange)="calculateValues()">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-3">
+            <p>TotalSell: {{ dieselDetails.total_sell | number:'1.2-2' }}</p>
+        </div>
+    </mat-card-content>
+
+    <button mat-raised-button (click)="logData()" *ngIf="!data" class="btn btn-danger pull-right">Add</button>
+    <button mat-raised-button type="button"
+        class="btn btn-danger pull-right" *ngIf="data" (click)="Edit(dieselDetails)">Edit</button>
+    <button mat-raised-button type="button" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+</div>

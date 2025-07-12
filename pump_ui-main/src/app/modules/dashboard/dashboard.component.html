@@ -1,0 +1,101 @@
+<div class="main-content">
+   <div class="container-fluid">
+      <div class="row">
+         <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+               <div class="card-header card-header-warning card-header-icon">
+                  <div class="card-icon">
+                     <i class="material-icons">T</i>
+                  </div>
+                  <p class="card-category">Total Rs:</p>
+                  <h3 class="card-title">{{ getTotalRsSum() | number:'1.2-2'}}
+                     <small>$</small>
+                  </h3>
+               </div>
+               <div class="card-footer">
+                  <div class="stats">
+                     <input type="date" [(ngModel)]="startDate">
+                     <input type="date" [(ngModel)]="endDate" style="margin-left: 2%;">
+                  </div>
+                  <mat-icon (click)="fetchData()">monetization_on</mat-icon>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+               <div class="card-header card-header-success card-header-icon">
+                  <div class="card-icon">
+                     <i class="material-icons">D</i>
+                  </div>
+                  <p class="card-category">Dailytotal</p>
+                  <h3 class="card-title">${{ dailyTotal | number:'1.2-2'}}</h3>
+               </div>
+               <div class="card-footer">
+                  <div class="stats">
+                     <i class="material-icons">date_range</i> Last 24 Hours
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+               <div class="card-header card-header-danger card-header-icon">
+                  <div class="card-icon">
+                     <i class="material-icons">M</i>
+                  </div>
+                  <p class="card-category">Current Month Total</p>
+                  <h3 class="card-title">${{ CurrentmonthTotal | number:'1.2-2'}}</h3>
+               </div>
+               <div class="card-footer">
+                  <div class="stats">
+                     <i class="material-icons">local_offer</i> Current Month Updated
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="card card-stats">
+               <div class="card-header card-header-info card-header-icon">
+                  <div class="card-icon">
+                     <i class="material-icons">Y</i>
+                  </div>
+                  <p class="card-category">Current Year Total</p>
+                  <h3 class="card-title">${{CurrentyearTotal | number:'1.2-2'}}</h3>
+               </div>
+               <div class="card-footer">
+                  <div class="stats">
+                     <i class="material-icons">update</i> Current Year Updated
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-6">
+            <div class="card">
+               <mat-form-field appearance="fill">
+                  <mat-label>Filter Type</mat-label>
+                  <mat-select [(ngModel)]="filterType" (selectionChange)="getPiechartValue()">
+                     <mat-option value="today">Today</mat-option>
+                     <mat-option value="month">This Month</mat-option>
+                     <mat-option value="year">This Year</mat-option>
+                  </mat-select>
+               </mat-form-field>
+
+               <h2 style="text-align: center;text-decoration: underline;">Daily Sell </h2>
+               <div style="display: block;">
+                  <canvas baseChart [data]="chartData" [type]="chartType" [options]="chartOptions">
+                  </canvas>
+               </div>
+            </div>
+         </div>
+         <div class="col-md-6">
+            <div class="card">
+               <div>
+                  <canvasjs-chart [options]="chartOptions2" [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

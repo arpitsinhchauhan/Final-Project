@@ -1,0 +1,62 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+      <h4 class="card-title">Add Petrol/Diesel Dip Details</h4>
+    </div>
+  
+    <mat-card-content class="row" style="margin-top: 10px;">
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput [(ngModel)]="extraDipvalueDetails.date" type="date">
+        </mat-form-field>
+      </div>
+      <a mat-icon-button (click)="openComponent()">
+        <mat-icon id="pencilButton">table</mat-icon>
+      </a>
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>PetrolDip</mat-label>
+          <input matInput [(ngModel)]="extraPdip" type="text" (blur)="fetchPvalue()">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>PetrolVolume</mat-label>
+          <input matInput [(ngModel)]="extra_pvalue" type="text" readonly>
+        </mat-form-field>
+      </div>
+  
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>DieselDip</mat-label>
+          <input matInput [(ngModel)]="extra_dieseldip" type="text" (blur)="fetchDvalue()">
+        </mat-form-field>
+      </div>
+  
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>DieselVolume</mat-label>
+          <input matInput [(ngModel)]="extra_dvalue" type="text" readonly>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  
+    <button 
+    mat-raised-button 
+    (click)="logData()" 
+    *ngIf="data?.type === 'add'" 
+    class="btn btn-danger pull-right">
+     {{ data?.type === 'edit' ? 'Edit' : 'Add' }}
+  </button>
+  
+  <button 
+    mat-raised-button 
+    type="button" 
+    class="btn btn-danger pull-right" 
+    *ngIf="data?.type === 'edit'" 
+    (click)="Edit(extraDipvalueDetails)">
+    Edit
+  </button>
+  
+    <button mat-raised-button type="button" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+  </div>
+  

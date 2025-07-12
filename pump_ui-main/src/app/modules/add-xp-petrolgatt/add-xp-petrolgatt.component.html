@@ -1,0 +1,15 @@
+<form [formGroup]="gattForm">
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Date</mat-label>
+      <input matInput formControlName="date" type="date" />
+    </mat-form-field>
+  
+    <mat-form-field appearance="fill">
+      <mat-label>Xp_Petrol Gatt</mat-label>
+      <input matInput formControlName="xppetrolgatt" type="number" />
+    </mat-form-field>
+    <button mat-raised-button color="primary" (click)="cancel();">cancel</button>
+    <button mat-raised-button color="primary" (click)="onSubmit()">Submit</button>
+  </form>
+  

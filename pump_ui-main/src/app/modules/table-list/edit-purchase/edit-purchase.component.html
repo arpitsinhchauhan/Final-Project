@@ -1,0 +1,65 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Add Purchase Details</h4>
+    </div>
+    <mat-card-content class="row" style="margin-top: 10px;">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.date" type="date">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field style="margin-top: 4%;">
+                <mat-label>Type</mat-label>
+                <mat-select [(ngModel)]="purchaseDetails.type">
+                    <mat-option value="Petrol">Petrol</mat-option>
+                    <mat-option value="Diesel">Diesel</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Quantity</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.quantity" type="text">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Total</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.total" (input)="calculateTotalPurchase()" type="text">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>Vat</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.vat" (input)="calculateTotalPurchase()" type="text">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Cess</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.cess" (input)="calculateTotalPurchase()" type="text">
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Jtcpercentage</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.jtcpercentage" (input)="calculateTotalPurchase()" type="text">
+            </mat-form-field>
+        </div>
+        <div class="col-md-3">
+            <p>TotalSell :- {{ purchaseDetails.total_purchase | number:'1.2-2' }}</p>
+        </div>
+    </mat-card-content>
+
+    <button mat-raised-button (click)="logData()" *ngIf="!data" class="btn btn-danger pull-right">Add</button>
+    <button mat-raised-button type="button" class="btn btn-danger pull-right" *ngIf="data"
+        (click)="Edit(purchaseDetails)">Edit</button>
+    <button mat-raised-button type="button" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+</div>

@@ -1,0 +1,187 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">JamaBaki Details :-</h4>
+                        <div class="search-add-container">
+                            <mat-form-field appearance="none" class="search-field">
+                               <mat-label>Search by Name or Date</mat-label>
+                               <input matInput type="text" class="search-input" [(ngModel)]="searchTerm" (input)="searchData()" placeholder="Search...">
+                               <button  mat-icon-button matSuffix (click)="clearSearch()" aria-label="Clear">
+                                  <mat-icon style="color: black;" *ngIf="!searchTerm" >search</mat-icon>
+                                  <mat-icon style="color: black;" *ngIf="searchTerm" >close</mat-icon>
+                               </button>
+                            </mat-form-field>
+                            <div class="button-group">
+                               <button mat-raised-button class="action-button" (click)="openJamaBaki()">
+                                  <mat-icon>control_point</mat-icon>
+                                  Jama&Baki
+                               </button>
+                               <button mat-raised-button class="action-button excel-button" (click)="openJamaBakiPdfExcel()">Excel</button>
+                            </div>
+                         </div>
+                        <!-- <button mat-raised-button class="pull-right"
+                            (click)="openDialog()"><mat-icon>control_point</mat-icon>ADD</button> -->
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <!-- <div class="search-box">
+                                <input type="text" [(ngModel)]="searchText" placeholder="Search by name"
+                                    class="form-control" (input)="filterCustomers()">
+                            </div> -->
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Jama
+                                    </th>
+                                    <th>
+                                        Baki
+                                    </th>
+                                    <!-- <th>
+                                        Transaction
+                                    </th>
+                                    <th>
+                                        Account
+                                    </th>-->
+                                    <th>
+                                        Edit
+                                    </th>
+                                    <th>
+                                        Delete
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let items of jamabakiList |  paginate: { itemsPerPage: 4, currentPage: currentPage}">
+                                        <td>{{items.date  | date: 'dd-MM-yyyy'}}</td>
+                                        <td>{{items.name}}</td>
+                                        <td>{{items.jama}}</td>
+                                        <td>{{items.baki}}</td>
+                                        <!-- <td>
+                                            <a mat-icon-button (click)="openTransaction(items)">
+                                                <mat-icon id="pencilButton">list_alt</mat-icon>
+                                            </a>
+                                        </td> -->
+                                        <!-- <td>
+                                            <a mat-icon-button (click)="openAccount(items)">
+                                                <mat-icon id="pencilButton">money</mat-icon>
+                                            </a>
+                                        </td> -->
+                                        <td>
+                                            <a mat-icon-button (click)="openEditDialog(items)">
+                                                <mat-icon id="pencilButton">edit</mat-icon>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <a mat-icon-button (click)="deleteRow(items.id)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="margin-left: 74%;">
+                                <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Customer Details :-</h4>
+                        <button mat-raised-button class="pull-right"
+                            (click)="openDialog()"><mat-icon>control_point</mat-icon>ADD</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <div class="search-box">
+                                <input type="text" [(ngModel)]="searchText" placeholder="Search by name" class="form-control" (input)="filterCustomers()">
+                              </div>
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Name
+                                    </th>
+                                    <th>
+                                        Phone
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        Transaction
+                                    </th>
+                                    <th>
+                                        Account
+                                    </th>
+                                    <th>
+                                        Edit
+                                    </th>
+                                    <th>
+                                        Delete
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let items of productList |  paginate: { itemsPerPage: 4, currentPage: currentPage}">
+                                        <td>{{items.date}}</td>
+                                        <td>{{items.name}}</td>
+                                        <td>{{items.phone}}</td>
+                                        <td>{{items.email}}</td>
+                                        <td>
+                                            <a mat-icon-button (click)="openTransaction(items)">
+                                                <mat-icon id="pencilButton">list_alt</mat-icon>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a mat-icon-button (click)="openAccount(items)">
+                                                <mat-icon id="pencilButton">money</mat-icon>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a mat-icon-button (click)="openEditDialog(items)">
+                                                <mat-icon id="pencilButton">edit</mat-icon>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <a mat-icon-button (click)="deleteRow(items.idcustomer)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div style="margin-left: 74%;">
+                                <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div> -->

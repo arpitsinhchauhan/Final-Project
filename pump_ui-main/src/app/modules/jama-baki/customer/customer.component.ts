@@ -1,0 +1,93 @@
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject, OnInit } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { customer } from 'app/modules/jama-baki/jama-baki-report/customer';
+import { NotificationService } from 'app/services/notification.service';
+import { UserServiceService } from 'app/services/user-service.service';
+import { API_CUSTOMER_ADD } from 'app/serviceult';
+@Component({
+  selector: 'app-customer',
+  templateUrl: './customer.component.html',
+  styleUrls: ['./customer.component.css']
+})
+export class CustomerComponent implements OnInit {
+
+
+  isReload: boolean;
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
+    private http: HttpClient,
+    private use: UserServiceService,
+    public dialogRef: MatDialogRef<CustomerComponent>,
+    private notificationService: NotificationService) {
+    this.purchaseDetails = { ...data };
+  }
+
+  ngOnInit(): void {
+
+  }
+
+  selectField: string;
+
+  // updatePrice(): void {
+  //   // Calculate or set the price based on the selected field
+  //   if (this.selectField === '1 Ltr') {
+  //     this.purchaseDetails.price = '100';
+  //   } else if (this.selectField === '0.500 Ltr') {
+  //     this.purchaseDetails.price = '200';
+  //   }
+  // }
+  purchaseDetails: customer = {
+    date: new Date(),
+    name: '',
+    phone: '',
+    email: '',
+    userId: ''
+  };
+  // logData(): void {
+  //   ('DieselSell Details:', this.purchaseDetails);
+  //   this.use.addOilSell(this.purchaseDetails).subscribe(
+  //     (response) => {
+  //       alert("DieselSell Details Successful add........");
+  //     },
+  //     (error) => {
+  //       console.error('API Error:', error);
+  //     }
+  //   );
+  // }
+  logData(): void {
+    const userId = localStorage.getItem('userId');
+    this.purchaseDetails.userId = userId;
+    // Make API request to add OilSell details
+    this.http.post<any>(API_CUSTOMER_ADD, this.purchaseDetails).subscribe(
+      (response) => {
+        this.notificationService.success('Customer Details Successfully added.');
+        this.dialogRef.close({ 'isReload': this.isReload });
+      },
+      (error) => {
+        this.notificationService.failure("Customer already add");
+        this.dialogRef.close({ 'isReload': this.isReload });
+      }
+    );
+  }
+
+  cancel() {
+    this.dialogRef.close({ 'isReload': this.isReload });
+  }
+
+  Edit(customer: any) {
+    // singupobj.ID=this.x.id;
+    this.use.getUpdatecustomer(customer).subscribe(
+      (response) => {
+        this.notificationService.success('Customer data Updated Successfully.');
+        this.dialogRef.close({ 'isReload': this.isReload });
+      },
+      (error) => {
+        this.notificationService.failure('Customer data not Updated.');
+      }
+    );
+  }
+}
+
+
+
+

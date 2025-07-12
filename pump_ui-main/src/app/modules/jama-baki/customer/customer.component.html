@@ -1,0 +1,49 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background: linear-gradient(60deg, #ef5350, #938989);margin-top: -2%;">
+        <h4 class="card-title" style="font-weight: bold;">Add Customer Details</h4>
+    </div>
+    <mat-card-content class="row" style="margin-top: 22px;">
+        <div class="col-md-12">
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.date" type="date">
+            </mat-form-field>
+        </div>
+        <div class="col-md-12">
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.name" type="text">
+            </mat-form-field>
+        </div>
+        <div class="col-md-12">
+            <mat-form-field>
+                <mat-label>Phone</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.phone" type="text">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-12">
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput [(ngModel)]="purchaseDetails.email" type="text">
+            </mat-form-field>
+        </div>
+
+        <!-- <div class="col-md-12">
+            <mat-form-field style="margin-top: 4%;">
+                <mat-label>Select Field</mat-label>
+                <mat-select [(ngModel)]="selectField" [(ngModel)]="purchaseDetails.value"
+                    (ngModelChange)="updatePrice()">
+                    <mat-option value="1 Ltr">1 Ltr</mat-option>
+                    <mat-option value="0.500 Ltr">0.500 Ltr</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div> -->
+
+    </mat-card-content>
+
+    <button mat-raised-button (click)="logData()" *ngIf="!data" class="btn btn-danger pull-right">Add</button>
+    <button mat-raised-button type="button" class="btn btn-danger pull-right" *ngIf="data"
+        (click)="Edit(purchaseDetails)">Edit</button>
+    <button mat-raised-button type="button" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+</div>

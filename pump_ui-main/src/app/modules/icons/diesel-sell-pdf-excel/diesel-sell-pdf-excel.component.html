@@ -1,0 +1,51 @@
+<div *ngIf="DieselSelltList.length > 0">
+    <div class="button-group">
+        <button mat-raised-button  (click)="exportToExcel()">
+          <mat-icon>file_download</mat-icon>
+          Export to Excel
+        </button>
+        <button mat-raised-button  (click)="printTable()">
+          <mat-icon>picture_as_pdf</mat-icon>
+          PDF
+        </button>
+        <button mat-raised-button  (click)="cancel()">
+          <mat-icon>cancel</mat-icon>
+          Cancel
+        </button>
+      </div>
+    <table id="DieselSelltTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Pump</th>
+                <th>OpenMeter</th>
+                <th>OpenMeter</th>
+                <th>Total</th>
+                <th>Testing</th>
+                <th>Dieselltr</th>
+                <th>Rate</th>
+                <th>TotalSell</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let product of DieselSelltList">
+                <td>{{ product.date  | date: 'dd-MM-yyyy'}}</td>
+                <td>{{ product.pump }}</td>
+                <td>{{ product.close_meter }}</td>
+                <td>{{ product.open_meter }}</td>
+                <td>{{ product.total }}</td>
+                <td>{{ product.testing }}</td>
+                <td>{{ product.diesel_ltr }}</td>
+                <td>{{ product.rate }}</td>
+                <td>{{ product.total_sell }}</td>
+            </tr>
+            <tr>
+                <td colspan="8" style="text-align: right;"><strong>Total PetrolSell:</strong></td>
+                <td style="background-color: #d0b6b6;"><strong>{{ getTotalDiesel() | number:'1.2-2' }}</strong></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div *ngIf="DieselSelltList.length === 0">
+    No data available.
+</div>

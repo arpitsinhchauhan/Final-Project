@@ -1,0 +1,77 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">Oil Sell :-</h4>
+                        <div class="search-add-container">
+                            <mat-form-field appearance="none" class="search-field">
+                               <mat-label>Search by Value or Date</mat-label>
+                               <input matInput type="text" class="search-input" [(ngModel)]="searchTerm" (input)="searchData()" placeholder="Search...">
+                               <button  mat-icon-button matSuffix (click)="clearSearch()" aria-label="Clear">
+                                  <mat-icon style="color: black;" *ngIf="!searchTerm" >search</mat-icon>
+                                  <mat-icon style="color: black;" *ngIf="searchTerm" >close</mat-icon>
+                               </button>
+                            </mat-form-field>
+                            <div class="button-group">
+                               <button mat-raised-button class="action-button" (click)="openDialog()">
+                                  <mat-icon>control_point</mat-icon>
+                                  ADD
+                               </button>
+                               <button mat-raised-button class="action-button excel-button" (click)="openExcelPdf()">Excel</button>
+                            </div>
+                         </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        Date
+                                    </th>
+                                    <th>
+                                        Value
+                                    </th>
+                                    <th>
+                                        Price
+                                    </th>
+                                    <!-- <th>
+                                        Edit
+                                    </th> -->
+                                    <th>
+                                        Delete
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let items of productList |  paginate: { itemsPerPage: 4, currentPage: currentPage}">
+                                        <td>{{items.date  | date: 'dd-MM-yyyy'}}</td>
+                                        <td>{{items.value}}</td>
+                                        <td>{{items.price}}</td>
+                                        <!-- <td>
+                                            <a mat-icon-button (click)="openEditDialog(items)">
+                                                <mat-icon id="pencilButton">edit</mat-icon>
+                                            </a>
+                                        </td> -->
+                                        <td>
+                                            <div>
+                                                <a mat-icon-button (click)="deleteRow(items.idOilSell)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- <pagination-controls (pageChange)="currentPage = $event"></pagination-controls> -->
+                                </tbody>
+                            </table>
+                            <div style="margin-left: 74%;">
+                                <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,42 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Transaction :-</h4>
+    </div>
+    <div style="display:inline;width:100%">
+        <div class="col-md-6">
+            <mat-form-field>
+                <input matInput [(ngModel)]="purchaDipStockseDetails.date" type="Date">
+            </mat-form-field>
+        </div>
+        <div style="display:inline;">
+            <button (click)="addTable()">Add Row</button>
+        </div>
+        <div style="display:inline;margin-left:25%">
+            <button (click)="cancel()">cancel</button>
+            <button (click)="order()">Add</button>
+        </div>  
+    </div>
+    <br />
+    <table class="style">
+        <tr>
+            <th style="width: 16%;">RowId</th>
+            <th>Name</th>
+            <th>Amount</th>
+            <th>Transaction</th>
+            <th></th>
+        </tr>
+        <tr *ngFor="let item of row; let i = index">
+            <td><input style="text-align: center;" type="text" [(ngModel)]="item.id" /></td>
+            <td><input type="text" [(ngModel)]="item.name" /></td>
+            <td><input type="number" [(ngModel)]="item.amount" pattern="[0-9]*" /></td>
+            <td><input type="text" [(ngModel)]="item.transaction" /></td>
+            <td>
+                <button (click)="deleteRow(i)"><i class="fa fa-trash"></i></button>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">GrandTotal:</td>
+            <td><input type="text" [value]="totalPrice()" /></td>
+        </tr>
+    </table>
+</div>

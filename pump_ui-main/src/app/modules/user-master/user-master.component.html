@@ -1,0 +1,74 @@
+<div class="main-content">
+    <div class="container-fluid" style="margin-top: -5%;">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title ">User Master :-</h4>
+                        <button (click)="addUser()" mat-raised-button
+                            class="pull-right"><mat-icon>control_point</mat-icon>ADD</button>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead class=" text-primary">
+                                    <th>
+                                        Username
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>
+                                        First_Name
+                                    </th>
+                                    <th>
+                                        Last_Name
+                                    </th>
+                                    <th>
+                                        Phone_Number
+                                    </th>
+                                    <th>
+                                        Role
+                                    </th>
+                                    <th>
+                                        Edit
+                                    </th>
+                                    <th>
+                                        Delete
+                                    </th>
+                                </thead>
+                                <tbody>
+                                    <tr
+                                        *ngFor="let items of userList |  paginate: { itemsPerPage: 4, currentPage: currentPage}">
+                                        <td>{{items.username}}</td>
+                                        <td>{{items.email}}</td>
+                                        <td>{{items.firstName}}</td>
+                                        <td>{{items.lastName}}</td>
+                                        <td>{{items.phoneNumber}}</td>
+                                        <td>{{items.role}}</td>
+                                        <td>
+                                            <a mat-icon-button (click)="editUser(items)">
+                                                <mat-icon id="pencilButton">edit</mat-icon>
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <div>
+                                                <a mat-icon-button (click)="deleteUser(items.id)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <!-- <pagination-controls (pageChange)="currentPage = $event"></pagination-controls> -->
+                                </tbody>
+                            </table>
+                            <div style="margin-left: 74%;">
+                                <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

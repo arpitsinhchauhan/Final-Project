@@ -1,0 +1,82 @@
+<div class="example-card">
+    <!-- Card header -->
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Edit XP_Petrol Details</h4>
+    </div>
+
+    <!-- Card content -->
+    <mat-card-content class="row" style="margin-top: 10px;">
+        <!-- Date input -->
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput [(ngModel)]="xpPetrolDetails.date" type="date">
+            </mat-form-field>
+        </div>
+
+        <!-- Pump select -->
+        <div class="col-md-6">
+            <mat-form-field style="margin-top: 4%;">
+                <mat-label>Pump</mat-label>
+                <mat-select [(ngModel)]="xpPetrolDetails.pump">
+                    <mat-option *ngFor="let pump of xppumpList" [value]="pump">{{ pump }}</mat-option>
+                  </mat-select>
+                  
+            </mat-form-field>   
+        </div>
+
+        <!-- CloseMeter input -->
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>CloseMeter</mat-label>
+                <input matInput [(ngModel)]="xpPetrolDetails.close_meter" type="text"
+                    (ngModelChange)="calculateValues()">
+            </mat-form-field>
+        </div>
+
+        <!-- OpenMeter input -->
+        <div class="col-md-4">
+            <mat-form-field>
+                <mat-label>OpenMeter</mat-label>
+                <input matInput [(ngModel)]="xpPetrolDetails.open_meter" type="text"
+                    (ngModelChange)="calculateValues()">
+            </mat-form-field>
+        </div>
+
+        <!-- Total display -->
+        <div class="col-md-4">
+            <p>Total: {{ (xpPetrolDetails.total) | number:'1.2-2' }}</p>
+        </div>
+
+        <!-- Testing input -->
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Testing</mat-label>
+                <input matInput [(ngModel)]="xpPetrolDetails.testing" type="text" (ngModelChange)="calculateValues()">
+            </mat-form-field>
+        </div>
+
+        <!-- Petrol_ltr display -->
+        <div class="col-md-6">
+            <p>Petrol_ltr: {{ (xpPetrolDetails.xppetrol_ltr) | number:'1.2-2' }}</p>
+        </div>
+
+        <!-- Rate input -->
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Rate</mat-label>
+                <input matInput [(ngModel)]="xpPetrolDetails.rate" type="text" (ngModelChange)="calculateValues()">
+            </mat-form-field>
+        </div>
+
+        <!-- TotalSell display -->
+        <div class="col-md-3">
+            <p>TotalSell: {{ xpPetrolDetails.total_sell | number:'1.2-2' }}</p>
+        </div>
+    </mat-card-content>
+
+    <!-- Buttons -->
+    <button mat-raised-button type="button" class="btn btn-danger pull-right" *ngIf="data"
+        (click)="Edit(xpPetrolDetails)">Edit</button>
+    <button mat-raised-button type="button" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+</div>

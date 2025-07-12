@@ -1,0 +1,112 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+      <h4 class="card-title">Add Petrol/Diesel Dip Details</h4>
+    </div>
+  
+    <mat-card-content class="row" style="margin-top: 10px;">
+      <div class="col-md-6">
+        <mat-form-field>
+          <input matInput [(ngModel)]="purchaDipStockseDetails.date" type="date">
+        </mat-form-field>
+      </div>
+      <a mat-icon-button (click)="openComponent()">
+        <mat-icon id="pencilButton">table</mat-icon>
+      </a>
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>PetrolDip</mat-label>
+          <input matInput [(ngModel)]="pdip" type="text" (blur)="fetchPvalue()">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>PetrolVolume</mat-label>
+          <input matInput [(ngModel)]="pvalue" type="text" readonly>
+        </mat-form-field>
+      </div>
+  
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>DieselDip</mat-label>
+          <input matInput [(ngModel)]="dieseldip" type="text" (blur)="fetchDvalue()">
+        </mat-form-field>
+      </div>
+  
+      <div class="col-md-6">
+        <mat-form-field>
+          <mat-label>DieselVolume</mat-label>
+          <input matInput [(ngModel)]="dvalue" type="text" readonly>
+        </mat-form-field>
+      </div>
+    </mat-card-content>
+  
+    <button 
+    mat-raised-button 
+    (click)="logData()" 
+    *ngIf="data?.type === 'add'" 
+    class="btn btn-danger pull-right">
+    Add
+  </button>
+  
+  <button 
+    mat-raised-button 
+    type="button" 
+    class="btn btn-danger pull-right" 
+    *ngIf="data?.type === 'edit'" 
+    (click)="Edit(purchaDipStockseDetails)">
+    Edit
+  </button>
+  
+    <button mat-raised-button type="button" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+  </div>
+  
+
+
+<!-- <div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Add Petrol/Diesel Dip Details</h4>
+    </div>
+
+    <mat-card-content class="row" style="margin-top: 10px;">
+        <div class="col-md-8">
+            <mat-form-field>
+                <input matInput [(ngModel)]="purchaDipStockseDetails.date" type="Date">
+            </mat-form-field>
+        </div>
+        <a mat-icon-button (click)="openComponent()">
+            <mat-icon id="pencilButton">table</mat-icon>
+        </a>
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>PetrolDip</mat-label>
+                <input matInput  [(ngModel)]="pdip" type="text">
+            </mat-form-field>
+        </div>
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>PetrolVolume</mat-label>
+                <input matInput [(ngModel)]="petrolvolume" type="text">
+            </mat-form-field>
+        </div>
+
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>DieselDip</mat-label>
+                <input matInput [(ngModel)]="dieseldip" type="text">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>DieselVolume</mat-label>
+                <input matInput [(ngModel)]="dielsevolume" type="text">
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+
+    <button mat-raised-button (click)="logData()" *ngIf="!data" class="btn btn-danger pull-right">Add</button>
+    <button mat-raised-button type="button" class="btn btn-danger pull-right" *ngIf="data"
+        (click)="Edit(purchaDipStockseDetails)">Edit</button>
+    <button mat-raised-button type="button" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+</div> -->

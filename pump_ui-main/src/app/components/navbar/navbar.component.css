@@ -1,0 +1,54 @@
+.container-fluid .nav-link,
+.container-fluid .dropdown-item {
+    margin-left: 10px;
+    color: #000; /* Adjust the color as needed */
+}
+
+.container-fluid .nav-link i,
+.container-fluid .dropdown-item i {
+    vertical-align: middle;
+}
+/* Add this to styles.css or component styles */
+.navbar-minimize {
+    flex-wrap: wrap;
+  }
+  
+  .navbar-minimize button,
+  .navbar-minimize .nav-link {
+    margin-bottom: 10px;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .navbar-minimize {
+      flex-direction: column;
+      align-items: flex-start !important;
+    }
+  
+    .navbar-minimize .nav-link {
+      padding-left: 0;
+    }
+  }
+  .time-login-info {
+    gap: 10px;
+    font-size: 14px;
+    white-space: nowrap;
+  }
+  
+  .current-time,
+  .login-details {
+    font-weight: 500;
+    color: #333;
+  }
+  
+  @media (max-width: 768px) {
+    .time-login-info {
+      /* flex-direction: column; */
+      align-items: flex-start;
+    }
+  
+    .time-login-info .nav-link {
+      padding-left: 0;
+    }
+  }
+  

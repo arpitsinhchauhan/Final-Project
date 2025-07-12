@@ -1,0 +1,38 @@
+<div class="example-card">
+    <div class="card-header card-header-danger text-center" style="background-color: rgb(244, 75, 75);margin-top: -2%;">
+        <h4 class="card-title">Edit Jama&Baki Details</h4>
+    </div>
+    <mat-card-content class="row" style="margin-top: 32px;">
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Date</mat-label>
+                <input matInput type="date" [(ngModel)]="data.date">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6" style="margin-top: 2%;">
+            <mat-form-field>
+                <mat-label>Name</mat-label>
+                <input matInput type="text" [(ngModel)]="data.name">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Jama</mat-label>
+                <input matInput type="number" [(ngModel)]="data.jama">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Baki</mat-label>
+                <input matInput type="number" [(ngModel)]="data.baki">
+            </mat-form-field>
+        </div>
+    </mat-card-content>
+
+    <button mat-raised-button type="button" class="btn btn-danger pull-right"
+        (click)="Edit()" style="width: 15%;">Edit</button>
+    <button mat-raised-button type="button" style="width: 15%;" (click)="cancel()" class="btn btn-danger pull-right">Cancel</button>
+</div>
