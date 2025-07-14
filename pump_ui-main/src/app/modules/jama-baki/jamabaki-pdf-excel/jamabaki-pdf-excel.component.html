@@ -26,7 +26,13 @@
                     Jama
                 </th>
                 <th>
+                    Jama Note
+                </th>
+                <th>
                     Baki
+                </th>
+                <th>
+                    Baki Note
                 </th>
             </tr>
         </thead>
@@ -35,13 +41,17 @@
                 <td>{{items.date  | date: 'dd-MM-yyyy'}}</td>
                 <td>{{items.name}}</td>
                 <td>{{items.jama}}</td>
+                <td>{{items.jamaNote}}</td>
                 <td>{{items.baki}}</td>
+                <td>{{items.bakiNote}}</td>
             </tr>
             <tr>
                 <td colspan="2" style="text-align: right;"><strong>Total :</strong></td>
                 <td style="background-color: #d0b6b6;"><strong>{{ getTotalJama() | number:'1.2-2' }}</strong></td>
+                <td></td>
                 <td style="background-color: #d0b6b6;"><strong>{{ getTotalBaki() | number:'1.2-2' }}</strong></td>
-            </tr>
+                <td></td>
+              </tr>
         </tbody>
     </table>
 </div>

@@ -28,7 +28,7 @@ export class JamaBakiReportComponent implements OnInit {
   userId: string;
   constructor(private http: HttpClient,
     public dialogRef: MatDialogRef<JamaBakiReportComponent>, @Inject(MAT_DIALOG_DATA) public jamaBaki: any,
-    private notificationService: NotificationService,private dialog:MatDialog) {
+    private notificationService: NotificationService, private dialog: MatDialog) {
   }
   ngOnInit(): void {
     this.getdata();
@@ -63,12 +63,22 @@ export class JamaBakiReportComponent implements OnInit {
     if (this.purchaDipStockseDetails.date) {
       this.lastRowId++;
       this.userId = localStorage.getItem('userId');
-      const newRow = { idJamabaki: this.lastRowId, date: this.purchaDipStockseDetails.date, name: '', jama: 0, baki: 0, userId: this.userId };
+      const newRow = {
+        idJamabaki: this.lastRowId,
+        date: this.purchaDipStockseDetails.date,
+        name: '',
+        jama: 0,
+        jamaNote: '',   // NEW FIELD
+        baki: 0,
+        bakiNote: '',   // NEW FIELD
+        userId: this.userId
+      };
       this.row.push(newRow);
     } else {
       this.notificationService.failure('Please fill in all the required fields before adding a new row.');
     }
   }
+  
 
   totalJama() {
     return this.row.reduce((total, item) => total + parseFloat(item.jama || 0), 0).toFixed(2);
@@ -84,17 +94,23 @@ export class JamaBakiReportComponent implements OnInit {
   }
 
   order() {
-    if (this.row.every(item => item.idJamabaki && item.name && item.jama !== null && item.baki !== null)) {
-      (this.row);
+    if (this.row.every(item =>
+        item.idJamabaki &&
+        item.name &&
+        item.jama !== null &&
+        item.baki !== null
+        // Notes are optional
+      )) {
       this.http.post<any>(API_JAMABAKI_ADD, this.row)
         .subscribe(response => {
-          this.notificationService.success('Jama&Baki Details Succefully add.');
+          this.notificationService.success('Jama & Baki details successfully added.');
           this.dialogRef.close();
         });
     } else {
       this.notificationService.failure('Please fill in all the required fields before submitting.');
     }
   }
+  
 
   AddCustomer() {
       const dialogRef = this.dialog.open(CustomerComponent, {

@@ -16,7 +16,7 @@ export class EditjamabakiComponent implements OnInit {
     public dialogRef: MatDialogRef<EditjamabakiComponent>,
     private userServiceService: UserServiceService,
     private notificationService: NotificationService) {
-    (data);
+    console.log(data);
   }
 
   ngOnInit(): void {

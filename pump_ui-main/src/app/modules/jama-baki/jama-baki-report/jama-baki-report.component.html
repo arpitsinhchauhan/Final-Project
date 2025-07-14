@@ -26,8 +26,12 @@
         <tr>
             <th style="width: 16%;">idJamabaki</th>
             <th>Name</th>
-            <th>Jama</th>
-            <th>Baki</th>
+            <th *ngIf="jamaBaki.type !== 'baki'">Jama</th>
+    <th *ngIf="jamaBaki.type !== 'baki'">Jama Note</th>
+
+    <!-- Baki headers -->
+    <th *ngIf="jamaBaki.type !== 'jama'">Baki</th>
+    <th *ngIf="jamaBaki.type !== 'jama'">Baki Note</th>
             <th></th>
         </tr>
         <tr *ngFor="let item of row; let i = index">
@@ -53,20 +57,42 @@
                 </mat-form-field>
             </td>
 
-            <td><input type="text" [(ngModel)]="item.jama" style="background-color: skyblue;" /></td>
-            <td><input type="text" [(ngModel)]="item.baki" style="background-color: indianred;" /></td>
-            <td>
+            <td *ngIf="jamaBaki.type !== 'baki'">
+                <input type="text" [(ngModel)]="item.jama" style="background-color: skyblue;" />
+              </td>
+              <td *ngIf="jamaBaki.type !== 'baki'">
+                <input type="text" [(ngModel)]="item.jamaNote" />
+              </td>
+          
+              <!-- Baki inputs -->
+              <td *ngIf="jamaBaki.type !== 'jama'">
+                <input type="text" [(ngModel)]="item.baki" style="background-color: indianred;" />
+              </td>
+              <td *ngIf="jamaBaki.type !== 'jama'">
+                <input type="text" [(ngModel)]="item.bakiNote" />
+              </td>
+          
+              <td>
                 <button (click)="deleteRow(i)"><i class="fa fa-trash"></i></button>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2">Total:</td>
-            <td><input type="text" [value]="totalJama()" /></td>
-            <td><input type="text" [value]="totalBaki()" /></td>
-        </tr>
-        <tr>
-        </tr>
-    </table>
+              </td>
+            </tr>
+          
+            <tr>
+              <td colspan="2">Total:</td>
+          
+              <!-- Jama total -->
+              <td *ngIf="jamaBaki.type !== 'baki'">
+                <input type="text" [value]="totalJama()" />
+              </td>
+              <td *ngIf="jamaBaki.type !== 'baki'"></td>
+          
+              <!-- Baki total -->
+              <td *ngIf="jamaBaki.type !== 'jama'">
+                <input type="text" [value]="totalBaki()" />
+              </td>
+              <td *ngIf="jamaBaki.type !== 'jama'"></td>
+            </tr>
+          </table>
 </div>
 
 <!-- <div class="example-card">

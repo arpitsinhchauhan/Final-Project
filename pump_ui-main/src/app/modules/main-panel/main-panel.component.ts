@@ -609,11 +609,29 @@ export class MainPanelComponent implements OnInit {
     );
   }
 
-  openJamaBakiComponent() {
+  openJamaComponent() {
     const dialogRef = this.dialog.open(JamaBakiReportComponent, {
       width: '60%',
       height: '70%',
-      data: { date: this.use.getFormattedDate(this.reportDate) }
+      data: {
+        date: this.use.getFormattedDate(this.reportDate),
+        type: 'jama'
+      }
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getJamaBakilist();
+      this.backPage();
+    });
+  }
+
+  openBakiComponent() {
+    const dialogRef = this.dialog.open(JamaBakiReportComponent, {
+      width: '60%',
+      height: '70%',
+      data: {
+        date: this.use.getFormattedDate(this.reportDate),
+        type: 'baki'
+      }
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getJamaBakilist();

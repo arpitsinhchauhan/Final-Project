@@ -26,8 +26,22 @@
 
         <div class="col-md-6">
             <mat-form-field>
+                <mat-label>Jama Note</mat-label>
+                <input matInput type="text" [(ngModel)]="data.jamaNote">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
                 <mat-label>Baki</mat-label>
                 <input matInput type="number" [(ngModel)]="data.baki">
+            </mat-form-field>
+        </div>
+
+        <div class="col-md-6">
+            <mat-form-field>
+                <mat-label>Baki Note</mat-label>
+                <input matInput type="text" [(ngModel)]="data.bakiNote">
             </mat-form-field>
         </div>
     </mat-card-content>
