@@ -908,11 +908,12 @@ public class PurchaseController {
             expense.setDate(expense.getDate()); // Set the date
             expense.setName(expense.getName()); // Set the notes
             expense.setJama(expense.getJama());
-            expense.setBaki(expense.getBaki());
-            System.out.println(expense.toString());
+            expense.setJamaNote(expense.getJamaNote());
+            expense.setBakiNote(expense.getBakiNote());
             JamabakiRepository.save(expense);
         }
     }
+
 
     @PutMapping("/updateJamaBakiSell")
     public ResponseEntity<?> updateData(@RequestBody jamabaki data) {
@@ -1827,7 +1828,7 @@ public class PurchaseController {
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
                 + "GROUP BY "
-                + "date, rate) p "
+                + "date) p "
                 + "JOIN "
                 + "(SELECT "
                 + "date, "
@@ -1844,7 +1845,7 @@ public class PurchaseController {
                 + "date BETWEEN  '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
                 + "GROUP BY "
-                + "date, rate) d "
+                + "date) d "
                 + "ON "
                 + "p.date = d.date "
                 + "LEFT JOIN "
@@ -1967,7 +1968,7 @@ public class PurchaseController {
                 + "FROM managment.xppetrol "
                 + "WHERE date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' "
-                + "GROUP BY date,rate) xp ON p.date = xp.date "
+                + "GROUP BY date) xp ON p.date = xp.date "
                 // ✅ LEFT JOIN powerdiesel
                 + "LEFT JOIN (SELECT date, "
                 + "SUM(close_meter) AS total_close_meter, "
@@ -1980,7 +1981,7 @@ public class PurchaseController {
                 + "FROM managment.powerdiesel "
                 + "WHERE date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' "
-                + "GROUP BY date,rate) pd ON p.date = pd.date "
+                + "GROUP BY date) pd ON p.date = pd.date "
                 + "ORDER BY "
                 + "p.date;";
 
