@@ -25,6 +25,8 @@ export class TypographyComponent implements OnInit {
   currentPage = 1; // Current page index
   itemsPerPage = 4; // Number of items per page
   userId: string;
+sortColumn: string = '';
+sortDirection: 'asc' | 'desc' = 'asc';
 
 
   // Product | undefined;
@@ -170,5 +172,27 @@ export class TypographyComponent implements OnInit {
     this.getdata();
   }
 
+  sortBy(column: string) {
+  if (this.sortColumn === column) {
+    // toggle direction
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+  } else {
+    this.sortColumn = column;
+    this.sortDirection = 'asc';
+  }
+
+  this.productList.sort((a, b) => {
+    let dateA = new Date(a[column]);
+    let dateB = new Date(b[column]);
+
+    if (dateA < dateB) {
+      return this.sortDirection === 'asc' ? -1 : 1;
+    } else if (dateA > dateB) {
+      return this.sortDirection === 'asc' ? 1 : -1;
+    } else {
+      return 0;
+    }
+  });
+}
 
 }

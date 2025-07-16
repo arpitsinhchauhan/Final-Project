@@ -27,8 +27,11 @@
                         <div class="table-responsive">
                             <table class="table">
                                 <thead class=" text-primary">
-                                    <th>
+                                     <th (click)="sortBy('date')" style="cursor: pointer">
                                         Date
+                                        <mat-icon *ngIf="sortColumn === 'date'">
+                                            {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                                        </mat-icon>
                                     </th>
                                     <th>
                                         Pump

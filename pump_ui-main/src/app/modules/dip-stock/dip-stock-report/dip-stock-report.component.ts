@@ -31,6 +31,7 @@ export class DipStockReportComponent implements OnInit {
   };
   userId: string;
   selectedItems: any[] = [];
+  
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any, private http: HttpClient,
     private use: UserServiceService,

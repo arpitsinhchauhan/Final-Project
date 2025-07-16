@@ -5,12 +5,132 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="fcc8e432-836b-4573-ade2-12481a386dd7" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/10.pack" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/10.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/11.pack" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/11.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/13.pack" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/13.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/index.pack" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/index.pack" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/index.pack.old" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/.angular/cache/14.2.13/angular-webpack/23527c93e4a1e93b9996c51f7f3e9f78b9df438b/index.pack.old" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pump_ui-main/src/app/components/navbar/navbar.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/pump_ui-main/src/app/components/navbar/navbar.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/src/main/java/pumpManagment/controller/PurchaseController.java" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/src/main/java/pumpManagment/controller/PurchaseController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/src/main/java/pumpManagment/repository/customerRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/src/main/java/pumpManagment/repository/customerRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/src/main/resources/public/portal/399.f426159f0e0b38f9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/src/main/resources/public/portal/3rdpartylicenses.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/src/main/resources/public/portal/3rdpartylicenses.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/src/main/resources/public/portal/724.16ba482e57857a4d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/src/main/resources/public/portal/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/src/main/resources/public/portal/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/src/main/resources/public/portal/main.7767ac67c2105359.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/src/main/resources/public/portal/runtime.cf0fb55d2f817efe.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/public/portal/399.f426159f0e0b38f9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/public/portal/3rdpartylicenses.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/public/portal/3rdpartylicenses.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/public/portal/724.16ba482e57857a4d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/public/portal/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/public/portal/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/public/portal/main.7767ac67c2105359.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/public/portal/runtime.cf0fb55d2f817efe.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/AggregatedDataDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/AggregatedDataDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/ApiResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/ApiResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/AtmSellRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/AtmSellRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/CustomUserDetails.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/CustomUserDetails.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/CustomerReportDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/CustomerReportDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/DailySalesSummaryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/DailySalesSummaryDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Dailystock.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Dailystock.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/DieselStockRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/DieselStockRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Dieselgatt.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Dieselgatt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Dieselsell.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Dieselsell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/DipStock.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/DipStock.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Dipvalue.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Dipvalue.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Employee.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Employee.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Expenses.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Expenses.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Image.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Image.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Item.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Item.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/MoneyDetailsDto$Denomination.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/MoneyDetailsDto$Denomination.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/MoneyDetailsDto.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/MoneyDetailsDto.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/OilSell.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/OilSell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/OilsellList.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/OilsellList.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/PetrolSell.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/PetrolSell.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/PetrolStockRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/PetrolStockRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Petrolgatt.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Petrolgatt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/PowerDieselStockRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/PowerDieselStockRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/PowerDieselgatt.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/PowerDieselgatt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Purchase.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/Purchase.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/SellSummaryDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/SellSummaryDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/TotalCaseRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/TotalCaseRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/XPPetrolStockRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/XPPetrolStockRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/XpPetrolgatt.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/XpPetrolgatt.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/customer.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/customer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/dailydieselstock.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/dailydieselstock.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/dailytotal.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/dailytotal.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/extraDipStock.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/extraDipStock.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/extraDipvalue.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/extraDipvalue.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/extraPurchases.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/extraPurchases.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/feedback.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/feedback.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/jamabaki.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/jamabaki.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/kharch.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/kharch.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/moneyDetails.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/moneyDetails.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/powerDiesel.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/powerDiesel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/powerdieseldailystock.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/powerdieseldailystock.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/transaction.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/transaction.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/userMaster.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/userMaster.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/xpPetrol.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/xpPetrol.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/xpdailystock.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/Entity/xpdailystock.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/PumpManagmentApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/PumpManagmentApplication.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/Configuration.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/Configuration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/CustomJwtAuthenticationFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/CustomJwtAuthenticationFilter.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/CustomUserDetailsService.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/CustomUserDetailsService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/DataBaseConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/DataBaseConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/JwtAuthenticationEntryPoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/JwtAuthenticationEntryPoint.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/JwtUtil.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/JwtUtil.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/SpringSecurityConfiguration.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/config/SpringSecurityConfiguration.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/controller/DBConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/controller/DBConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/controller/MyReportGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/controller/MyReportGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/controller/PurchaseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/controller/PurchaseController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/controller/UserRepositry.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/controller/UserRepositry.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/AuthenticationRequest.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/AuthenticationRequest.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/AuthenticationResponse.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/AuthenticationResponse.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/BusinessError.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/BusinessError.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/DAOUser.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/DAOUser.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/UserDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/UserDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/UserNozzleDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/UserNozzleDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/UserPumpDTO.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/model/UserPumpDTO.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DailydieselstockRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DailydieselstockRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DailyskockRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DailyskockRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DieselSellRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DieselSellRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DieselgattRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DieselgattRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DipStockRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DipStockRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DipvalueRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/DipvalueRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/EmployeeRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/EmployeeRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/ExpensesRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/ExpensesRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/ImageRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/ImageRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/OilSellRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/OilSellRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/OilsellListRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/OilsellListRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PetrolSellRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PetrolSellRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PetrolgattRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PetrolgattRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PowerDieselgattRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PowerDieselgattRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PowerdieseldailystockRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PowerdieseldailystockRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PurchaseRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/PurchaseRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/TransactionRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/TransactionRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/UserRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/UserRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/XpPetorlRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/XpPetorlRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/XpPetrolgattRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/XpPetrolgattRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/XpdailystockRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/XpdailystockRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/customerRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/customerRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/dailytotalRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/dailytotalRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/extraDipStockRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/extraDipStockRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/extraDipvalueRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/extraDipvalueRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/extraPurchaseRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/extraPurchaseRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/feedbackRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/feedbackRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/jamabakiRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/jamabakiRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/kharchrepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/kharchrepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/moneyDetailsRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/moneyDetailsRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/powerDieselRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/powerDieselRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/userMasterRepository.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/repository/userMasterRepository.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/sedular/DailyTotalCleanup.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/sedular/DailyTotalCleanup.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/service/ImageService.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/service/ImageService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/service/ProfitLossService.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/classes/pumpManagment/service/ProfitLossService.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/maven-status/maven-compiler-plugin/testCompile/default-testCompile/inputFiles.lst" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT.war" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT.war" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT.war.original" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT.war.original" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/public/portal/399.f426159f0e0b38f9.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/public/portal/3rdpartylicenses.txt" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/public/portal/3rdpartylicenses.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/public/portal/724.16ba482e57857a4d.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/public/portal/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/public/portal/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/public/portal/main.7767ac67c2105359.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/public/portal/runtime.cf0fb55d2f817efe.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/pumpManagment/controller/PurchaseController.class" beforeDir="false" afterPath="$PROJECT_DIR$/pumpManagment/target/pumpManagment-0.0.1-SNAPSHOT/WEB-INF/classes/pumpManagment/controller/PurchaseController.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +144,7 @@
         <option name="title" value="Current Branch" />
       </GitPushTagMode>
     </option>
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/pump_ui-main" />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -35,7 +155,7 @@
 }</component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/arpitsinhchauhan/Final_Project.git&quot;,
+    &quot;url&quot;: &quot;https://github.com/arpitsinhchauhan/Final-Project.git&quot;,
     &quot;accountId&quot;: &quot;e397ad85-4279-434a-bf14-f2fccc924195&quot;
   }
 }</component>
@@ -47,17 +167,17 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;D:/Final Project&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ModuleVcsDetector.initialDetectionPerformed": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "main",
+    "last_opened_file_path": "D:/Final Project",
+    "settings.editor.selected.configurable": "project.propVCSSupport.DirectoryMappings"
   }
-}</component>
+}]]></component>
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
       <changelist id="fcc8e432-836b-4573-ade2-12481a386dd7" name="Changes" comment="" />
@@ -67,5 +187,16 @@
       <updated>1752290018355</updated>
     </task>
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>

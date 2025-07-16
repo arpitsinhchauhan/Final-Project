@@ -19,6 +19,9 @@ export class AtmTransactionComponent implements OnInit {
   currentPage = 1; // Current page index
   itemsPerPage = 4;
   userId: string;
+  sortColumn: string = '';
+sortDirection: 'asc' | 'desc' = 'asc';
+
   constructor(private http: HttpClient,
     private use: UserServiceService,
     private dialog: MatDialog,
@@ -89,4 +92,26 @@ export class AtmTransactionComponent implements OnInit {
     this.gettransaction();
   }
   
+  sortBy(column: string) {
+  if (this.sortColumn === column) {
+    // toggle direction
+    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+  } else {
+    this.sortColumn = column;
+    this.sortDirection = 'asc';
+  }
+
+  this.transaction.sort((a, b) => {
+    let dateA = new Date(a[column]);
+    let dateB = new Date(b[column]);
+
+    if (dateA < dateB) {
+      return this.sortDirection === 'asc' ? -1 : 1;
+    } else if (dateA > dateB) {
+      return this.sortDirection === 'asc' ? 1 : -1;
+    } else {
+      return 0;
+    }
+  });
+  }
 }

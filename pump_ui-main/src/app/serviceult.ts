@@ -3,9 +3,9 @@
 // const prefix = ".."
 // const prefix = environment.production
 
-// const prefix = ".."
+const prefix = ".."
 //   const prefix = ""  // for deply in spring boot
-const prefix = "api"  // for deploy on tomcat
+// const prefix = "api"  // for deploy on tomcat
 
 
 //report
@@ -134,6 +134,7 @@ export const API_FEEDBACK_ADD: string = `${prefix}/portal/api/addFeedback`;
 //Customer
 export const API_CUSTOMER_UPDATE: string = `${prefix}/portal/api/updateCustomer`;
 export const API_CUSTOMER_ADD: string = `${prefix}/portal/api/addCustomer`;
+export const API_CUSTOMER_DELETE: string = `${prefix}/portal/api/customer`;
 
 //User
 export const API_USER_LIST: string = `${prefix}/portal/api/userList`;
@@ -263,7 +264,7 @@ export const API_EXTRA_PROFIT_LOSS_PDF = `${prefix}/portal/api/extrageneratePdf`
 
 // // Customer
 // export const API_CUSTOMER_UPDATE: string = `${prefix}/portal/api/updateCustomer`;
-// export const API_CUSTOMER_DELETE: string = `${prefix}/portal/api/customer`;
+
 // export const API_CUSTOMER: string = `${prefix}/portal/api/customer`;
 // export const API_CUSTOMER_ALL: string = `${prefix}/portal/api/customerall`;
 

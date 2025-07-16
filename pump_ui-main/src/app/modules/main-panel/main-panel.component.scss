@@ -23,6 +23,15 @@ input{
   border-radius: 8px;    
   background-color: #f0f0f0;
 }
+input.text[type=number]::-webkit-inner-spin-button,
+input.text[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input.text[type=number] {
+  -moz-appearance: textfield;
+}
 
 
 table {

@@ -23,12 +23,14 @@ export class PowerDiesellistComponent implements OnInit {
   currentPage = 1; // Current page index
   itemsPerPage = 4; // Number of items per page
   userId: string;
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private http: HttpClient,
     private use: UserServiceService,
     private dialog: MatDialog,
-    private notificationService:NotificationService
+    private notificationService: NotificationService
   ) {
     // this.compD = data;
   }
@@ -122,8 +124,8 @@ export class PowerDiesellistComponent implements OnInit {
     if (!term) {
       this.getpowerDiesel();
       return;
-    }             
-  
+    }
+
     this.powerDieselList = this.powerDieselList.filter((item: any) =>
       (item.pump && item.pump.toLowerCase().includes(term)) ||
       (item.date && item.date.toLowerCase().includes(term))
@@ -135,6 +137,27 @@ export class PowerDiesellistComponent implements OnInit {
     this.getpowerDiesel();
   }
 
+  sortBy(column: string) {
+    if (this.sortColumn === column) {
+      // toggle direction
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
 
+    this.powerDieselList.sort((a, b) => {
+      let dateA = new Date(a[column]);
+      let dateB = new Date(b[column]);
+
+      if (dateA < dateB) {
+        return this.sortDirection === 'asc' ? -1 : 1;
+      } else if (dateA > dateB) {
+        return this.sortDirection === 'asc' ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
+  }
 
 }

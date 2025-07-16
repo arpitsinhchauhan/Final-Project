@@ -19,7 +19,7 @@ export class CustomerComponent implements OnInit {
     private use: UserServiceService,
     public dialogRef: MatDialogRef<CustomerComponent>,
     private notificationService: NotificationService) {
-    this.purchaseDetails = { ...data };
+    this.customerDetails = { ...data };
   }
 
   ngOnInit(): void {
@@ -31,12 +31,12 @@ export class CustomerComponent implements OnInit {
   // updatePrice(): void {
   //   // Calculate or set the price based on the selected field
   //   if (this.selectField === '1 Ltr') {
-  //     this.purchaseDetails.price = '100';
+  //     this.customerDetails.price = '100';
   //   } else if (this.selectField === '0.500 Ltr') {
-  //     this.purchaseDetails.price = '200';
+  //     this.customerDetails.price = '200';
   //   }
   // }
-  purchaseDetails: customer = {
+  customerDetails: customer = {
     date: new Date(),
     name: '',
     phone: '',
@@ -44,8 +44,8 @@ export class CustomerComponent implements OnInit {
     userId: ''
   };
   // logData(): void {
-  //   ('DieselSell Details:', this.purchaseDetails);
-  //   this.use.addOilSell(this.purchaseDetails).subscribe(
+  //   ('DieselSell Details:', this.customerDetails);
+  //   this.use.addOilSell(this.customerDetails).subscribe(
   //     (response) => {
   //       alert("DieselSell Details Successful add........");
   //     },
@@ -56,9 +56,20 @@ export class CustomerComponent implements OnInit {
   // }
   logData(): void {
     const userId = localStorage.getItem('userId');
-    this.purchaseDetails.userId = userId;
+    this.customerDetails.userId = userId;
+    if (
+      !this.customerDetails.date ||
+      !this.customerDetails.name?.trim() ||
+      !this.customerDetails.phone?.trim() ||
+      !this.customerDetails.email?.trim() ||
+      !this.customerDetails.userId?.trim()
+    ) {
+      this.notificationService.failure("Please fill all required fields.");
+      return;
+    }
+
     // Make API request to add OilSell details
-    this.http.post<any>(API_CUSTOMER_ADD, this.purchaseDetails).subscribe(
+    this.http.post<any>(API_CUSTOMER_ADD, this.customerDetails).subscribe(
       (response) => {
         this.notificationService.success('Customer Details Successfully added.');
         this.dialogRef.close({ 'isReload': this.isReload });
@@ -79,10 +90,11 @@ export class CustomerComponent implements OnInit {
     this.use.getUpdatecustomer(customer).subscribe(
       (response) => {
         this.notificationService.success('Customer data Updated Successfully.');
-        this.dialogRef.close({ 'isReload': this.isReload });
+         this.dialogRef.close({ 'isReload': this.isReload });
       },
       (error) => {
         this.notificationService.failure('Customer data not Updated.');
+         this.dialogRef.close({ 'isReload': this.isReload });
       }
     );
   }

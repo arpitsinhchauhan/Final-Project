@@ -84,6 +84,8 @@ import { AddXpPetrolgattComponent } from './modules/add-xp-petrolgatt/add-xp-pet
 import { OilListComponent } from './modules/maps/oil-list/oil-list.component';
 import { JamabakiPdfExcelComponent } from './modules/jama-baki/jamabaki-pdf-excel/jamabaki-pdf-excel.component';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { CustomerListComponent } from './modules/customer-list/customer-list.component';
+import { CustomerExcelPdfComponent } from './modules/customer-list/customer-excel-pdf/customer-excel-pdf.component';
 
 @NgModule({
   imports: [
@@ -184,7 +186,9 @@ import { MatMomentDateModule } from '@angular/material-moment-adapter';
     AddPowerDieselgattComponent,
     AddXpPetrolgattComponent,
     OilListComponent,
-    JamabakiPdfExcelComponent
+    JamabakiPdfExcelComponent,
+    CustomerListComponent,
+    CustomerExcelPdfComponent
     // KharchComponent,
     // JamaBakiComponent,
     // CustomPdfViewerComponent,

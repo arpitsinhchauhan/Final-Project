@@ -21,16 +21,18 @@ export class ExtraPurchaseListComponent implements OnInit {
   tableData: any[] = [];
   searchTerm: string = '';
   compD: any;
-  dataSource: any[] | undefined; 
-  currentPage = 1; 
-  itemsPerPage = 2; 
+  dataSource: any[] | undefined;
+  currentPage = 1;
+  itemsPerPage = 2;
   userId: string;
-  
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
+
   constructor(
     private http: HttpClient,
     private use: UserServiceService,
     private dialog: MatDialog, private notificationService: NotificationService) {
-   }
+  }
 
   ngOnInit(): void {
     // (this.compD);
@@ -73,14 +75,14 @@ export class ExtraPurchaseListComponent implements OnInit {
     this.extraPurchaseList = this.extraPurchaseList.filter((item: any) => {
       // convert item's date to dd-MM-yyyy string
       const formattedDate = formatDate(item.date, 'dd-MM-yyyy', 'en-US');
-  
+
       return (
         formattedDate.includes(term) ||
         item.type?.toLowerCase().includes(term) ||
         item.email?.toLowerCase().includes(term)
       );
     });
-  
+
     if (!term) {
       this.extraPurchaseList = [...this.extraPurchaseList];
     }
@@ -122,21 +124,21 @@ export class ExtraPurchaseListComponent implements OnInit {
   }
 
   deleteRow(id: any) {
-       this.use.deleteExtraPurchasedata(id).subscribe((result) => {
+    this.use.deleteExtraPurchasedata(id).subscribe((result) => {
       this.extraPurchaseList = result;
       this.notificationService.success('Extra Product deleted successfully');
       this.getExtraPurchase();
     });
   }
 
-  	  
+
   searchData(): void {
     const term = this.searchTerm.toLowerCase().trim();
     if (!term) {
       this.getExtraPurchase();
       return;
-    }             
-  
+    }
+
     this.extraPurchaseList = this.extraPurchaseList.filter((item: any) =>
       (item.type && item.type.toLowerCase().includes(term)) ||
       (item.date && item.date.toLowerCase().includes(term))
@@ -147,6 +149,29 @@ export class ExtraPurchaseListComponent implements OnInit {
     this.searchTerm = '';
     this.getExtraPurchase();
   }
-  
+
+  sortBy(column: string) {
+    if (this.sortColumn === column) {
+      // toggle direction
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
+    }
+
+    this.extraPurchaseList.sort((a, b) => {
+      let dateA = new Date(a[column]);
+      let dateB = new Date(b[column]);
+
+      if (dateA < dateB) {
+        return this.sortDirection === 'asc' ? -1 : 1;
+      } else if (dateA > dateB) {
+        return this.sortDirection === 'asc' ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
+
+  }
 }
 

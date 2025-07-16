@@ -32,7 +32,7 @@ export const ROUTES: RouteInfo[] = [
     class: 'group',
     children: [
       { path: '/purchasedetails', title: 'Purchase Petrol & Diesel', icon: 'content_paste', class: '' },
-     { path: '/extraPurchasedetails', title: 'Extra Purchase Petrol & Diesel', icon: 'content_paste', class: '' },
+      { path: '/extraPurchasedetails', title: 'Extra Purchase Petrol & Diesel', icon: 'content_paste', class: '' },
     ]
   },
   {
@@ -42,13 +42,13 @@ export const ROUTES: RouteInfo[] = [
     children: [
       { path: '/petroldetails', title: 'Petrol Sales', icon: 'library_books', class: '' },
       { path: '/dieseldetails', title: 'Diesel Sales', icon: 'ev_station', class: '' },
-       { path: '/XPpetrol', title: 'Extra Premium Petrol', icon: 'library_books', class: '' },
+      { path: '/XPpetrol', title: 'Extra Premium Petrol', icon: 'library_books', class: '' },
       { path: '/powerDiesel', title: 'Extra Premium Diesel', icon: 'ev_station', class: '' },
-       { path: '/oilsell', title: 'OilSell', icon: 'meeting_room', class: '' },
+      { path: '/oilsell', title: 'OilSell', icon: 'meeting_room', class: '' },
     ]
   },
-  { path: '/Kharch', title: 'Indirect Expance', icon: 'money', class: '' }
-
+  { path: '/Kharch', title: 'Indirect Expance', icon: 'money', class: '' },
+{ path: '/customer', title: 'Customer List', icon: 'money', class: '' }
   // {
   //   title: 'Petrol/Diesel',
   //   icon: 'local_gas_station',
@@ -101,13 +101,13 @@ export class SidebarComponent implements OnInit {
   ngOnInit() {
     const userId = localStorage.getItem('userId');
     this.role = localStorage.getItem('role') || '';
-  
+
     this.userService.getUserPump(userId).subscribe(response => {
       const data = response?.data || {};
-  
+
       const xpPetrolEnabled = data?.xp_petrol_nozzle !== '0';
       const powerDieselEnabled = data?.powe_diesel_nozzle !== '0';
-  
+
       // ✅ Step 1: Apply nozzle conditions
       let filteredRoutes = ROUTES.map(route => {
         if (route.children) {
@@ -116,28 +116,28 @@ export class SidebarComponent implements OnInit {
             if (child.path === '/XPpetrol' && !xpPetrolEnabled) return false;
             if (child.path === '/powerDiesel' && !powerDieselEnabled) return false;
             if ((child.path === '/extraDipp' || child.path === '/extraPurchasedetails') &&
-                !xpPetrolEnabled && !powerDieselEnabled) return false;
+              !xpPetrolEnabled && !powerDieselEnabled) return false;
             return true;
           });
-      
+
           // ✅ If no children left, remove the parent group too
           if (filteredChildren.length === 0) {
             return null;
           }
-      
+
           return { ...route, children: filteredChildren };
         } else {
           // ✅ Single routes — filter directly
           if (route.path === '/XPpetrol' && !xpPetrolEnabled) return null;
           if (route.path === '/powerDiesel' && !powerDieselEnabled) return null;
           if ((route.path === '/extraDipp' || route.path === '/extraPurchasedetails') &&
-              !xpPetrolEnabled && !powerDieselEnabled) return null;
+            !xpPetrolEnabled && !powerDieselEnabled) return null;
           return route;
         }
       }).filter(Boolean); // ✅ Removes nulls from array
-      
-      
-  
+
+
+
       // ✅ Step 2: Apply role-based filter *on top of* nozzle filter
       if (this.role === 'admin') {
         this.menuItems = filteredRoutes.filter(item => item.path === '/User');
@@ -146,7 +146,7 @@ export class SidebarComponent implements OnInit {
       } else {
         this.menuItems = filteredRoutes;
       }
-  
+
       // ✅ Step 3: Initialize scrollbar
       if (window.matchMedia(`(min-width: 960px)`).matches && !this.isMac()) {
         const elemSidebar = <HTMLElement>document.querySelector('.sidebar .sidebar-wrapper');
@@ -154,7 +154,7 @@ export class SidebarComponent implements OnInit {
       }
     });
   }
-  
+
   isMobileMenu() {
     if ($(window).width() > 991) {
       return false;

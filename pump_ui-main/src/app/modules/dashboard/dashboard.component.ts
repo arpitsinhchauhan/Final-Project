@@ -57,6 +57,9 @@ export class DashboardComponent implements OnInit {
   xppetrollabel: string;
   userId = localStorage.getItem('userId');
   filterType: string = 'today';
+  xp_petrol_nozzle: number;
+  powe_diesel_nozzle: number;
+
   chartOptions2: { animationEnabled: boolean; exportEnabled: boolean; title: { text: string; }; data: { type: string; startAngle: number; indexLabelPlacement: string; indexLabelFontSize: number; indexLabelLineColor: string; indexLabelLineThickness: number; indexLabel: string; dataPoints: { y: number; label: string; }[]; }[]; };
   
 
@@ -66,8 +69,8 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit() {
-
     this.loaderService.display(false);
+    this.getUserName();
     this.userId = localStorage.getItem('userId');
     this.Customerall();
     this.getDailytotal();
@@ -79,6 +82,16 @@ export class DashboardComponent implements OnInit {
     this.getXpPetrolCurrentYearData();
     this.getJamaBakiCurrentYearData();
   }
+
+  getUserName() {
+    this.use.getUserNameAndNozzle(this.userId).subscribe(
+      data => {
+        this.xp_petrol_nozzle = Number(data.data.xp_petrol_nozzle);
+        this.powe_diesel_nozzle = Number(data.data.powe_diesel_nozzle);
+      }
+    );
+  }
+
   fetchData(): void {
     if (!this.startDate || !this.endDate) {
       // Handle case when either start or end date is not selected
@@ -265,62 +278,85 @@ export class DashboardComponent implements OnInit {
   }
 
   getPiechartValue() {
-    const params = new HttpParams()
-      .set('userId', this.userId)
-      .set('filter', this.filterType);
+  const params = new HttpParams()
+    .set('userId', this.userId)
+    .set('filter', this.filterType);
 
-    this.http.get<any>(`${API_DAILY_CHART}`, { params }).subscribe((data) => {
-      this.chartData = {
-        labels: [
-          'Petrol_Sell',
-          'XP_Petrol_Sell',
-          'Power_Diesel_Sell',
-          'Diesel_Sell',
-          'Oil_Sell',
-          'Kharch_Total',
-          'ATM_Total',
-          'Jama_Total',
-          'Baki_Total',
-          'Petrol_Purchase',
-          'Diesel_Purchase',
-          'XP_Petrol_Purchase',
-          'Power_Diesel_Purchase'
-        ],
-        datasets: [
-          {
-            data: [
-              data.petrolSellTotal,
-              data.xpPetrolSellTotal,
-              data.powerDieselSellTotal,
-              data.dieselSellTotal,
-              data.oilSellTotal,
-              data.kharchTotal,
-              data.atmTotal,
-              data.jamaTotal,
-              data.bakiTotal,
-              data.totalPetrolPurchase,
-              data.totalDieselPurchase,
-              data.xpTotalPetrolPurchase,
-              data.powerTotalDieselPurchase
-            ],
-            backgroundColor: [
-              '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-              '#9966FF', '#FF9F40', '#C9CBCF', '#00A36C',
-              '#FF6F61', '#8A2BE2', '#FFD700', '#40E0D0',
-              '#DC143C'
-            ],
-            hoverBackgroundColor: [
-              '#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0',
-              '#9966FF', '#FF9F40', '#C9CBCF', '#00A36C',
-              '#FF6F61', '#8A2BE2', '#FFD700', '#40E0D0',
-              '#DC143C'
-            ]
-          }
-        ]
-      };
-    });
+  this.http.get<any>(`${API_DAILY_CHART}`, { params }).subscribe((data) => {
+    // Base data
+    const labels = [
+      'Petrol_Sell',
+      'XP_Petrol_Sell',
+      'Power_Diesel_Sell',
+      'Diesel_Sell',
+      'Oil_Sell',
+      'Kharch_Total',
+      'ATM_Total',
+      'Jama_Total',
+      'Baki_Total',
+      'Petrol_Purchase',
+      'Diesel_Purchase',
+      'XP_Petrol_Purchase',
+      'Power_Diesel_Purchase'
+    ];
 
-  }
+    const datasetData = [
+      data.petrolSellTotal,
+      data.xpPetrolSellTotal,
+      data.powerDieselSellTotal,
+      data.dieselSellTotal,
+      data.oilSellTotal,
+      data.kharchTotal,
+      data.atmTotal,
+      data.jamaTotal,
+      data.bakiTotal,
+      data.totalPetrolPurchase,
+      data.totalDieselPurchase,
+      data.xpTotalPetrolPurchase,
+      data.powerTotalDieselPurchase
+    ];
+
+    const backgroundColors = [
+      '#1b676fff', '#ef7c8fff', '#00A36C', '#4f52ecff',
+      '#EBB403', '#FF9F40', '#C9CBCF', '#00A36C',
+      '#FF6F61', '#8A2BE2', '#FFD700', '#40E0D0',
+      '#DC143C'
+    ];
+
+    // Remove XP/Power diesel if both nozzles are 0
+    let filteredLabels = [...labels];
+    let filteredData = [...datasetData];
+    let filteredColors = [...backgroundColors];
+
+    if (this.xp_petrol_nozzle === 0 && this.powe_diesel_nozzle === 0) {
+      const indicesToRemove = [
+        labels.indexOf('XP_Petrol_Sell'),
+        labels.indexOf('Power_Diesel_Sell'),
+        labels.indexOf('XP_Petrol_Purchase'),
+        labels.indexOf('Power_Diesel_Purchase')
+      ];
+
+      // Remove in reverse order to keep indices correct
+      indicesToRemove.sort((a, b) => b - a).forEach(idx => {
+        filteredLabels.splice(idx, 1);
+        filteredData.splice(idx, 1);
+        filteredColors.splice(idx, 1);
+      });
+    }
+
+    this.chartData = {
+      labels: filteredLabels,
+      datasets: [
+        {
+          data: filteredData,
+          backgroundColor: filteredColors,
+          hoverBackgroundColor: filteredColors
+        }
+      ]
+    };
+  });
+}
+
 
   public chartType: ChartType = 'bar'; // Set to 'pie' for pie chart
 
@@ -342,7 +378,7 @@ export class DashboardComponent implements OnInit {
       y: {
         beginAtZero: true,
         min: 100,
-        max: 120000,
+        max: 2000000,
         ticks: {
           stepSize: 10000
         }

@@ -100,6 +100,7 @@ import {
   API_TOTAL_XP_PERTOL_STOCK,
   API_TOTAL_POWER_DIESEL_STOCK,
   API_EXTRA_PROFIT_LOSS_PDF,
+  API_CUSTOMER_DELETE,
 } from "app/serviceult";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PurchaseDetails } from "app/models/PurchaseDetails ";
@@ -391,9 +392,9 @@ export class UserServiceService {
     return this.http.post(API_CUSTOMER_UPDATE, data);
   }
 
-  // deletecustomerdata(id: string): Observable<any> {
-  //   return this.http.delete(`${API_CUSTOMER_DELETE}/${id}`);
-  // }
+  deletecustomerdata(id: string): Observable<any> {
+    return this.http.delete(`${API_CUSTOMER_DELETE}/${id}`);
+  }
 
   private selectedItemsSource = new BehaviorSubject<any[]>([]);
   selectedItems$ = this.selectedItemsSource.asObservable();

@@ -3,6 +3,7 @@ import { AuthGuard } from 'app/authGuard';
 import { LoginComponent } from 'app/login/login.component';
 import { AboutUsComponent } from 'app/modules/about-us/about-us.component';
 import { AtmTransactionComponent } from 'app/modules/atm-transaction/atm-transaction.component';
+import { CustomerListComponent } from 'app/modules/customer-list/customer-list.component';
 import { DashboardComponent } from 'app/modules/dashboard/dashboard.component';
 import { DipStockReportComponent } from 'app/modules/dip-stock/dip-stock-report/dip-stock-report.component';
 import { DipStockComponent } from 'app/modules/dip-stock/dip-stock.component';
@@ -44,6 +45,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'feedback', component: UpgradeComponent, canActivate: [AuthGuard] },
     { path: 'aboutus', component: AboutUsComponent, canActivate: [AuthGuard] },
     { path: 'dailyReport', component: MainPanelComponent, canActivate: [AuthGuard] },
+    { path: 'customer', component: CustomerListComponent, canActivate: [AuthGuard] },
 // { path: 'map', component: MapComponent , canActivate: [AuthGuard]},
 ];
 // {

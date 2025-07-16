@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import pumpManagment.Entity.CustomerReportDTO;
+import pumpManagment.Entity.Dieselsell;
 import pumpManagment.Entity.customer;
 
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.Optional;
 public interface customerRepository extends JpaRepository<customer, Integer> {
 
     List<customer> findByUserId(String userId);
+
 
   Optional<customer> findByNameAndUserId(String name, String userId);
 
