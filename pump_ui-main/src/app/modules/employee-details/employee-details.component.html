@@ -1,0 +1,38 @@
+<!-- expense.component.html -->
+
+<div>
+    <!-- <h2>Expenses and Notes</h2> -->
+    <button mat-raised-button (click)="cancel()" class="pull-right"
+        style="width: 18%;margin-right: 2%;"><mat-icon>cancel</mat-icon>cancel</button>
+    <button mat-raised-button (click)="printTable()" class="pull-right"
+        style="width: 18%;margin-right: 2%;"><mat-icon>print</mat-icon>Print</button>
+    <button mat-raised-button (click)="exportToExcel()" class="pull-right" style="width: 24%;margin-right: 2%;">
+        <mat-icon>save</mat-icon>Export to Excel
+    </button>
+</div>
+<div>
+    <table id="expenseTable">
+        <thead>
+            <tr>
+                <th>Date</th>
+                <th>Expense</th>
+                <th>Amount</th>
+                <th>Person</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of expensesAndNotes">
+                <td>{{ row[0] }}</td>
+                <td>{{ row[1] }}</td>
+                <td>{{ row[2] }}</td>
+                <td>{{ row[3] }}</td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"><strong>Total Amount</strong></td>
+                <td colspan="2"><strong>{{ totalAmount }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

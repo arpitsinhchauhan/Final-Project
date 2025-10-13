@@ -1,0 +1,21 @@
+.example-card {
+  margin: 20px;
+}
+
+button {
+  margin: 10px;
+}
+
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+}
+
+
+.mat-stepper-horizontal {
+  margin-top: 8px;
+}
+
+.mat-mdc-form-field {
+  margin-top: 16px;
+}

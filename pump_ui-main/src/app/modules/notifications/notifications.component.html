@@ -1,0 +1,36 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="card card-plain">
+            <div class="card-header card-header-danger">
+                <div>
+
+                    <input matInput type="file" (change)="onFileSelected($event)" multiple>
+                    <button mat-raised-button  (click)="onSubmit($event)">Upload Photos</button>
+
+                </div>
+            </div>
+            <div>
+                <!-- <div class="image-container" *ngFor="let imageUrl of imageUrls">
+                    <img [src]="'data:image/png;base64,' + imageUrl['imageData']" alt="Image" />
+                </div> -->
+                <div class="image-container" *ngFor="let imageUrl of imageUrls">
+                    <img [src]="'data:image/png;base64,' + imageUrl['imageData']" alt="Image"
+                        style="max-width:100%;cursor:pointer" (click)="onClick($event)" class="modal-hover-opacity"
+                        data-toggle="modal" data-target="#myModal" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content" style="margin-left: -32%;">
+            <div class="modal-header">
+                <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <div class="modal-body">
+                <img src="{{imgSrc}}" style="width:100%;cursor:pointer;" class="modal-hover-opacity" />
+            </div>
+        </div>
+    </div>
+</div>

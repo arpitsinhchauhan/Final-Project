@@ -1,0 +1,142 @@
+<div class="main-content">
+    <div class="container-fluid">
+        <div class="row" style="width: 102%;">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Baki Bill :-</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="date">Date:</label>
+                                <input type="date" id="billDate" [(ngModel)]="billDate" class="form-control" required />
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Select Customer</mat-label>
+                                    <mat-select [(ngModel)]="selectedCustomer">
+                                        <mat-option *ngFor="let customer of customers" [value]="customer">
+                                            {{ customer.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                    </div>
+                    <table class="table table-bordered mt-3" *ngIf="billRows.length > 0">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">Type</th>
+                                <th>Ltr</th>
+                                <th>Rate</th>
+                                <th>Total RS</th>
+                                <th>Action</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of billRows; let i = index">
+                                <td>
+                                    <mat-form-field appearance="fill" class="table-select">
+                                        <mat-label>Select an option</mat-label>
+                                        <mat-select [(ngModel)]="row.fuel" disableRipple>
+                                            <mat-option *ngFor="let type of petrolTypeList" [value]="type">
+                                                {{ type }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <input type="number" [(ngModel)]="row.ltr" placeholder="0" class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="number" [(ngModel)]="row.rate" placeholder="0" class="form-control" />
+                                </td>
+                                <td>{{ (row.ltr || 0) * (row.rate || 0) }}</td>
+                                <td>
+                                    <mat-icon (click)="addRow()">add_circle</mat-icon>
+                                </td>
+                                <td>
+                                    <mat-icon (click)="deleteRow(i)" *ngIf="billRows.length > 1">delete</mat-icon>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="button-container">
+                        <button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="printBill()">
+                            Print</button>
+                        <button mat-raised-button type="button" class="btn btn-danger pull-right">cancel</button>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header card-header-danger">
+                        <h4 class="card-title">Oil Bill :-</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label for="date">Date:</label>
+                                <input type="date" id="oillDate" [(ngModel)]="oillDate" class="form-control" required />
+                            </div>
+                            <div class="col-md-6">
+                                <mat-form-field appearance="fill" style="width: 100%;">
+                                    <mat-label>Select Customer</mat-label>
+                                    <mat-select [(ngModel)]="selectedOilCustomer">
+                                        <mat-option *ngFor="let customer of customers" [value]="customer">
+                                            {{ customer.name }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                        </div>
+                    </div>
+                    <table class="table table-bordered mt-3" *ngIf="oilRows.length > 0">
+                        <thead>
+                            <tr>
+                                <th style="width: 30%;">Type</th>
+                                <th>Amount</th>
+                                <th>Action</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let row of oilRows; let i = index">
+                                <td>
+                                    <mat-form-field appearance="fill" class="table-select">
+                                        <mat-label>Select an option</mat-label>
+                                        <mat-select [(ngModel)]="row.oiltype" disableRipple>
+                                            <mat-option *ngFor="let oiltype of OilsellList" [value]="oiltype">
+                                                {{ oiltype.oilSellList }}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                                <td>
+                                    <input type="number" [(ngModel)]="row.amount" placeholder="0"
+                                        class="form-control" />
+                                </td>
+                                <td>
+                                    <mat-icon (click)="addRowOil()">add_circle</mat-icon>
+                                </td>
+                                <td>
+                                    <mat-icon (click)="deleteRowOil(i)" *ngIf="oilRows.length > 1">delete</mat-icon>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="button-container">
+                        <button mat-raised-button type="button" class="btn btn-danger pull-right"
+                            (click)="printOillBill()">
+                            Print</button>
+                        <button mat-raised-button type="button" class="btn btn-danger pull-right">cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

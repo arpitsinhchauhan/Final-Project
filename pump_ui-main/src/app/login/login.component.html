@@ -1,0 +1,40 @@
+<section class="vh-100 custom-bg">
+    <div class="container">
+        <div class="card">
+            <div class="row g-0">
+                <div class="col-md-5 d-none d-md-block">
+                    <div class="login-image"></div>
+                </div>
+                <div class="col-md-7 align-items-center">
+                    <div class="card-body">
+                        <form [formGroup]="loginForm">
+                            <div class="logo-container align-items-center mb-3">
+                                <!-- <span class="h4">Petrol Pump Management</span> -->
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" class="form-control form-control-sm" placeholder="Username"
+                                    formControlName="username" />
+                            </div>
+                            <div class="form-outline mb-4 position-relative">
+                                <input [type]="showPassword ? 'text' : 'password'" class="form-control form-control-sm"
+                                    placeholder="Password" formControlName="password" />
+                                <i class="fa" [ngClass]="showPassword ? 'fa-eye-slash' : 'fa-eye'"
+                                    (click)="showPassword = !showPassword"
+                                    style="position: absolute; top: 50%; right: 10px; transform: translateY(-50%); cursor: pointer;">
+                                </i>
+                            </div>
+                            <div class="pt-1 mb-4">
+                                <button class="btn btn-dark btn-sm btn-block w-100" type="submit"
+                                    (click)="onLogin()">Login</button>
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <a href="#!" class="small text-muted fw-bold">Terms of use</a>
+                                <a href="#!" class="small text-muted fw-bold">Privacy policy</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

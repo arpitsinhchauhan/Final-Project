@@ -1,0 +1,36 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th, 
+.table td {
+  text-align: center;
+  vertical-align: middle;
+}
+
+.table th {
+  background-color: #f5f5f5;
+  font-weight: bold;
+}
+
+mat-form-field.form-control {
+  width: 150px;
+  margin: 0;
+}
+
+
+mat-icon {
+  cursor: pointer;
+  color: #1976d2; /* blue for add */
+  vertical-align: middle;
+}
+
+mat-icon[ng-reflect-klass="delete"] {
+  color: #e53935; /* red for delete */
+}
+
+.table td:last-child,
+.table td:nth-last-child(2) {
+  width: 50px;
+}
