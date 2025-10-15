@@ -33,7 +33,24 @@
           </tr>
           <tr *ngFor="let item of row; let i = index">
             <!-- <td><input style="text-align: center;" type="text" [(ngModel)]="item.id" /></td> -->
-            <td></td>
+            <td>
+              <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252); width: 100%;">
+                <mat-label>Receiver</mat-label>
+                <mat-select [(ngModel)]="item.customerName" (openedChange)="onReceiverOpened()">
+                  <mat-option disabled>
+                    <div class="search-box">
+                      <span class="search-icon">🔍</span>
+                      <input type="text" placeholder="Search receiver..." [(ngModel)]="receiverSearch"
+                        (ngModelChange)="filterReceivers()" class="search-input" />
+                    </div>
+                  </mat-option>
+
+                  <mat-option *ngFor="let customerName of filteredNames" [value]="customerName">
+                    {{ customerName }}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </td>
             <td>
               <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252); width: 100%;">
                 <mat-select [(ngModel)]="item.value" (openedChange)="onSelectOpened()">

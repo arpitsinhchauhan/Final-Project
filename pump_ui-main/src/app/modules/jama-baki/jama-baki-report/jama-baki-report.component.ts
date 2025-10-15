@@ -5,6 +5,7 @@ import { NotificationService } from 'app/services/notification.service';
 import { API_CUSTOMER_NAME, API_JAMABAKI_ADD, API_JAMABAKI_DELETE, API_JAMABAKI_LIST } from 'app/serviceult';
 import { CustomerComponent } from '../customer/customer.component';
 import { UserServiceService } from 'app/services/user-service.service';
+import { BillComponent } from 'app/modules/billing/dailog/bill/bill.component';
 
 @Component({
   selector: 'app-jama-baki-report',
@@ -26,6 +27,7 @@ export class JamaBakiReportComponent implements OnInit {
   purchaseDetails: any = {
     date: ''
   };
+  PumpName: string = '';
   userId: string;
   constructor(private http: HttpClient, private use: UserServiceService,
     public dialogRef: MatDialogRef<JamaBakiReportComponent>, @Inject(MAT_DIALOG_DATA) public jamaBaki: any,
@@ -35,6 +37,7 @@ export class JamaBakiReportComponent implements OnInit {
     this.use.dialogZIndexAdjustment();
     this.getdata();
     this.getJamaBakiList();
+    this.getUserName();
   }
 
   getdata() {
@@ -46,6 +49,13 @@ export class JamaBakiReportComponent implements OnInit {
     this.http.get(url).subscribe((data) => {
       this.names = Object.values(data).map((item: any) => item.name);
       this.filteredNames = [...this.names];
+    });
+  }
+
+  getUserName() {
+    this.userId = localStorage.getItem('userId');
+    this.use.getUserNameAndNozzle(this.userId).subscribe(data => {
+      this.PumpName = data.data.firstName;
     });
   }
 

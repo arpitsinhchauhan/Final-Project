@@ -4,7 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dial
 import { OilSellDetails } from "../../../models/OilSellDetails";
 import { FormControl } from "@angular/forms";
 import { Observable } from "rxjs";
-import { API_OILSELL_ADD, API_OILSELL_DELETE, API_OILSELL_LIST } from "app/serviceult";
+import { API_CUSTOMER_NAME, API_OILSELL_ADD, API_OILSELL_DELETE, API_OILSELL_LIST } from "app/serviceult";
 import { NotificationService } from "app/services/notification.service";
 import { UserServiceService } from "app/services/user-service.service";
 import { OilListComponent } from "../oil-list/oil-list.component";
@@ -24,26 +24,24 @@ export class OilReportComponent implements OnInit {
   data: any = { name: [] };
   selectedDate!: Date | null;
   expenseFilterCtrl = new FormControl();
-  purchaDipStockseDetails: any = {
-    date: "",
-  };
+  purchaDipStockseDetails: any = { date: "", };
   filteredExpensesList: Observable<string[]>;
-  typeList: string[] = [
-  ];
+  typeList: string[] = [];
   userId: string;
-  purchaseDetails: any = {
-    date: "",
-  };
+  receiverSearch: string = '';
+  purchaseDetails: any = { date: "", };
+  filteredNames: string[] = [];
+  names: any[] = [];
   PumpName: string = '';
   row: any[] = [];
   lastRowId: number = 0;
+
   constructor(
     private http: HttpClient,
     public dialogRef: MatDialogRef<OilReportComponent>,
     private notificationService: NotificationService,
     private use: UserServiceService,
     @Inject(MAT_DIALOG_DATA) public oilData: any, private dialog: MatDialog) {
-
   }
 
   ngOnInit() {
@@ -54,17 +52,37 @@ export class OilReportComponent implements OnInit {
     this.getoilList();
     this.getUserName();
     this.getOilReport();
+    this.getcustomerName();
     this.row[0].id = "1";
     // this.userId = localStorage.getItem('userId');
     // this.row = [{ id: '0', date: this.purchaDipStockseDetails.date, value: '', price: '' }];
+  }
+
+  onReceiverOpened() {
+    this.receiverSearch = '';
+    this.filteredNames = [...this.names];
+  }
+
+  filterReceivers() {
+    const searchLower = this.receiverSearch.toLowerCase();
+    this.filteredNames = this.names.filter(name =>
+      name.toLowerCase().includes(searchLower)
+    );
+  }
+
+  getcustomerName() {
+    this.userId = localStorage.getItem('userId');
+    const url = `${API_CUSTOMER_NAME}?userId=${this.userId}`;
+    this.http.get(url).subscribe((data) => {
+      this.names = Object.values(data).map((item: any) => item.name);
+      this.filteredNames = [...this.names];
+    });
   }
 
   getUserName() {
     this.userId = localStorage.getItem('userId');
     this.use.getUserNameAndNozzle(this.userId).subscribe(data => {
       this.PumpName = data.data.firstName;
-      console.log(this.PumpName);
-
     });
   }
 
@@ -112,7 +130,7 @@ export class OilReportComponent implements OnInit {
     }
 
     for (let item of this.row) {
-      if (!item.value || !item.price) {
+      if (!item.customerName || !item.value || !item.price) {
         return false;
       }
     }
@@ -128,6 +146,7 @@ export class OilReportComponent implements OnInit {
       const newRow = {
         id: this.purchaseDetails.id,
         date: this.purchaDipStockseDetails.date,
+        customerName: "",
         value: "",
         price: "",
         oilSellNote: "",
@@ -191,7 +210,6 @@ export class OilReportComponent implements OnInit {
     this.filteredExpenses = [...this.typeList];
   }
 
-
   oilType() {
     const dialogRef = this.dialog.open(OilListComponent, {
       width: "40%",
@@ -222,7 +240,7 @@ export class OilReportComponent implements OnInit {
   oilBill(selectedItem: any, index: number) {
     const billData = {
       PumpName: this.PumpName,
-      customer: selectedItem.customer,
+      customer: selectedItem.customerName,
       date: this.purchaDipStockseDetails.date,
       oilType: selectedItem.value,
       price: selectedItem.price,
@@ -239,7 +257,4 @@ export class OilReportComponent implements OnInit {
       this.getoilList();
     });
   }
-
-
-
 }

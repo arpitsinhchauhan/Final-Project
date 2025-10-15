@@ -705,6 +705,7 @@ public class PurchaseController {
             expense.setValue(expense.getValue()); // Set the notes
             expense.setPrice(expense.getPrice());
             expense.setOilSellNote(expense.getOilSellNote());
+            expense.setCustomerName(expense.getCustomerName());
             oilSellRepository.save(expense);
         }
     }

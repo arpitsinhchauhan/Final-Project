@@ -254,7 +254,7 @@ export class NavbarComponent implements OnInit {
   AddCustomer() {
     const dialogRef = this.dialog.open(CustomerComponent, {
       width: '25%',
-      height: '65%',
+      height: '70%',
       disableClose: true,
     });
 
@@ -277,7 +277,7 @@ export class NavbarComponent implements OnInit {
   chnagePassword() {
     const dialogRef = this.dialog.open(ChangePasswordComponent, {
       width: '25%',
-      height: '65%',
+      height: '70%',
       data: { userId: this.userId },
       disableClose: true,
     });
