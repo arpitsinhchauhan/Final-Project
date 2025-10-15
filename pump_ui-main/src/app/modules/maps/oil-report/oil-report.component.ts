@@ -8,6 +8,7 @@ import { API_OILSELL_ADD, API_OILSELL_DELETE, API_OILSELL_LIST } from "app/servi
 import { NotificationService } from "app/services/notification.service";
 import { UserServiceService } from "app/services/user-service.service";
 import { OilListComponent } from "../oil-list/oil-list.component";
+import { OillBillComponent } from "app/modules/billing/dailog/oill-bill/oill-bill.component";
 
 @Component({
   selector: "app-oil-report",
@@ -33,6 +34,7 @@ export class OilReportComponent implements OnInit {
   purchaseDetails: any = {
     date: "",
   };
+  PumpName: string = '';
   row: any[] = [];
   lastRowId: number = 0;
   constructor(
@@ -50,10 +52,20 @@ export class OilReportComponent implements OnInit {
       this.purchaDipStockseDetails.date = this.oilData.date;
     }
     this.getoilList();
+    this.getUserName();
     this.getOilReport();
     this.row[0].id = "1";
     // this.userId = localStorage.getItem('userId');
     // this.row = [{ id: '0', date: this.purchaDipStockseDetails.date, value: '', price: '' }];
+  }
+
+  getUserName() {
+    this.userId = localStorage.getItem('userId');
+    this.use.getUserNameAndNozzle(this.userId).subscribe(data => {
+      this.PumpName = data.data.firstName;
+      console.log(this.PumpName);
+
+    });
   }
 
   private _filterExpenses(value: string): string[] {
@@ -204,6 +216,27 @@ export class OilReportComponent implements OnInit {
       } else {
         this.row = data;
       }
+    });
+  }
+
+  oilBill(selectedItem: any, index: number) {
+    const billData = {
+      PumpName: this.PumpName,
+      customer: selectedItem.customer,
+      date: this.purchaDipStockseDetails.date,
+      oilType: selectedItem.value,
+      price: selectedItem.price,
+      note: selectedItem.oilSellNote,
+    };
+    const dialogRef = this.dialog.open(OillBillComponent, {
+      width: "60%",
+      height: "90%",
+      disableClose: true,
+      data: billData
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.getoilList();
     });
   }
 

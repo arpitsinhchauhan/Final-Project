@@ -33,6 +33,7 @@
                         <th *ngIf="jamaBaki.type !== 'baki'">Note</th>
                         <th *ngIf="jamaBaki.type !== 'jama'">Baki</th>
                         <th *ngIf="jamaBaki.type !== 'jama'">Note</th>
+                        <th *ngIf="jamaBaki.type !== 'jama'">Bill_Baki</th>
                         <th></th>
                     </tr>
                     <tr *ngFor="let item of row; let i = index">
@@ -69,6 +70,9 @@
                         </td>
                         <td *ngIf="jamaBaki.type !== 'jama'">
                             <input type="text" [(ngModel)]="item.bakiNote" />
+                        </td>
+                        <td *ngIf="jamaBaki.type !== 'jama'">
+                            <button (click)="billBaki(item,i)"><i class="fa fa-file-pdf-o"></i></button>
                         </td>
                         <td>
                             <button (click)="deleteRow(i)"><i class="fa fa-trash"></i></button>

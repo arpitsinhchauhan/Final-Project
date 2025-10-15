@@ -74,30 +74,21 @@ public interface kharchrepository extends JpaRepository<kharch, Integer> {
             @Param("userId") String userId
     );
 
-<<<<<<< HEAD
-    @Query(value = "SELECT expenses, SUM(price) AS total_price " +
-            "FROM kharch " +
-            "WHERE user_id = :userId " +
-            "AND date BETWEEN :startDate AND :endDate " +
-            "GROUP BY expenses " +
-            "ORDER BY expenses", nativeQuery = true)
-=======
+//    @Query(value = "SELECT expenses, SUM(price) AS total_price " +
+//            "FROM kharch " +
+//            "WHERE user_id = :userId " +
+//            "AND date BETWEEN :startDate AND :endDate " +
+//            "GROUP BY expenses " +
+//            "ORDER BY expenses", nativeQuery = true)
+
     @Query(value = "SELECT date, expenses, SUM(price) AS total_price " +
             "FROM kharch " +
             "WHERE user_id = :userId " +
             "AND date BETWEEN :startDate AND :endDate " +
             "GROUP BY date, expenses " +
             "ORDER BY date, expenses", nativeQuery = true)
->>>>>>> 8f4f04e (addd backend)
     List<Object[]> getExpenseSummary(
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,
             @Param("userId") String userId);
-
-<<<<<<< HEAD
-=======
-
-
->>>>>>> 8f4f04e (addd backend)
-
 }

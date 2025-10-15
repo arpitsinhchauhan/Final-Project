@@ -2,10 +2,7 @@ package pumpManagment.Entity;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import java.math.BigDecimal;
-<<<<<<< HEAD
 import java.util.HashMap;
-=======
->>>>>>> 8f4f04e (addd backend)
 import java.util.List;
 import java.util.Map;
 
@@ -96,11 +93,8 @@ public class AggregatedDataDTO {
 
     private List<Map<String,Object>> expensesList;
 
-<<<<<<< HEAD
     private Map<String, Double> expenseTotals = new HashMap<>();
 
-=======
->>>>>>> 8f4f04e (addd backend)
     public String getDate() {
         return date;
     }
@@ -621,7 +615,6 @@ public class AggregatedDataDTO {
         this.power_dieselgatt_Total = power_dieselgatt_Total;
     }
 
-<<<<<<< HEAD
     public Map<String, Double> getExpenseTotals() {
         return expenseTotals;
     }
@@ -630,8 +623,7 @@ public class AggregatedDataDTO {
         this.expenseTotals = expenseTotals;
     }
 
-=======
->>>>>>> 8f4f04e (addd backend)
+
     public List<Map<String, Object>> getExpensesList() {
         return expensesList;
     }

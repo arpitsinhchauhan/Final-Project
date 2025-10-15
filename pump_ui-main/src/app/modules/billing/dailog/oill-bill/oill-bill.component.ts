@@ -13,25 +13,18 @@ import * as html2pdf from 'html2pdf.js';
 })
 export class OillBillComponent implements OnInit {
 
-
   oillData: any;
 
   constructor(
-    private http: HttpClient,
-    private fb: FormBuilder,
     public dialogRef: MatDialogRef<OillBillComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private use: UserServiceService,
-    private notificationService: NotificationService,
-    private dialog: MatDialog
-  ) {
+    @Inject(MAT_DIALOG_DATA) public data: any) {
     if (data) {
       this.oillData = data;
     }
   }
 
   ngOnInit(): void {
-    console.log('Bill Data Received in ngOnInit:', this.oillData);
+
   }
 
   getGrandTotal(): number {

@@ -1,43 +1,50 @@
-<div class="invoice-container" id="invoice">
-    <div class="invoice-header">
-        <div class="company-info">
-            <h1>{{ oillData.PumpName }}</h1>
+<div class="row">
+    <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
+        <div class="card">
+            <div class="card-body">
+                <div class="invoice-container" id="invoice" *ngIf="oillData">
+                    <div class="invoice-header">
+                        <div class="company-info">
+                            <h1>{{ oillData.PumpName }}</h1>
+                        </div>
+
+                    </div>
+                    <div class="invoice-details">
+                        <p><strong>Invoice Date:</strong> {{ oillData.date | date:'dd/MM/yyyy' }}</p>
+                    </div>
+                    <div class="customer-details">
+                        <p><strong>Name:</strong> {{ oillData.customer.name }}</p>
+                        <p><strong>Email:</strong> {{ oillData.customer.email }}</p>
+                        <p><strong>Phone Number:</strong> {{ oillData.customer.phone }}</p>
+                    </div>
+
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Price</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{ oillData.oilType }}</td>
+                                <td>{{ oillData.price }}</td>
+                                <td>{{ oillData.note }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div class="signature">
+                        <p>Signature</p>
+                    </div>
+                </div>
+                <div class="button-container">
+                    <button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="downloadPDF()">
+                        Print Bill</button>
+                    <button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="cancel()">
+                        cancel</button>
+                </div>
+            </div>
         </div>
-
     </div>
-    <div class="invoice-details">
-        <p><strong>Invoice Date:</strong> {{ oillData.date | date:'dd/MM/yyyy' }}</p>
-    </div>
-    <div class="customer-details">
-        <p><strong>Name:</strong> {{ oillData.customer.name }}</p>
-        <p><strong>Email:</strong> {{ oillData.customer.email }}</p>
-        <p><strong>Phone Number:</strong> {{ oillData.customer.phone }}</p>
-    </div>
-
-    <table class="invoice-table">
-        <thead>
-            <tr>
-                <th>Sl.No</th>
-                <th>Type</th>
-                <th>Amount</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let item of oillData.items; let i = index">
-                <td>{{ i + 1 }}</td>
-                <td>{{ item.type }}</td>
-                <td>{{ item.amount }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="signature">
-        <p>Signature</p>
-    </div>
-</div>
-<div class="button-container">
-    <button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="downloadPDF()">
-        Print Bill</button>
-    <button mat-raised-button type="button" class="btn btn-danger pull-right" (click)="cancel()">
-        cancel</button>
 </div>

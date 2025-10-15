@@ -212,5 +212,9 @@ export class JamaBakiReportComponent implements OnInit {
     });
   }
 
+  billBaki(selectedItem: any, index: number) {
+
+  }
+
 
 }

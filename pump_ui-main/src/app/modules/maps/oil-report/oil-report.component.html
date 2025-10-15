@@ -24,13 +24,16 @@
         <table class="style">
           <tr>
             <!-- <th style="width: 16%;">RowId</th> -->
+            <th>Customer Name</th>
             <th>OilType</th>
             <th>Price</th>
             <th>Note</th>
+            <th>OilBill</th>
             <th>Delete</th>
           </tr>
           <tr *ngFor="let item of row; let i = index">
             <!-- <td><input style="text-align: center;" type="text" [(ngModel)]="item.id" /></td> -->
+            <td></td>
             <td>
               <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252); width: 100%;">
                 <mat-select [(ngModel)]="item.value" (openedChange)="onSelectOpened()">
@@ -56,6 +59,9 @@
 
             <td><input type="text" [(ngModel)]="item.price" /></td>
             <td><input type="text" [(ngModel)]="item.oilSellNote" /></td>
+            <td>
+              <button (click)="oilBill(item,i)"><i class="fa fa-file-pdf-o"></i></button>
+            </td>
             <td>
               <button (click)="deleteRow(i)"><i class="fa fa-trash"></i></button>
             </td>

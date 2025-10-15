@@ -36,6 +36,8 @@ public class OilSell {
     private String oilSellNote;
     @Column(name = "user_id")
     private String userId;
+    @Column(name = "customer_name")
+    private String customerName;
 
     public Integer getIdOilSell() {
         return id_oil_sell;
@@ -83,5 +85,13 @@ public class OilSell {
 
     public void setOilSellNote(String oilSellNote) {
         this.oilSellNote = oilSellNote;
+    }
+
+    public String getCustomerName() {
+        return customerName;
+    }
+
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 }
