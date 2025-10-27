@@ -40,22 +40,25 @@
                         <!-- <td><input style="text-align: center;" type="text" [(ngModel)]="item.idJamabaki" /></td> -->
                         <td>
                             <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252); width: 100%;">
-                                <mat-label>Receiver</mat-label>
-                                <mat-select [(ngModel)]="item.name" (openedChange)="onReceiverOpened()">
+                                <mat-label>Customer</mat-label>
+                                <mat-select [(ngModel)]="item.customer" [compareWith]="compareCustomers"
+                                    (openedChange)="onReceiverOpened()" [displayWith]="displayCustomerName">
+
                                     <mat-option disabled>
                                         <div class="search-box">
                                             <span class="search-icon">🔍</span>
-                                            <input type="text" placeholder="Search receiver..."
-                                                [(ngModel)]="receiverSearch" (ngModelChange)="filterReceivers()"
-                                                class="search-input" />
+                                            <input type="text" placeholder="Search..." [(ngModel)]="receiverSearch"
+                                                (ngModelChange)="filterReceivers()" class="search-input" />
                                         </div>
                                     </mat-option>
 
-                                    <mat-option *ngFor="let name of filteredNames" [value]="name">
-                                        {{ name }}
+                                    <mat-option *ngFor="let customer of filteredNames" [value]="customer">
+                                        {{ customer.name }}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
+
+
                         </td>
 
                         <td *ngIf="jamaBaki.type !== 'baki'">

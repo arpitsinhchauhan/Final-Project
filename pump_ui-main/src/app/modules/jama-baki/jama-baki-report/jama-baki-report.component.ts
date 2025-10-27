@@ -16,7 +16,6 @@ export class JamaBakiReportComponent implements OnInit {
 
   selectedDate!: Date | null;
   receiverSearch: string = '';
-  filteredNames: string[] = [];
   isReload: boolean;
   purchaDipStockseDetails: any = {
     date: ''
@@ -29,6 +28,8 @@ export class JamaBakiReportComponent implements OnInit {
   };
   PumpName: string = '';
   userId: string;
+  filteredNames: Object;
+
   constructor(private http: HttpClient, private use: UserServiceService,
     public dialogRef: MatDialogRef<JamaBakiReportComponent>, @Inject(MAT_DIALOG_DATA) public jamaBaki: any,
     private notificationService: NotificationService, private dialog: MatDialog) {
@@ -44,13 +45,17 @@ export class JamaBakiReportComponent implements OnInit {
     if (this.jamaBaki && this.jamaBaki.date) {
       this.purchaDipStockseDetails.date = this.jamaBaki.date;
     }
+
     this.userId = localStorage.getItem('userId');
     const url = `${API_CUSTOMER_NAME}?userId=${this.userId}`;
-    this.http.get(url).subscribe((data) => {
-      this.names = Object.values(data).map((item: any) => item.name);
+
+    this.http.get<any[]>(url).subscribe((data) => {
+      // Assuming response looks like: [{ id:1, name:'Raj', ...}, ...]
+      this.names = data; // full objects
       this.filteredNames = [...this.names];
     });
   }
+
 
   getUserName() {
     this.userId = localStorage.getItem('userId');
@@ -59,18 +64,18 @@ export class JamaBakiReportComponent implements OnInit {
     });
   }
 
-  filterReceivers() {
-    const searchLower = this.receiverSearch.toLowerCase();
-    this.filteredNames = this.names.filter(name =>
-      name.toLowerCase().includes(searchLower)
-    );
-  }
-
-  // Optional: reset filter when dropdown is opened
   onReceiverOpened() {
     this.receiverSearch = '';
     this.filteredNames = [...this.names];
   }
+
+  filterReceivers() {
+    const searchLower = this.receiverSearch.toLowerCase();
+    this.filteredNames = this.names.filter(item =>
+      item.name.toLowerCase().includes(searchLower)
+    );
+  }
+
 
   addTable() {
     if (this.purchaDipStockseDetails.date) {
@@ -91,6 +96,7 @@ export class JamaBakiReportComponent implements OnInit {
       this.notificationService.failure('Please fill in all the required fields before adding a new row.');
     }
   }
+
 
 
   totalJama() {
@@ -120,25 +126,13 @@ export class JamaBakiReportComponent implements OnInit {
   }
 
   order() {
-    const isValid = this.row.every(item =>
-      item.idJamabaki &&
-      item.name &&
-      (
-        (this.jamaBaki.type === 'jama' && item.jama !== null) ||
-        (this.jamaBaki.type === 'baki' && item.baki !== null)
-      )
-    );
+    this.userId = localStorage.getItem('userId');
 
-    // if (!isValid) {
-    //   this.notificationService.failure('Please fill in all the required fields before submitting.');
-    //   return;
-    // }
-
-    // Build payload
     const payload = this.row.map(item => {
       const base = {
         id: item.id,
-        name: item.name,
+        customerName: item.customer?.name, // ✅ extract name safely
+        customerId: item.customer?.id,
         date: this.jamaBaki.date,
         userId: this.userId
       };
@@ -160,7 +154,7 @@ export class JamaBakiReportComponent implements OnInit {
 
     this.http.post<any>(API_JAMABAKI_ADD, payload).subscribe({
       next: () => {
-        this.notificationService.success(`${this.jamaBaki.type === 'jama' ? 'Jama' : 'Baki'} details successfully added.`);
+        this.notificationService.success(`${this.jamaBaki.type === 'jama' ? 'Jama' : 'Baki'} details added successfully.`);
         this.dialogRef.close();
       },
       error: () => {
@@ -170,6 +164,13 @@ export class JamaBakiReportComponent implements OnInit {
   }
 
 
+  displayCustomerName(customer: any): string {
+    return customer?.name || '';
+  }
+
+  compareCustomers(c1: any, c2: any): boolean {
+    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+  }
 
 
   AddCustomer() {
@@ -209,21 +210,42 @@ export class JamaBakiReportComponent implements OnInit {
           (item) => item.baki !== null && item.baki !== undefined && item.baki !== 0
         );
       }
-      this.row = filteredData.map(item => ({
-        id: item.id,
-        date: item.date,
-        name: item.name,
-        jama: item.jama,
-        jamaNote: item.jamaNote,
-        baki: item.baki,
-        bakiNote: item.bakiNote,
-        userId: item.userId
-      }));
+      this.row = filteredData.map(item => {
+        const matchedCustomer =
+          this.names.find(c => c.name === item.name) || { id: null, name: item.name };
+
+        return {
+          id: item.id,
+          date: item.date,
+          customer: matchedCustomer,
+          jama: item.jama,
+          jamaNote: item.jamaNote,
+          baki: item.baki,
+          bakiNote: item.bakiNote,
+          userId: item.userId
+        };
+      });
     });
   }
 
   billBaki(selectedItem: any, index: number) {
-
+    const billData = {
+      date: selectedItem.date,
+      customer: selectedItem.customer,
+      PumpName: this.PumpName,
+      // items: this.billRows.map(row => ({
+      //   type: row.fuel,
+      //   ltr: row.ltr,
+      //   rate: row.rate,
+      //   total: (row.ltr || 0) * (row.rate || 0)
+      // })),
+      // totalAmount: this.getGrandTotal()
+    };
+    this.dialog.open(BillComponent, {
+      width: '50%',
+      height: '100%',
+      data: billData
+    });
   }
 
 
