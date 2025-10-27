@@ -18,6 +18,7 @@ export class OillBillComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<OillBillComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any) {
+    console.log(data);
     if (data) {
       this.oillData = data;
     }

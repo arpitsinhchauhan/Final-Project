@@ -36,7 +36,8 @@
             <td>
               <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252); width: 100%;">
                 <mat-label>Receiver</mat-label>
-                <mat-select [(ngModel)]="item.customerName" (openedChange)="onReceiverOpened()">
+                <mat-select [(ngModel)]="item.customer" (openedChange)="onReceiverOpened()"
+                  (selectionChange)="onCustomerChange($event.value, item)">
                   <mat-option disabled>
                     <div class="search-box">
                       <span class="search-icon">🔍</span>
@@ -44,9 +45,8 @@
                         (ngModelChange)="filterReceivers()" class="search-input" />
                     </div>
                   </mat-option>
-
-                  <mat-option *ngFor="let customerName of filteredNames" [value]="customerName">
-                    {{ customerName }}
+                  <mat-option *ngFor="let customer of filteredNames" [value]="customer">
+                    {{ customer.name }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
