@@ -89,3 +89,12 @@
     width: 100%;
   }
 }
+
+mat-form-field {
+  transform: scale(0.9);
+  margin-top: -5px;
+}
+
+mat-select {
+  font-size: 13px !important;
+}

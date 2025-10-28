@@ -279,8 +279,9 @@
         margin-top: 0;
 
         &:not([class*="text-"]) {
-          color: $gray-color;
+          color: #515151;
           font-size: $font-paragraph;
+          font-weight: 400;
         }
       }
 
