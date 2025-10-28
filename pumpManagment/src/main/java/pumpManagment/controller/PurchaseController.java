@@ -913,6 +913,9 @@ public class PurchaseController {
             expense.setJamaNote(expense.getJamaNote());
             expense.setBaki(expense.getBaki());
             expense.setBakiNote(expense.getBakiNote());
+            expense.setType(expense.getType());
+            expense.setLtr(expense.getLtr());
+            expense.setRate(expense.getRate());
             JamabakiRepository.save(expense);
         }
     }

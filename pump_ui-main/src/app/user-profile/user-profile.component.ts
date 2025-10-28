@@ -26,7 +26,6 @@ import { LoaderService } from "app/services/loader.service";
 import { UserServiceService } from "app/services/user-service.service";
 import { NotificationService } from "app/services/notification.service";
 import { ExpensesExcelComponent } from "./expenses-excel/expenses-excel.component";
-import { retry } from "rxjs";
 
 @Component({
   selector: "app-user-profile",
@@ -35,7 +34,7 @@ import { retry } from "rxjs";
 })
 export class UserProfileComponent implements OnInit {
   isProcessing: boolean | undefined;
-  startDate: string = ""; // Initialize to empty string
+  startDate: string = "";
   endDate: string = "";
   productList: any = [];
   customers: string[] = [];
@@ -45,13 +44,13 @@ export class UserProfileComponent implements OnInit {
   dailyTotal: number;
   CurrentmonthTotal: number = 0;
   CurrentyearTotal: number = 0;
-  currentPage = 1; // Current page index
+  currentPage = 1;
   itemsPerPage = 2;
   selectedCustomer: string = "";
   name: string = "";
   names: string = "";
   thumbnails: SafeUrl[] = [];
-  startDateJb: string; 
+  startDateJb: string;
   endDateJb: string;
   userId: string;
   isReload: boolean;
@@ -59,9 +58,10 @@ export class UserProfileComponent implements OnInit {
   selectedExpense: string = '';
   xp_petrol_nozzle: number;
   powe_diesel_nozzle: number;
-  startDateExpen: string; 
+  startDateExpen: string;
   endDateExpen: string;
-
+  selectedDate!: Date | null;
+  selectedDateBakepage!: Date | null;
   startDatePdf: string;
   endDatePdf: string;
 
@@ -72,7 +72,7 @@ export class UserProfileComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private loaderService: LoaderService,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.loaderService.display(false);
@@ -85,7 +85,7 @@ export class UserProfileComponent implements OnInit {
   EmployeeDetails() {
     const dialogRef = this.dialog.open(EmployeeComponent, {
       width: "40%",
-      height: "87%",
+      height: "100%",
       disableClose: true,
     });
 
@@ -116,7 +116,7 @@ export class UserProfileComponent implements OnInit {
       disableClose: true,
     });
 
-    dialogRef.afterClosed().subscribe((result) => {});
+    dialogRef.afterClosed().subscribe((result) => { });
   }
   exportToExcel() {
     if (!this.startDate || !this.endDate) {
@@ -149,16 +149,12 @@ export class UserProfileComponent implements OnInit {
     // });
   }
   calculateTotals() {
-    // Reset totals to ensure fresh calculation each time the method is called
     this.senderAmountTotal = 0;
     this.receiverAmountTotal = 0;
-
     this.productList.forEach(
       (transaction: { sender: string; amount: string; receiver: string }) => {
-        const amount = parseFloat(transaction.amount); // Convert amount from string to number
-
+        const amount = parseFloat(transaction.amount);
         if (!isNaN(amount)) {
-          // Check if the amount is a valid number
           if (transaction.sender === this.name) {
             this.senderAmountTotal += amount;
           }
@@ -178,7 +174,6 @@ export class UserProfileComponent implements OnInit {
     this.userId = localStorage.getItem("userId");
     const url = `${API_CUSTOMER_NAME}?userId=${this.userId}`;
     this.http.get<any>(url).subscribe((data: any) => {
-      // Assuming 'customers' is the property containing the array of names
       this.names = data.map((data: any) => data.name);
     });
   }
@@ -283,10 +278,8 @@ export class UserProfileComponent implements OnInit {
   //       document.body.removeChild(a);
   //     })
   // }
-  selectedDate!: Date | null;
-  selectedDateBakepage!: Date | null;
 
-  // Function to handle date selection
+
   dateSelected(event: MatDatepickerInputEvent<Date>) {
     this.selectedDate = event.value;
     this.selectedDateBakepage = event.value;
@@ -502,7 +495,7 @@ export class UserProfileComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe((result) => {
-    this.getexpensesList();
+      this.getexpensesList();
 
     });
   }
@@ -525,7 +518,7 @@ export class UserProfileComponent implements OnInit {
       },
     });
     dialogRef.afterClosed().subscribe((result) => {
-        this.getexpensesList();
+      this.getexpensesList();
     });
   }
 
@@ -576,7 +569,7 @@ export class UserProfileComponent implements OnInit {
           this.loaderService.display(false);
         }
       );
-  }
+    }
   }
 
 

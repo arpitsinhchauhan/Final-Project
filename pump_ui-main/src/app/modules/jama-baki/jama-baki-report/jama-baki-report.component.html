@@ -31,6 +31,9 @@
                         <th>Name</th>
                         <th *ngIf="jamaBaki.type !== 'baki'">Jama</th>
                         <th *ngIf="jamaBaki.type !== 'baki'">Note</th>
+                        <th *ngIf="jamaBaki.type !== 'jama'">Type</th>
+                        <th *ngIf="jamaBaki.type !== 'jama'">LTR</th>
+                        <th *ngIf="jamaBaki.type !== 'jama'">Rate</th>
                         <th *ngIf="jamaBaki.type !== 'jama'">Baki</th>
                         <th *ngIf="jamaBaki.type !== 'jama'">Note</th>
                         <th *ngIf="jamaBaki.type !== 'jama'">Bill_Baki</th>
@@ -69,7 +72,26 @@
                         </td>
 
                         <td *ngIf="jamaBaki.type !== 'jama'">
-                            <input type="text" [(ngModel)]="item.baki" style="background-color: indianred;" />
+                            <mat-form-field appearance="fill" class="table-select">
+                                <mat-label>Select an option</mat-label>
+                                <mat-select [(ngModel)]="item.type" disableRipple>
+                                    <mat-option *ngFor="let type of petrolTypeList" [value]="type">
+                                        {{ type }}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                        <td *ngIf="jamaBaki.type !== 'jama'">
+                            <input type="number" [(ngModel)]="item.ltr" (input)="calculateBaki(item)"
+                                placeholder="Ltr" />
+                        </td>
+                        <td *ngIf="jamaBaki.type !== 'jama'">
+                            <input type="number" [(ngModel)]="item.rate" (input)="calculateBaki(item)"
+                                placeholder="Rate" />
+                        </td>
+                        <td *ngIf="jamaBaki.type !== 'jama'">
+                            <input type="text" [(ngModel)]="item.baki" [value]="item.baki" readonly
+                                style="background-color: indianred;" placeholder="Baki" />
                         </td>
                         <td *ngIf="jamaBaki.type !== 'jama'">
                             <input type="text" [(ngModel)]="item.bakiNote" />

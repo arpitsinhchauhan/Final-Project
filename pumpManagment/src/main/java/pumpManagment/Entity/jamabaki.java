@@ -35,6 +35,12 @@ public class jamabaki {
     private double baki;
     @Column(name = "baki_note")
     private String bakiNote;
+    @Column(name = "type")
+    private String type;
+    @Column(name = "ltr")
+    private String ltr;
+    @Column(name = "rate")
+    private String rate;
     @Column(name = "user_id")
     private String userId;
 
@@ -100,5 +106,29 @@ public class jamabaki {
 
     public void setBakiNote(String bakiNote) {
         this.bakiNote = bakiNote;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getLtr() {
+        return ltr;
+    }
+
+    public void setLtr(String ltr) {
+        this.ltr = ltr;
+    }
+
+    public String getRate() {
+        return rate;
+    }
+
+    public void setRate(String rate) {
+        this.rate = rate;
     }
 }

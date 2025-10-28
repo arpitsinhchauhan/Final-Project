@@ -29,6 +29,7 @@ export class JamaBakiReportComponent implements OnInit {
   PumpName: string = '';
   userId: string;
   filteredNames: Object;
+  petrolTypeList: string[] = ['Petrol', 'Diesel', 'XP Petrol', 'Power Diesel'];
 
   constructor(private http: HttpClient, private use: UserServiceService,
     public dialogRef: MatDialogRef<JamaBakiReportComponent>, @Inject(MAT_DIALOG_DATA) public jamaBaki: any,
@@ -86,9 +87,12 @@ export class JamaBakiReportComponent implements OnInit {
         date: this.purchaDipStockseDetails.date,
         name: '',
         jama: 0,
-        jamaNote: '',   // NEW FIELD
+        jamaNote: '',
         baki: 0,
-        bakiNote: '',   // NEW FIELD
+        bakiNote: '',
+        type: '',
+        ltr: '',
+        rate: '',
         userId: this.userId
       };
       this.row.push(newRow);
@@ -131,7 +135,7 @@ export class JamaBakiReportComponent implements OnInit {
     const payload = this.row.map(item => {
       const base = {
         id: item.id,
-        customerName: item.customer?.name, // ✅ extract name safely
+        name: item.customer?.name,
         customerId: item.customer?.id,
         date: this.jamaBaki.date,
         userId: this.userId
@@ -147,7 +151,10 @@ export class JamaBakiReportComponent implements OnInit {
         return {
           ...base,
           baki: item.baki,
-          bakiNote: item.bakiNote
+          bakiNote: item.bakiNote,
+          type: item.type,
+          ltr: item.ltr,
+          rate: item.rate
         };
       }
     });
@@ -222,24 +229,35 @@ export class JamaBakiReportComponent implements OnInit {
           jamaNote: item.jamaNote,
           baki: item.baki,
           bakiNote: item.bakiNote,
+          type: item.type,
+          ltr: item.ltr,
+          rate: item.rate,
           userId: item.userId
         };
       });
     });
   }
 
+  calculateBaki(item: any) {
+    const ltr = parseFloat(item.ltr) || 0;
+    const rate = parseFloat(item.rate) || 0;
+    item.baki = (ltr * rate).toFixed(2); // rounds to 2 decimals
+  }
+
+
   billBaki(selectedItem: any, index: number) {
     const billData = {
       date: selectedItem.date,
       customer: selectedItem.customer,
       PumpName: this.PumpName,
-      // items: this.billRows.map(row => ({
-      //   type: row.fuel,
-      //   ltr: row.ltr,
-      //   rate: row.rate,
-      //   total: (row.ltr || 0) * (row.rate || 0)
-      // })),
-      // totalAmount: this.getGrandTotal()
+      items: [
+        {
+          type: selectedItem.type,
+          ltr: selectedItem.ltr,
+          rate: selectedItem.rate,
+          total: parseFloat(selectedItem.ltr) * parseFloat(selectedItem.rate) || 0
+        }
+      ]
     };
     this.dialog.open(BillComponent, {
       width: '50%',
