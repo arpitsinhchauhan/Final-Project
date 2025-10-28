@@ -32,9 +32,8 @@
                      <label for="end-date-jb" class="form-label mb-0">End Date:</label>
                      <input type="date" id="end-date-jb" [(ngModel)]="endDateJb" class="form-control" required />
                   </div>
-               </div>
-               <div class="row" *ngIf="startDateJb && endDateJb" style="margin-top: 10px;">
-                  <div class="col-md-8 offset-md-3">
+                  <!-- </div> -->
+                  <div class="col-md-3" *ngIf="startDateJb && endDateJb">
                      <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Select Customer</mat-label>
                         <mat-select placeholder="Select Customer" [(ngModel)]="selectedCustomer"
@@ -79,9 +78,7 @@
                      <label for="end-date-expen" class="form-label mb-0">End Date:</label>
                      <input type="date" id="end-date-expen" [(ngModel)]="endDateExpen" class="form-control" required />
                   </div>
-               </div>
-               <div class="row" *ngIf="startDateExpen && endDateExpen" style="margin-top: 10px;">
-                  <div class="col-md-8 offset-md-3">
+                  <div class="col-md-3" *ngIf="startDateExpen && endDateExpen" style="margin-top: 10px;">
                      <mat-form-field appearance="fill" style="width: 100%;">
                         <mat-label>Select Expense</mat-label>
                         <mat-select placeholder="Select Expense" [(ngModel)]="selectedExpense"

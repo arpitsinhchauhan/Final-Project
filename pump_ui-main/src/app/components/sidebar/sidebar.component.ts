@@ -49,7 +49,8 @@ export const ROUTES: RouteInfo[] = [
     ]
   },
   { path: '/Kharch', title: 'Indirect Expance', icon: 'money', class: '' },
-  { path: '/customer', title: 'Customer List', icon: 'money', class: '' }
+  { path: '/customer', title: 'Customer List', icon: 'money', class: '' },
+  // { path: '/aboutus', title: 'About Us', icon: 'unarchive', class: '' }
   // {
   //   title: 'Petrol/Diesel',
   //   icon: 'local_gas_station',

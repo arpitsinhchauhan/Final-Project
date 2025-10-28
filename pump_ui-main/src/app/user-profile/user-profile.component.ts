@@ -475,7 +475,7 @@ export class UserProfileComponent implements OnInit {
   onCustomerSelectionChange(event: any): void {
     const dialogRef = this.dialog.open(MonthlyJamaBakiTotalComponent, {
       width: "50%",
-      height: "50%",
+      height: "100%",
       data: {
         customer: this.selectedCustomer,
         startDate: this.startDateJb,
@@ -510,7 +510,7 @@ export class UserProfileComponent implements OnInit {
   expensesExcel(event: any): void {
     const dialogRef = this.dialog.open(ExpensesExcelComponent, {
       width: "50%",
-      height: "50%",
+      height: "100%",
       data: {
         expense: this.selectedExpense,
         startDate: this.startDateExpen,

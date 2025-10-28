@@ -119,7 +119,6 @@ public class PurchaseController {
     @Autowired
     private DieselSellRepository dieselSellRepository;
 
-    //    private final static Log logger = (Log) LogFactory.getLog(PurchaseController.class);
     @Autowired
     private PetrolSellRepository myRepository;
 
@@ -226,7 +225,6 @@ public class PurchaseController {
         return ResponseEntity.ok(new AuthenticationResponse(
                 token, authenticationRequest.getUsername(), role, userId,
                 petrolNozzle, dieselNozzle, xpPetrolNozzle, powerDieselNozzle,FirstName,lastname));
-
 //      return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 
@@ -238,13 +236,10 @@ public class PurchaseController {
 
     @RequestMapping(value = "/addUserMaster", method = RequestMethod.POST)
     public ResponseEntity<Map<String, String>> saveUser(@RequestBody UserDTO user) throws Exception {
-        // Save and get the saved entity (with generated ID)
         DAOUser savedUser = userDetailsService.save(user);
-
-        // Prepare the response
         Map<String, String> response = new HashMap<>();
         response.put("message", "User Save Successfully");
-        response.put("id", String.valueOf(savedUser.getId())); // assuming getId() gives the generated ID
+        response.put("id", String.valueOf(savedUser.getId()));
 
         return ResponseEntity.ok(response);
     }
@@ -923,7 +918,7 @@ public class PurchaseController {
     @PutMapping("/updateJamaBakiSell")
     public ResponseEntity<?> updateData(@RequestBody jamabaki data) {
         try {
-            jamabaki updatedData = JamabakiRepository.save(data); // Assuming save method updates if the entity exists
+            jamabaki updatedData = JamabakiRepository.save(data);
             return ResponseEntity.ok(updatedData);
         } catch (Exception e) {
             return ResponseEntity.status(500).body("Error updating data: " + e.getMessage());
