@@ -90,6 +90,8 @@ import { BillingComponent } from './modules/billing/billing.component';
 import { BillComponent } from './modules/billing/dailog/bill/bill.component';
 import { OillBillComponent } from './modules/billing/dailog/oill-bill/oill-bill.component';
 import { CommonService } from './services/common.service';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+
 
 @NgModule({
   imports: [
@@ -131,6 +133,7 @@ import { CommonService } from './services/common.service';
     MatButtonModule,
     MatDatepickerModule,
     MatMomentDateModule,
+    MatButtonToggleModule,
   ],
   declarations: [
     AppComponent,

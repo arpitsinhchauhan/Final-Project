@@ -1372,9 +1372,6 @@ export class MainPanelComponent implements OnInit {
     });
   }
 
-
-
-
   getMoneyDetailsList() {
     const formattedDate = this.use.getFormattedDate(this.reportDate);
     this.use.getMoneyList(formattedDate, this.userId).subscribe(

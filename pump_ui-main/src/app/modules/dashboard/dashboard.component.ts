@@ -335,7 +335,7 @@ export class DashboardComponent implements OnInit {
       y: {
         beginAtZero: true,
         min: 100,
-        max: 2000000,
+        max: 1500000,
         ticks: {
           stepSize: 10000
         }

@@ -1,11 +1,4 @@
-.search-field {
-  width: 100%;
-  background-color: aliceblue;
-  border-radius: 4px;
-  padding: 3px 8px;
-} 
-
- .search-add-container {
+.search-add-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -46,14 +39,4 @@
 
 .excel-button {
   width: auto;
-}
-
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.search-field {
-  width: 250px;
 }

@@ -19,9 +19,9 @@ export class CustomerListComponent implements OnInit {
   currentPage = 1;
   searchTerm: string = "";
   itemsPerPage = 4;
-customerList: any = [];
-sortColumn: string = '';
-sortDirection: 'asc' | 'desc' = 'asc';
+  customerList: any = [];
+  sortColumn: string = '';
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private http: HttpClient,
@@ -47,7 +47,7 @@ sortDirection: 'asc' | 'desc' = 'asc';
   openDialog(): void {
     const dialogRef = this.dialog.open(CustomerComponent, {
       width: "50%",
-      height: "70%",
+      height: "100%",
       disableClose: true,
     });
 
@@ -66,7 +66,7 @@ sortDirection: 'asc' | 'desc' = 'asc';
   openExcelPdfKharch() {
     const dialogRef = this.dialog.open(CustomerExcelPdfComponent, {
       width: "70%",
-      height: "70%",
+      height: "100%",
       disableClose: true,
     });
 
@@ -95,7 +95,7 @@ sortDirection: 'asc' | 'desc' = 'asc';
     this.getcustomer();
   }
 
-openEditDialog(item: any): void {
+  openEditDialog(item: any): void {
     const dialogRef = this.dialog.open(CustomerComponent, {
       width: '50%',
       height: '70%',
@@ -103,30 +103,30 @@ openEditDialog(item: any): void {
       disableClose: true,
     });
     dialogRef.afterClosed().subscribe(result => {
-        this.getcustomer();
+      this.getcustomer();
     });
   }
 
   sortBy(column: string) {
-  if (this.sortColumn === column) {
-    // toggle direction
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-  } else {
-    this.sortColumn = column;
-    this.sortDirection = 'asc';
-  }
-
-  this.customerList.sort((a, b) => {
-    let dateA = new Date(a[column]);
-    let dateB = new Date(b[column]);
-
-    if (dateA < dateB) {
-      return this.sortDirection === 'asc' ? -1 : 1;
-    } else if (dateA > dateB) {
-      return this.sortDirection === 'asc' ? 1 : -1;
+    if (this.sortColumn === column) {
+      // toggle direction
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      return 0;
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
     }
-  });
+
+    this.customerList.sort((a, b) => {
+      let dateA = new Date(a[column]);
+      let dateB = new Date(b[column]);
+
+      if (dateA < dateB) {
+        return this.sortDirection === 'asc' ? -1 : 1;
+      } else if (dateA > dateB) {
+        return this.sortDirection === 'asc' ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
   }
 }

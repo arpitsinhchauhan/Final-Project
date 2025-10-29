@@ -98,3 +98,28 @@ mat-form-field {
 mat-select {
   font-size: 13px !important;
 }
+
+.filter-toggle-group {
+  background-color: #2c2f33;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+::ng-deep .mat-button-toggle {
+  color: #b0b0b0;
+  font-weight: 500;
+  border: none !important;
+}
+
+::ng-deep .mat-button-toggle+.mat-button-toggle {
+  border-left: 1px solid #444 !important;
+}
+
+::ng-deep .mat-button-toggle-checked {
+  background-color: #4b6cb7 !important;
+  color: white !important;
+}
+
+::ng-deep .mat-button-toggle:hover {
+  color: #fff;
+}

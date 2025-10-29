@@ -14,17 +14,18 @@ declare interface RouteInfo {
 export const ROUTES: RouteInfo[] = [
   { path: '/User', title: 'User Master', icon: 'supervised_user_circle', class: '' },
   { path: '/dashboard', title: 'Dashboard', icon: 'dashboard', class: '' },
-  { path: '/dailyReport', title: 'Daily Report', icon: 'picture_as_pdf', class: '' },
-  // { path: '/bill', title: 'Billing', icon: 'account_balance_wallet', class: '' },
+  { path: '/dailyReport', title: 'Daily Report', icon: 'assignment', class: '' },
+  // { path: '/bill', title: 'Billing', icon: 'assignment', class: '' },
   { path: '/Report', title: 'Report Excel', icon: 'picture_as_pdf', class: '' },
   {
     title: 'Report',
-    icon: 'local_gas_station',
+    icon: 'library_add',
     class: 'group',
     children: [
-      { path: '/Dipp', title: 'Petrol/Diesel Dip', icon: 'open_with', class: '' },
-      { path: '/atm', title: 'ATM & Cash', icon: 'money', class: '' },
-      { path: '/Jama&Baki', title: 'Bill Credit & Debit', icon: 'money', class: '' },
+      { path: '/Dipp', title: 'Petrol/Diesel Dip', icon: 'multiline_chart', class: '' },
+      { path: '/extraDipp', title: 'Extra Petrol/Diesel Dip', icon: 'data_exploration', class: '' },
+      { path: '/atm', title: 'ATM & Cash', icon: 'atm', class: '' },
+      { path: '/Jama&Baki', title: 'Bill Credit & Debit', icon: 'account_balance', class: '' },
     ]
   },
   {
@@ -32,24 +33,24 @@ export const ROUTES: RouteInfo[] = [
     icon: 'local_gas_station',
     class: 'group',
     children: [
-      { path: '/purchasedetails', title: 'Purchase Petrol & Diesel', icon: 'content_paste', class: '' },
-      { path: '/extraPurchasedetails', title: 'Extra Purchase Petrol & Diesel', icon: 'content_paste', class: '' },
+      { path: '/purchasedetails', title: 'Purchase Petrol & Diesel', icon: 'account_balance_wallet', class: '' },
+      { path: '/extraPurchasedetails', title: 'Extra Purchase Petrol & Diesel', icon: 'add_shopping_cart', class: '' },
     ]
   },
   {
     title: 'Sales',
-    icon: 'local_gas_station',
+    icon: 'sell',
     class: 'group',
     children: [
-      { path: '/petroldetails', title: 'Petrol Sales', icon: 'library_books', class: '' },
+      { path: '/petroldetails', title: 'Petrol Sales', icon: 'local_gas_station', class: '' },
       { path: '/dieseldetails', title: 'Diesel Sales', icon: 'ev_station', class: '' },
       { path: '/XPpetrol', title: 'Extra Premium Petrol', icon: 'library_books', class: '' },
-      { path: '/powerDiesel', title: 'Extra Premium Diesel', icon: 'ev_station', class: '' },
-      { path: '/oilsell', title: 'OilSell', icon: 'meeting_room', class: '' },
+      { path: '/powerDiesel', title: 'Extra Premium Diesel', icon: 'power', class: '' },
+      { path: '/oilsell', title: 'OilSell', icon: 'oil_barrel', class: '' },
     ]
   },
-  { path: '/Kharch', title: 'Indirect Expance', icon: 'money', class: '' },
-  { path: '/customer', title: 'Customer List', icon: 'money', class: '' },
+  { path: '/Kharch', title: 'Indirect Expance', icon: 'attach_money', class: '' },
+  { path: '/customer', title: 'Customer List', icon: 'contacts_product', class: '' },
   // { path: '/aboutus', title: 'About Us', icon: 'unarchive', class: '' }
   // {
   //   title: 'Petrol/Diesel',

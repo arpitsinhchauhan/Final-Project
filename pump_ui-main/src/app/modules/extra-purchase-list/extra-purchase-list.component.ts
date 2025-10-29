@@ -113,7 +113,7 @@ export class ExtraPurchaseListComponent implements OnInit {
   openExcelPdf() {
     const dialogRef = this.dialog.open(ExtraPurchasePdfExcelComponent, {
       width: '70%',
-      height: '70%',
+      height: '100%',
       disableClose: true,
     });
 

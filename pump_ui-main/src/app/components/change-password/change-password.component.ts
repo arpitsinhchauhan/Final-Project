@@ -4,7 +4,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { NotificationService } from 'app/services/notification.service';
 import { UserServiceService } from 'app/services/user-service.service';
-import { API_USER_LIST } from 'app/serviceult';
 
 @Component({
   selector: 'app-change-password',
@@ -36,11 +35,9 @@ export class ChangePasswordComponent implements OnInit {
     );
   }
 
-
   get f() {
     return this.changePasswordForm.controls;
   }
-
 
   passwordMatchValidator(form: FormGroup) {
     const newPassword = form.get('newPassword')?.value;

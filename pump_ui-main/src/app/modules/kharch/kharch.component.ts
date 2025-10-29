@@ -23,14 +23,14 @@ export class KharchComponent implements OnInit {
   itemsPerPage = 4;
   userId: string;
   sortColumn: string = '';
-sortDirection: 'asc' | 'desc' = 'asc';
+  sortDirection: 'asc' | 'desc' = 'asc';
 
   constructor(
     private http: HttpClient,
     private use: UserServiceService,
     private dialog: MatDialog,
     private notificationService: NotificationService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.getdata();
@@ -72,7 +72,7 @@ sortDirection: 'asc' | 'desc' = 'asc';
   openExcelPdfKharch() {
     const dialogRef = this.dialog.open(KharchSellPdfExcelComponent, {
       width: "70%",
-      height: "70%",
+      height: "100%",
       disableClose: true,
     });
 
@@ -81,47 +81,47 @@ sortDirection: 'asc' | 'desc' = 'asc';
     });
   }
 
- 
-				  
+
+
   searchData(): void {
-const term = this.searchTerm.toLowerCase().trim();
-if (!term) {
-this.getdata();
-return;
-}             
+    const term = this.searchTerm.toLowerCase().trim();
+    if (!term) {
+      this.getdata();
+      return;
+    }
 
-this.productList = this.productList.filter((item: any) =>
-(item.expenses && item.expenses.toLowerCase().includes(term)) ||
-(item.date && item.date.toLowerCase().includes(term))
-);
-}
-
-clearSearch() {
-this.searchTerm = '';
-this.getdata();
-}
-
-sortBy(column: string) {
-  if (this.sortColumn === column) {
-    // toggle direction
-    this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
-  } else {
-    this.sortColumn = column;
-    this.sortDirection = 'asc';
+    this.productList = this.productList.filter((item: any) =>
+      (item.expenses && item.expenses.toLowerCase().includes(term)) ||
+      (item.date && item.date.toLowerCase().includes(term))
+    );
   }
 
-  this.productList.sort((a, b) => {
-    let dateA = new Date(a[column]);
-    let dateB = new Date(b[column]);
+  clearSearch() {
+    this.searchTerm = '';
+    this.getdata();
+  }
 
-    if (dateA < dateB) {
-      return this.sortDirection === 'asc' ? -1 : 1;
-    } else if (dateA > dateB) {
-      return this.sortDirection === 'asc' ? 1 : -1;
+  sortBy(column: string) {
+    if (this.sortColumn === column) {
+      // toggle direction
+      this.sortDirection = this.sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      return 0;
+      this.sortColumn = column;
+      this.sortDirection = 'asc';
     }
-  });
+
+    this.productList.sort((a, b) => {
+      let dateA = new Date(a[column]);
+      let dateB = new Date(b[column]);
+
+      if (dateA < dateB) {
+        return this.sortDirection === 'asc' ? -1 : 1;
+      } else if (dateA > dateB) {
+        return this.sortDirection === 'asc' ? 1 : -1;
+      } else {
+        return 0;
+      }
+    });
   }
 
 }

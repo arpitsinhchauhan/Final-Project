@@ -223,7 +223,7 @@ public class PurchaseController {
         String lastname = user.getLastName();
 
         return ResponseEntity.ok(new AuthenticationResponse(
-                token, authenticationRequest.getUsername(), role, userId,
+                 token, authenticationRequest.getUsername(), role, userId,
                 petrolNozzle, dieselNozzle, xpPetrolNozzle, powerDieselNozzle,FirstName,lastname));
 //      return ResponseEntity.ok(new AuthenticationResponse(token));
     }
