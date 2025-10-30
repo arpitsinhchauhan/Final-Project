@@ -15,7 +15,9 @@
           <div class="customer-details">
             <p><strong>Name:</strong> {{ billData.customer.name }}</p>
             <p><strong>Email:</strong> {{ billData.customer.email }}</p>
-            <p><strong>Phone Number:</strong> {{ billData.customer.phone }}</p>
+            <p><strong>Phone Number:</strong> {{ billData.customer.phone }}
+              <mat-icon (click)="sendBakiBill()">perm_phone_msg</mat-icon>
+            </p>
           </div>
 
           <table class="invoice-table">

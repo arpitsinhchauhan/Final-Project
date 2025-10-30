@@ -15,7 +15,8 @@
                     <div class="customer-details">
                         <p><strong>Name:</strong> {{ oillData.customer.name }}</p>
                         <p><strong>Email:</strong> {{ oillData.customer.email }}</p>
-                        <p><strong>Phone Number:</strong> {{ oillData.customer.phone }}</p>
+                        <p><strong>Phone Number:</strong> {{ oillData.customer.phone
+                            }}<mat-icon (click)="sendBill()">perm_phone_msg</mat-icon></p>
                     </div>
 
                     <table class="invoice-table">

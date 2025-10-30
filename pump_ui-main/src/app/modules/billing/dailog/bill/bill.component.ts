@@ -4,6 +4,7 @@ import { FormBuilder } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 import { NotificationService } from 'app/services/notification.service';
 import { UserServiceService } from 'app/services/user-service.service';
+import { API_SEND_SMS } from 'app/serviceult';
 import * as html2pdf from 'html2pdf.js';
 
 @Component({
@@ -49,6 +50,29 @@ export class BillComponent implements OnInit {
     };
 
     html2pdf().set(options).from(element).save();
+  }
+
+  sendBakiBill() {
+    if (!this.billData?.customer?.phone) {
+      alert('Customer phone number not available.');
+      return;
+    }
+    const baseUrl = API_SEND_SMS;
+    const to = this.billData.customer.phone.startsWith('+')
+      ? this.billData.customer.phone
+      : '+91' + this.billData.customer.phone.trim();
+    const totalAmount = this.getGrandTotal();
+    const billDate = new Date(this.billData.date).toLocaleDateString('en-IN');
+    const itemSummary = this.billData.items
+      .map(item => `${item.type} ${item.ltr}L x ₹${item.rate} = ₹${item.total}`)
+      .join(', ');
+    const message = `Dear ${this.billData.customer.name}, your Baki bill dated ${billDate} includes: ${itemSummary}. Total payable: ₹${totalAmount}. Thank you!`;
+    const encodedMessage = encodeURIComponent(message);
+    const finalUrl = `${baseUrl}?to=${to}&message=${encodedMessage}`;
+    this.http.get(finalUrl, { responseType: 'text' })
+      .subscribe({
+        next: (res) => this.notificationService.success(res)
+      });
   }
 
   cancel() {

@@ -435,22 +435,16 @@ export class UserProfileComponent implements OnInit {
         selectedDate: this.selectedDate,
       },
     });
-    // After the PDF viewer component is closed, initiate the download
     dialogRef.afterClosed().subscribe(() => {
       // this.PDF(fileName, pdfData);
     });
   }
 
   PDF(fileName: string, pdfData: any) {
-    // Create a blob from PDF data
     const blob = new Blob([pdfData], { type: "application/pdf" });
-
-    // Create a temporary link element
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
     link.download = fileName;
-
-    // Append the link to the document and trigger a click event to start download
     document.body.appendChild(link);
     link.click();
   }
@@ -496,7 +490,6 @@ export class UserProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.getexpensesList();
-
     });
   }
 
