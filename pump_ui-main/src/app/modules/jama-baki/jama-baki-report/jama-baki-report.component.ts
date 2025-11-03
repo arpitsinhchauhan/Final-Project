@@ -38,7 +38,6 @@ export class JamaBakiReportComponent implements OnInit {
   ngOnInit(): void {
     this.use.dialogZIndexAdjustment();
     this.getdata();
-    this.getJamaBakiList();
     this.getUserName();
   }
 
@@ -51,9 +50,10 @@ export class JamaBakiReportComponent implements OnInit {
     const url = `${API_CUSTOMER_NAME}?userId=${this.userId}`;
 
     this.http.get<any[]>(url).subscribe((data) => {
-      // Assuming response looks like: [{ id:1, name:'Raj', ...}, ...]
-      this.names = data; // full objects
-      this.filteredNames = [...this.names];
+      this.names = data;
+      this.filteredNames = this.names
+      // [...this.names];
+      this.getJamaBakiList();
     });
   }
 
@@ -82,10 +82,11 @@ export class JamaBakiReportComponent implements OnInit {
     if (this.purchaDipStockseDetails.date) {
       this.lastRowId++;
       this.userId = localStorage.getItem('userId');
+
       const newRow = {
         id: this.jamaBaki.id,
         date: this.purchaDipStockseDetails.date,
-        name: '',
+        customer: '',
         jama: 0,
         jamaNote: '',
         baki: 0,
@@ -97,11 +98,9 @@ export class JamaBakiReportComponent implements OnInit {
       };
       this.row.push(newRow);
     } else {
-      this.notificationService.failure('Please fill in all the required fields before adding a new row.');
+      this.notificationService.failure('Please select a date before adding a new row.');
     }
   }
-
-
 
   totalJama() {
     return this.row.reduce((total, item) => total + parseFloat(item.jama || 0), 0).toFixed(2);
@@ -117,7 +116,7 @@ export class JamaBakiReportComponent implements OnInit {
       this.http.delete(`${API_JAMABAKI_DELETE}/${item.id}`).subscribe({
         next: () => {
           this.notificationService.success("Row deleted successfully.");
-          this.row.splice(index, 1); // remove from UI after backend confirms
+          this.row.splice(index, 1);
         },
         error: () => {
           this.notificationService.failure("Failed to delete row from backend.");
@@ -176,7 +175,9 @@ export class JamaBakiReportComponent implements OnInit {
   }
 
   compareCustomers(c1: any, c2: any): boolean {
-    return c1 && c2 ? c1.id === c2.id : c1 === c2;
+    return c1 && c2
+      ? c1.idcustomer === c2.idcustomer || c1.name === c2.name
+      : c1 === c2;
   }
 
 
@@ -218,13 +219,18 @@ export class JamaBakiReportComponent implements OnInit {
         );
       }
       this.row = filteredData.map(item => {
-        const matchedCustomer =
-          this.names.find(c => c.name === item.name) || { id: null, name: item.name };
+        const matchedCustomer = this.names.find(c =>
+          c.idcustomer === item.customer?.idcustomer ||
+          c.idcustomer === item.customerId ||
+          c.name?.trim().toLowerCase() === item.name?.trim().toLowerCase()
+        );
 
         return {
           id: item.id,
           date: item.date,
-          customer: matchedCustomer,
+          customer: matchedCustomer
+            ? matchedCustomer
+            : { idcustomer: null, name: item.name },
           jama: item.jama,
           jamaNote: item.jamaNote,
           baki: item.baki,
@@ -235,13 +241,14 @@ export class JamaBakiReportComponent implements OnInit {
           userId: item.userId
         };
       });
+      console.log(this.row);
     });
   }
 
   calculateBaki(item: any) {
     const ltr = parseFloat(item.ltr) || 0;
     const rate = parseFloat(item.rate) || 0;
-    item.baki = (ltr * rate).toFixed(2); // rounds to 2 decimals
+    item.baki = (ltr * rate).toFixed(2);
   }
 
 

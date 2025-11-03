@@ -59,7 +59,6 @@ export class OilReportComponent implements OnInit {
     this.getOilReport();
   }
 
-  /** ✅ Load full customer list */
   getCustomerName() {
     const url = `${API_CUSTOMER_NAME}?userId=${this.userId}`;
     this.http.get(url).subscribe((data: any) => {
@@ -68,14 +67,12 @@ export class OilReportComponent implements OnInit {
     });
   }
 
-  /** ✅ Fetch Pump name */
   getUserName() {
     this.use.getUserNameAndNozzle(this.userId).subscribe(data => {
       this.PumpName = data.data.firstName;
     });
   }
 
-  /** ✅ Fetch oil types for dropdown */
   getoilList() {
     this.use.getoilList().subscribe((response) => {
       this.typeList = response.map((item: any) => item.oilSellList);
@@ -83,7 +80,6 @@ export class OilReportComponent implements OnInit {
     });
   }
 
-  /** ✅ Filter customer dropdown */
   onReceiverOpened() {
     this.receiverSearch = '';
     this.filteredNames = [...this.names];
@@ -96,7 +92,6 @@ export class OilReportComponent implements OnInit {
     );
   }
 
-  /** ✅ Fetch oil report and attach full customer object */
   getOilReport() {
     this.userId = localStorage.getItem('userId');
     const params = { userId: this.userId };
@@ -104,7 +99,6 @@ export class OilReportComponent implements OnInit {
     this.http.get<any[]>(API_OILSELL_LIST, { params }).subscribe((data) => {
       if (this.oilData?.date) {
         if (this.names.length === 0) {
-          // If customer list not ready, retry after short delay
           setTimeout(() => this.getOilReport(), 200);
           return;
         }
@@ -122,13 +116,11 @@ export class OilReportComponent implements OnInit {
     });
   }
 
-  /** ✅ When customer is selected from dropdown */
   onCustomerChange(selectedCustomer: any, item: any) {
-    item.customer = selectedCustomer; // full customer object
-    item.customerName = selectedCustomer.name; // display name
+    item.customer = selectedCustomer;
+    item.customerName = selectedCustomer.name;
   }
 
-  /** ✅ Add a new row to table */
   addTable() {
     if (this.purchaDipStockseDetails.date) {
       this.lastRowId++;
@@ -146,7 +138,6 @@ export class OilReportComponent implements OnInit {
     }
   }
 
-  /** ✅ Delete a row (local + backend) */
   deleteRow(index: number) {
     const item = this.row[index];
     if (item.idOilSell) {
@@ -165,11 +156,10 @@ export class OilReportComponent implements OnInit {
     }
   }
 
-  /** ✅ Generate Bill */
   oilBill(selectedItem: any, index: number) {
     const billData = {
       PumpName: this.PumpName,
-      customer: selectedItem.customer, // full object sent
+      customer: selectedItem.customer,
       date: this.purchaDipStockseDetails.date,
       oilType: selectedItem.value,
       price: selectedItem.price,
@@ -188,7 +178,6 @@ export class OilReportComponent implements OnInit {
     });
   }
 
-  /** ✅ Submit oil sale */
   order() {
     if (!this.purchaDipStockseDetails.date) {
       this.notificationService.failure("Please select a date before placing the order.");
@@ -210,7 +199,6 @@ export class OilReportComponent implements OnInit {
     });
   }
 
-  /** ✅ Validation */
   isValidData(): boolean {
     if (!this.purchaDipStockseDetails.date) return false;
 
@@ -220,7 +208,6 @@ export class OilReportComponent implements OnInit {
     return true;
   }
 
-  /** ✅ Total Price */
   totalPrice() {
     return this.row.reduce((sum, item) => sum + parseFloat(item.price || "0"), 0);
   }
@@ -229,7 +216,6 @@ export class OilReportComponent implements OnInit {
     this.dialogRef.close({ isReload: this.isReload });
   }
 
-  /** ✅ Oil Type Modal */
   oilType() {
     const dialogRef = this.dialog.open(OilListComponent, {
       width: "40%",
@@ -242,7 +228,6 @@ export class OilReportComponent implements OnInit {
     });
   }
 
-  /** ✅ Search oil type dropdown */
   onSelectOpened() {
     this.searchText = '';
     this.filteredExpenses = [...this.typeList];
