@@ -43,8 +43,8 @@ public class  CustometCreditDebitScheduler {
     @Autowired
     private UserRepository userRepository;
 
-//    @Scheduled(cron = "0 0 8 * * *", zone = "Asia/Kolkata")
-    @Scheduled(cron = "*/10 * * * * *", zone = "Asia/Kolkata")
+    @Scheduled(cron = "0 0 8 * * *", zone = "Asia/Kolkata")
+//    @Scheduled(cron = "*/10 * * * * *", zone = "Asia/Kolkata")
     public BusinessError execute() throws ParseException {
         List<CustomerReportDTO> report = customerRepository.getCustomerReport();
         List<CustomerReportDTO> filteredServerDetails = filterAndCleanServerDetails(report);
