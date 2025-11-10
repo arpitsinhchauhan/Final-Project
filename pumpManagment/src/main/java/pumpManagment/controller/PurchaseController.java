@@ -1241,8 +1241,8 @@ public class PurchaseController {
             filterData.append(prop.getProperty("docs.file_path"));
             //File pdf = new File(filterData + fileName);
 
-            Path path = Paths.get(filterData.toString() + fileName);
-            byte[] pdf = Files.readAllBytes(path);
+//            Path path = Paths.get(filterData.toString() + fileName);
+            byte[] pdf = Files.readAllBytes(Paths.get("C:\\Users\\Dell\\Downloads\\"));
 
             if (Objects.isNull(pdf)) {
                 return null;

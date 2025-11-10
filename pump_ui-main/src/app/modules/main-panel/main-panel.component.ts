@@ -1411,6 +1411,8 @@ export class MainPanelComponent implements OnInit {
 
         this.firstTableData = this.jamaSummary;
         this.secondTableData = this.bakiSummary;
+        console.log(this.secondTableData);
+
 
         // this.firstTableData = this.jamaSummary.filter(item => item[1] <= 10000);
         // this.secondTableData = this.bakiSummary.filter(item => item[1] <= 10000);

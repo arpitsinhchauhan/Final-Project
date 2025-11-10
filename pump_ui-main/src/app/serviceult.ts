@@ -202,6 +202,7 @@ export const API_EXTRA_PROFIT_LOSS_PDF = `${prefix}/portal/api/extrageneratePdf`
 export const API_CHANGE_PASSWORD: string = `${prefix}/portal/api/changePassword`;
 
 export const API_SEND_SMS: string = `${prefix}/sms/send`;
+export const API_SEND_WHATSAPP: string = `${prefix}/sms/whatsapp`;
 
 
 

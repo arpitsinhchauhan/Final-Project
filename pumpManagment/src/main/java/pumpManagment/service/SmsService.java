@@ -2,6 +2,7 @@ package pumpManagment.service;
 
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import pumpManagment.config.TwilioConfig;
@@ -40,4 +41,28 @@ public class SmsService {
             return "Failed to send message: " + e.getMessage();
         }
     }
+
+    public String sendWhatsAppMessage(String toPhoneNumber, String messageBody) {
+        try {
+            toPhoneNumber = toPhoneNumber.replaceAll("\\s+", "");
+            if (!toPhoneNumber.startsWith("+")) {
+                toPhoneNumber = "+91" + toPhoneNumber.replaceAll("^0+", "");
+            }
+
+            System.out.println("📤 Sending WhatsApp to: " + toPhoneNumber);
+
+            Message message = Message.creator(
+                    new com.twilio.type.PhoneNumber("whatsapp:" + toPhoneNumber),
+                    new com.twilio.type.PhoneNumber("whatsapp:" + fromNumber),
+                    messageBody
+            ).create();
+
+            return "WhatsApp message sent successfully! SID: " + message.getSid();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "Failed to send WhatsApp message: " + e.getMessage();
+        }
+    }
+
+
 }
