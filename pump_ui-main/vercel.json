@@ -9,7 +9,7 @@
     "routes": [
         {
             "src": "/api/(.*)",
-            "dest": "http://localhost:8080/$1"
+            "dest": "https://your-spring-api-domain.com/$1"
         },
         {
             "src": "/(.*)",
