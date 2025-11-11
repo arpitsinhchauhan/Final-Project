@@ -1,14 +1,12 @@
 // import { environment } from "environments/environment";
 
-import { environment } from "environments/environment";
 
 // const prefix = ".."
 // const prefix = environment.production
 
 // const prefix = ".."
 //   const prefix = ""  // for deply in spring boot
-// const prefix = "api"  // for deploy on tomcat
-const prefix = environment.API_PREFIX;
+const prefix = "api"  // for deploy on tomcat
 
 //report
 export const API_REPORT: string = `${prefix}/portal/api`;
