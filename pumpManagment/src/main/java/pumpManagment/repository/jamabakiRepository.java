@@ -69,7 +69,7 @@ public interface jamabakiRepository extends JpaRepository<jamabaki, Integer> {
 //    List<Object[]> findByDateAndJamaGreaterThan(@Param("date") String date);
 //    @Query("SELECT j.name, j.baki FROM jamabaki j WHERE j.date = :date AND j.baki > 0 AND j.userId = :userId")
 //    List<Object[]> findByDateAndBakiGreaterThan(@Param("date") String date, @Param("userId") String userId);
-    @Query("SELECT j.name, j.baki,j.bakiNote FROM jamabaki j WHERE j.date = :date AND j.baki > 0 AND j.userId = :userId")
+    @Query("SELECT j.name, j.baki,j.bakiNote,j.type,j.rate,j.ltr FROM jamabaki j WHERE j.date = :date AND j.baki > 0 AND j.userId = :userId")
     List<Object[]> findByDateAndBakiGreaterThan(
             @Param("date") String date,
             @Param("userId") String userId

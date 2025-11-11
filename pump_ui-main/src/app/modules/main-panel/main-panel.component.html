@@ -349,18 +349,18 @@
                   <thead>
                      <tr>
                         <th class="column">Name</th>
-                        <th class="column">Jama</th>
                         <th class="column">JamaNote</th>
+                        <th class="column">Jama</th>
                      </tr>
                   </thead>
                   <tbody>
                      <tr *ngFor="let item of firstTableData">
                         <td>{{ item[0].trim() }}</td>
-                        <td>{{ item[1] | number: '1.0-2' }}</td>
                         <td>{{ item[2]}}</td>
+                        <td>{{ item[1] | number: '1.0-2' }}</td>
                      </tr>
-                     <tr class="totalR">
-                        <td><strong>Total</strong></td>
+                     <tr class="totalR" style="background-color: rgb(198 198 198);">
+                        <td colspan="2"><strong>Total</strong></td>
                         <td><strong>{{ jamaTotal | number: '1.0-2' }}</strong></td>
                      </tr>
                   </tbody>
@@ -374,18 +374,24 @@
                   <thead>
                      <tr>
                         <th class="column">Name</th>
-                        <th class="column">Baki</th>
+                        <th class="column">Type</th>
+                        <th class="column">ltr</th>
+                        <th class="column">rate</th>
                         <th class="column">BakiNote</th>
+                        <th class="column">Baki</th>
                      </tr>
                   </thead>
                   <tbody>
                      <tr *ngFor="let item of secondTableData">
                         <td>{{ item[0].trim() }}</td>
-                        <td>{{ item[1] | number: '1.0-2' }}</td>
+                        <td>{{ item[3] }}</td>
+                        <td>{{ item[5] }}</td>
+                        <td>{{ item[4] }}</td>
                         <td>{{ item[2] }}</td>
+                        <td>{{ item[1] | number: '1.0-2' }}</td>
                      </tr>
-                     <tr class="totalR">
-                        <td><strong>Total</strong></td>
+                     <tr class="totalR" style="background-color: rgb(198 198 198);">
+                        <td colspan="5"><strong>Total</strong></td>
                         <td><strong>{{ bakiTotal | number: '1.0-2' }}</strong></td>
                      </tr>
                   </tbody>
@@ -401,18 +407,18 @@
                   <thead>
                      <tr>
                         <th class="column">Name</th>
-                        <th class="column">Kharch</th>
                         <th class="column">Note</th>
+                        <th class="column">Kharch</th>
                      </tr>
                   </thead>
                   <tbody>
                      <tr *ngFor="let item of kharchSellSummary">
                         <td>{{ item[0].trim() }}</td>
-                        <td>{{ item[1] }}</td>
                         <td>{{ item[2] }}</td>
+                        <td>{{ item[1] }}</td>
                      </tr>
-                     <tr class="totalR">
-                        <td><strong>Total</strong></td>
+                     <tr class="totalR" style="background-color: rgb(198 198 198);">
+                        <td colspan="2"><strong>Total</strong></td>
                         <td><strong>{{ kharchTotal | number: '1.0-2' }}</strong></td>
                      </tr>
                   </tbody>
@@ -426,18 +432,18 @@
                   <thead>
                      <tr>
                         <th class="column">Name</th>
-                        <th class="column">Transaction Amount</th>
                         <th class="column">Note</th>
+                        <th class="column">Transaction Amount</th>
                      </tr>
                   </thead>
                   <tbody>
                      <tr *ngFor="let item of transactionSellSummary">
                         <td>{{ item[0].trim() }}</td>
-                        <td>{{ item[1] }}</td>
                         <td>{{ item[2] }}</td>
+                        <td>{{ item[1] }}</td>
                      </tr>
-                     <tr class="totalR">
-                        <td><strong>Total</strong></td>
+                     <tr class="totalR" style="background-color: rgb(198 198 198);">
+                        <td colspan="2"><strong>Total</strong></td>
                         <td><strong>{{ ATMTotal | number: '1.0-2' }}</strong></td>
                      </tr>
                   </tbody>
