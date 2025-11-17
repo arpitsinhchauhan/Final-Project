@@ -109,4 +109,15 @@ public interface jamabakiRepository extends JpaRepository<jamabaki, Integer> {
             "ORDER BY user_id ASC, name ASC ", nativeQuery = true)
             List<Object[]> fetchJamaBakiSummaryRaw();
 
+    @Query(value = "SELECT j.date, j.name, j.type, j.rate, j.ltr, j.baki, j.baki_note" +
+        "FROM jamabakireport j WHERE j.date BETWEEN :startDate AND :endDate"+
+            "AND j.baki <> 0 AND j.user_id = :userId"+
+        "ORDER BY j.date DESC", nativeQuery = true)
+    List<Object[]> findReportByDateRangeExcludeZeroBaki(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate,
+            @Param("userId") String userId
+    );
+
+
 }

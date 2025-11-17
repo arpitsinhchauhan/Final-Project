@@ -204,6 +204,8 @@ export const API_CHANGE_PASSWORD: string = `${prefix}/portal/api/changePassword`
 export const API_SEND_SMS: string = `${prefix}/sms/send`;
 export const API_SEND_WHATSAPP: string = `${prefix}/sms/whatsapp`;
 
+export const API_DATERANGE_BAKI_DETAILS: string = `${prefix}/portal/DateRangeExcludeZeroBaki`;
+
 
 
 

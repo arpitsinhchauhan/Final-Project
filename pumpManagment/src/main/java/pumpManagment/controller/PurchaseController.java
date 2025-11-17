@@ -3319,6 +3319,14 @@ public class PurchaseController {
         }
     }
 
+    @GetMapping("/DateRangeExcludeZeroBaki")
+    public List<Object[]> getDateRangeExcludeZeroBakit(
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam String userId) {
+        return JamabakiRepository.findReportByDateRangeExcludeZeroBaki(startDate, endDate, userId);
+    }
+
 
 
 

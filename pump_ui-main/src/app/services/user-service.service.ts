@@ -102,6 +102,7 @@ import {
   API_EXTRA_PROFIT_LOSS_PDF,
   API_CUSTOMER_DELETE,
   API_CHANGE_PASSWORD,
+  API_DATERANGE_BAKI_DETAILS,
 } from "app/serviceult";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PurchaseDetails } from "app/models/PurchaseDetails ";
@@ -773,6 +774,15 @@ export class UserServiceService {
   dialogZIndexAdjustment() {
     $(".cdk-overlay-backdrop").removeAttr('style').css("z-index", "900");
     $(".cdk-overlay-container").removeAttr('style').css("z-index", "1030");
+  }
+
+  getBakiReport(startDate: string, endDate: string, userId: string) {
+    let params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate)
+      .set('userId', userId);
+
+    return this.http.get<any[]>(API_DATERANGE_BAKI_DETAILS, { params });
   }
 
 }

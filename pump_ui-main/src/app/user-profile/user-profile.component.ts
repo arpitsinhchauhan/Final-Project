@@ -26,6 +26,7 @@ import { LoaderService } from "app/services/loader.service";
 import { UserServiceService } from "app/services/user-service.service";
 import { NotificationService } from "app/services/notification.service";
 import { ExpensesExcelComponent } from "./expenses-excel/expenses-excel.component";
+import { BakiDetailsComponent } from "./baki-details/baki-details.component";
 
 @Component({
   selector: "app-user-profile",
@@ -64,6 +65,8 @@ export class UserProfileComponent implements OnInit {
   selectedDateBakepage!: Date | null;
   startDatePdf: string;
   endDatePdf: string;
+  startDateBaki: string;
+  endDateBaki: string;
 
   constructor(
     private use: UserServiceService,
@@ -573,5 +576,27 @@ export class UserProfileComponent implements OnInit {
         this.powe_diesel_nozzle = Number(data.data.powe_diesel_nozzle);
       }
     );
+  }
+
+  bakiDetails() {
+    if (!this.startDateBaki || !this.endDateBaki) {
+      this.notificationService.failure(
+        "Please select both start date and end date"
+      );
+      return;
+    }
+
+    const dialogRef = this.dialog.open(BakiDetailsComponent, {
+      width: "90%",
+      height: "90%",
+      data: {
+        startDate: this.startDateBaki,
+        endDate: this.endDateBaki,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+
+    });
   }
 }
