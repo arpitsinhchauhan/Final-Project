@@ -26,6 +26,7 @@ import { LoaderService } from "app/services/loader.service";
 import { UserServiceService } from "app/services/user-service.service";
 import { NotificationService } from "app/services/notification.service";
 import { ExpensesExcelComponent } from "./expenses-excel/expenses-excel.component";
+import { BakiDetailsComponent } from "./baki-details/baki-details.component";
 
 @Component({
   selector: "app-user-profile",
@@ -64,6 +65,8 @@ export class UserProfileComponent implements OnInit {
   selectedDateBakepage!: Date | null;
   startDatePdf: string;
   endDatePdf: string;
+  startDateBaki: string;
+  endDateBaki: string;
 
   constructor(
     private use: UserServiceService,
@@ -435,22 +438,16 @@ export class UserProfileComponent implements OnInit {
         selectedDate: this.selectedDate,
       },
     });
-    // After the PDF viewer component is closed, initiate the download
     dialogRef.afterClosed().subscribe(() => {
       // this.PDF(fileName, pdfData);
     });
   }
 
   PDF(fileName: string, pdfData: any) {
-    // Create a blob from PDF data
     const blob = new Blob([pdfData], { type: "application/pdf" });
-
-    // Create a temporary link element
     const link = document.createElement("a");
     link.href = window.URL.createObjectURL(blob);
     link.download = fileName;
-
-    // Append the link to the document and trigger a click event to start download
     document.body.appendChild(link);
     link.click();
   }
@@ -496,7 +493,6 @@ export class UserProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
       this.getexpensesList();
-
     });
   }
 
@@ -580,5 +576,27 @@ export class UserProfileComponent implements OnInit {
         this.powe_diesel_nozzle = Number(data.data.powe_diesel_nozzle);
       }
     );
+  }
+
+  bakiDetails() {
+    if (!this.startDateBaki || !this.endDateBaki) {
+      this.notificationService.failure(
+        "Please select both start date and end date"
+      );
+      return;
+    }
+
+    const dialogRef = this.dialog.open(BakiDetailsComponent, {
+      width: "90%",
+      height: "90%",
+      data: {
+        startDate: this.startDateBaki,
+        endDate: this.endDateBaki,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+
+    });
   }
 }

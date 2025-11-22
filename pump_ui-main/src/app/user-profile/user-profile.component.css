@@ -1,16 +1,17 @@
-tr:hover {
-    background-color: darkgrey;
-}
-.date-container {
+ tr:hover {
+     background-color: darkgrey;
+ }
+
+ /*.date-container {
     display: flex;
     align-items: center;
-    margin-bottom: 10px; /* Space between date input and button */
+    margin-bottom: 10px;
 }
 
 .date-input {
     width: 69%;
-    height: 40px; /* Adjust height for consistency */
+    height: 40px; 
     border: 2px solid #000;
-    border-radius: 4px; /* Rounded corners for a smoother look */
-    padding: 0 10px; /* Padding inside the input */
-}
+    border-radius: 4px;
+    padding: 0 10px; 
+} */

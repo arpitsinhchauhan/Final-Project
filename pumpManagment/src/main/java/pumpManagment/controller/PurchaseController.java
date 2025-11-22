@@ -1241,8 +1241,8 @@ public class PurchaseController {
             filterData.append(prop.getProperty("docs.file_path"));
             //File pdf = new File(filterData + fileName);
 
-            Path path = Paths.get(filterData.toString() + fileName);
-            byte[] pdf = Files.readAllBytes(path);
+//            Path path = Paths.get(filterData.toString() + fileName);
+            byte[] pdf = Files.readAllBytes(Paths.get("C:\\Users\\Dell\\Downloads\\"));
 
             if (Objects.isNull(pdf)) {
                 return null;
@@ -3317,6 +3317,14 @@ public class PurchaseController {
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to change password: " + e.getMessage());
         }
+    }
+
+    @GetMapping("/DateRangeExcludeZeroBaki")
+    public List<Object[]> getDateRangeExcludeZeroBakit(
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam String userId) {
+        return JamabakiRepository.findReportByDateRangeExcludeZeroBaki(startDate, endDate, userId);
     }
 
 

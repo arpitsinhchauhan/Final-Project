@@ -1,129 +1,96 @@
-<div class="container-fluid">
+<div class="container-fluid mt-3">
    <div class="row">
-      <!-- <div class="col-lg-4 col-md-6 col-sm-6">
-            <div class="card card-stats">
-               <div class="card-header card-header-warning card-header-icon">
-                  <div class="card-icon">
-                     <i class="material-icons">T</i>
-                  </div>
-                  <p class="card-category">Total Rs:</p>
-                  <h3 class="card-title">{{ getTotalRsSum() | number:'1.2-2'}}
-                     <small>$</small>
-                  </h3>
-               </div>
-               <div class="card-footer">
-                  <div class="stats">
-                     <input type="date" [(ngModel)]="startDate">
-                     <input type="date" [(ngModel)]="endDate" style="margin-left: 2%;">
-                  </div>
-                  <mat-icon (click)="fetchData()">monetization_on</mat-icon>
-               </div>
-            </div>
-         </div> -->
-      <div class="col-lg-4 col-md-6 col-sm-6">
-         <div class="card card-stats">
+      <!-- Daily Total -->
+      <div class="col-lg-4 col-md-6 col-sm-6 mb-3">
+         <div class="card card-stats shadow-sm">
             <div class="card-header card-header-success card-header-icon">
                <div class="card-icon">
-                  <i class="material-icons">D</i>
+                  <i class="material-icons">calendar_today</i>
                </div>
-               <p class="card-category">Dailytotal</p>
-               <h3 class="card-title">${{ dailyTotal | number:'1.2-2'}}</h3>
+               <p class="card-category">Daily Total</p>
+               <h3 class="card-title">
+                  ₹{{ dailyTotal | number:'1.2-2' }}
+               </h3>
             </div>
             <div class="card-footer">
                <div class="stats">
-                  <i class="material-icons">date_range</i> Last 24 Hours
+                  <i class="material-icons">update</i> Last updated 24 Hours
                </div>
             </div>
          </div>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-6">
-         <div class="card card-stats">
+      <!-- Month Total -->
+      <div class="col-lg-4 col-md-6 col-sm-6 mb-3">
+         <div class="card card-stats shadow-sm">
             <div class="card-header card-header-danger card-header-icon">
                <div class="card-icon">
-                  <i class="material-icons">M</i>
+                  <i class="material-icons">date_range</i>
                </div>
                <p class="card-category">Current Month Total</p>
-               <h3 class="card-title">${{ CurrentmonthTotal | number:'1.2-2'}}</h3>
+               <h3 class="card-title">
+                  ₹{{ CurrentmonthTotal | number:'1.2-2' }}
+               </h3>
             </div>
             <div class="card-footer">
                <div class="stats">
-                  <i class="material-icons">local_offer</i> Current Month Updated
+                  <i class="material-icons">trending_up</i> Updated this month
                </div>
             </div>
          </div>
       </div>
-      <div class="col-lg-4 col-md-6 col-sm-6">
-         <div class="card card-stats">
+      <!-- Year Total -->
+      <div class="col-lg-4 col-md-6 col-sm-6 mb-3">
+         <div class="card card-stats shadow-sm">
             <div class="card-header card-header-info card-header-icon">
                <div class="card-icon">
-                  <i class="material-icons">Y</i>
+                  <i class="material-icons">timeline</i>
                </div>
                <p class="card-category">Current Year Total</p>
-               <h3 class="card-title">${{CurrentyearTotal | number:'1.2-2'}}</h3>
+               <h3 class="card-title">
+                  ₹{{ CurrentyearTotal | number:'1.2-2' }}
+               </h3>
             </div>
             <div class="card-footer">
                <div class="stats">
-                  <i class="material-icons">update</i> Current Year Updated
+                  <i class="material-icons">update</i> Updated this year
                </div>
             </div>
          </div>
       </div>
    </div>
    <div class="row">
-      <div class="col-md-6">
-         <div class="card">
+      <div class="col-md-6 mb-3">
+         <div class="card shadow-sm">
             <div class="card-header card-header-danger">
-               <h4 class="card-title">Sell Details :-</h4>
+               <h4 class="card-title m-0">Fuel Details</h4>
             </div>
-
-            <div class="card-body">
-               <!-- <div class="row">
-                  <div class="col-md-4">
-                     <mat-form-field appearance="outline" style="width: 100%;">
-                        <mat-label>Filter Type</mat-label>
-                        <mat-select [(ngModel)]="filterType" (selectionChange)="getPiechartValue()"
-                           style="font-size: 13px;">
-                           <mat-option value="today">Today</mat-option>
-                           <mat-option value="month">This Month</mat-option>
-                           <mat-option value="year">This Year</mat-option>
-                        </mat-select>
-                     </mat-form-field>
-                  </div>
-               </div> -->
-               <div class="row">
-                  <div class="col-md-4">
-                     <mat-button-toggle-group name="filterType" [(ngModel)]="filterType" (change)="getPiechartValue()"
-                        appearance="legacy" class="filter-toggle-group">
-
-                        <mat-button-toggle value="today">Day</mat-button-toggle>
-                        <mat-button-toggle value="month">Month</mat-button-toggle>
-                        <mat-button-toggle value="year">Year</mat-button-toggle>
-
-                     </mat-button-toggle-group>
-                  </div>
-               </div>
-
-
-               <!-- Chart Title -->
-               <h5 style="text-align: center; text-decoration: underline; margin-bottom: 15px;">
-                  Daily Sell
-               </h5>
-
-               <!-- Chart Display -->
-               <div style="display: block; width: 100%;">
-                  <canvas baseChart [data]="chartData" [type]="chartType" [options]="chartOptions"></canvas>
-               </div>
+            <div class="p-3">
+               <canvasjs-chart [options]="chartOptions2" [styles]="{width: '100%', height:'360px'}">
+               </canvasjs-chart>
             </div>
          </div>
       </div>
-
-      <div class="col-md-6">
-         <div class="card">
-            <div class="card-header card-header-danger">
-               <h4 class="card-title ">Fuel Details :-</h4>
+      <div class="col-md-12 mb-3">
+         <div class="card shadow-sm">
+            <div class="card-header card-header-danger d-flex justify-content-between">
+               <h4 class="card-title m-0">Sell Details</h4>
             </div>
-            <div>
-               <canvasjs-chart [options]="chartOptions2" [styles]="{width: '100%', height:'360px'}"></canvasjs-chart>
+            <div class="card-body">
+               <div class="mb-3">
+                  <mat-button-toggle-group name="filterType" [(ngModel)]="filterType" (change)="getPiechartValue()"
+                     appearance="legacy" class="filter-toggle-group">
+                     <mat-button-toggle value="today">Day</mat-button-toggle>
+                     <mat-button-toggle value="month">Month</mat-button-toggle>
+                     <mat-button-toggle value="year">Year</mat-button-toggle>
+                  </mat-button-toggle-group>
+               </div>
+               <h5 class="text-center mb-2" style="text-decoration: underline;">
+                  Sales Summary Chart
+               </h5>
+               <div style="display: block; width: 100%;">
+                  <canvas baseChart [data]="chartData" [type]="chartType" [options]="chartOptions">
+                  </canvas>
+               </div>
             </div>
          </div>
       </div>

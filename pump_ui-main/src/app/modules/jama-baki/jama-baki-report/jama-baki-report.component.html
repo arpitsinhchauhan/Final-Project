@@ -45,8 +45,7 @@
                             <mat-form-field style="margin-top: 4%; background-color: rgb(252, 252, 252); width: 100%;">
                                 <mat-label>Customer</mat-label>
                                 <mat-select [(ngModel)]="item.customer" [compareWith]="compareCustomers"
-                                    (openedChange)="onReceiverOpened()" [displayWith]="displayCustomerName">
-
+                                    (openedChange)="onReceiverOpened()" displayWith="displayCustomerName">
                                     <mat-option disabled>
                                         <div class="search-box">
                                             <span class="search-icon">🔍</span>
@@ -54,16 +53,12 @@
                                                 (ngModelChange)="filterReceivers()" class="search-input" />
                                         </div>
                                     </mat-option>
-
                                     <mat-option *ngFor="let customer of filteredNames" [value]="customer">
                                         {{ customer.name }}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
-
-
                         </td>
-
                         <td *ngIf="jamaBaki.type !== 'baki'">
                             <input type="text" [(ngModel)]="item.jama" style="background-color: skyblue;" />
                         </td>

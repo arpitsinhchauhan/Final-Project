@@ -46,7 +46,7 @@ export class UserMasterComponent implements OnInit {
   addUser() {
     const dialogRef = this.dialog.open(AddUserComponent, {
       width: '50%',
-      height: '60%',
+      height: '85%',
     });
 
     // Subscribe to the afterClosed event to handle any actions after the dialog is closed
@@ -68,7 +68,7 @@ export class UserMasterComponent implements OnInit {
   editUser(selectedUser: any) {
     const dialogRef = this.dialog.open(AddUserComponent, {
       width: '50%',
-      height: '60%',
+      height: '85%',
       data: selectedUser
     });
 
@@ -79,7 +79,7 @@ export class UserMasterComponent implements OnInit {
   }
 
   deleteUser(id) {
-     this.use.deleteUser(id).subscribe((result) => {
+    this.use.deleteUser(id).subscribe((result) => {
       this.userList = result;
       this.notificationService.success('User deleted successfully');
       this.getdata();

@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  API_PREFIX: 'https://spring-final-project.onrender.com/'
 };

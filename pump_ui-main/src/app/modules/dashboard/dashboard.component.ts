@@ -58,7 +58,67 @@ export class DashboardComponent implements OnInit {
   xp_petrol_nozzle: number;
   powe_diesel_nozzle: number;
 
-  chartOptions2: { animationEnabled: boolean; exportEnabled: boolean; title: { text: string; }; data: { type: string; startAngle: number; indexLabelPlacement: string; indexLabelFontSize: number; indexLabelLineColor: string; indexLabelLineThickness: number; indexLabel: string; dataPoints: { y: number; label: string; }[]; }[]; };
+  chartOptions2: any;
+
+  public chartType: ChartType = 'bar';
+
+  public chartData: ChartConfiguration['data'] = {
+    labels: [],
+    datasets: [
+      {
+        data: [],
+        backgroundColor: [],
+        hoverBackgroundColor: [],
+        borderRadius: 8,
+        barThickness: 22
+      }
+    ]
+  };
+
+  public chartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    indexAxis: 'y',
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (context) => context.raw.toLocaleString()
+        }
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+
+        // ✔ Correct place for border in Chart.js v4
+        border: {
+          display: false,
+          color: 'transparent',
+          width: 0
+        },
+
+        grid: {
+          color: '#e0e0e0'   // ✔ allowed
+        },
+
+        ticks: {
+          callback: function (val) {
+            const num = Number(val);
+            return num / 1000 + 'K';
+          }
+        }
+      },
+
+      y: {
+        border: {
+          display: false
+        },
+        grid: {
+          display: false
+        }
+      }
+    }
+  };
 
 
   constructor(private use: UserServiceService, private http: HttpClient, private dialog: MatDialog,
@@ -247,23 +307,15 @@ export class DashboardComponent implements OnInit {
     const params = new HttpParams()
       .set('userId', this.userId)
       .set('filter', this.filterType);
+
     this.http.get<any>(`${API_DAILY_CHART}`, { params }).subscribe((data) => {
-      // Base data
+
       const labels = [
-        'Petrol_Sell',
-        'XP_Petrol_Sell',
-        'Power_Diesel_Sell',
-        'Diesel_Sell',
-        'Oil_Sell',
-        'Kharch_Total',
-        'ATM_Total',
-        'Jama_Total',
-        'Baki_Total',
-        'Petrol_Purchase',
-        'Diesel_Purchase',
-        'XP_Petrol_Purchase',
-        'Power_Diesel_Purchase'
+        'Petrol_Sell', 'XP_Petrol_Sell', 'Power_Diesel_Sell', 'Diesel_Sell',
+        'Oil_Sell', 'Kharch_Total', 'ATM_Total', 'Jama_Total', 'Baki_Total',
+        'Petrol_Purchase', 'Diesel_Purchase', 'XP_Petrol_Purchase', 'Power_Diesel_Purchase'
       ];
+
       const datasetData = [
         data.petrolSellTotal,
         data.xpPetrolSellTotal,
@@ -279,69 +331,43 @@ export class DashboardComponent implements OnInit {
         data.xpTotalPetrolPurchase,
         data.powerTotalDieselPurchase
       ];
-      const backgroundColors = [
-        '#1b676fff', '#ef7c8fff', '#00A36C', '#4f52ecff',
+
+      const colors = [
+        '#1b676f', '#ef7c8f', '#00A36C', '#4f52ec',
         '#EBB403', '#FF9F40', '#C9CBCF', '#00A36C',
-        '#FF6F61', '#8A2BE2', '#FFD700', '#40E0D0',
-        '#DC143C'
+        '#FF6F61', '#8A2BE2', '#FFD700', '#40E0D0', '#DC143C'
       ];
-      let filteredLabels = [...labels];
-      let filteredData = [...datasetData];
-      let filteredColors = [...backgroundColors];
+
+      // Remove XP/Power if nozzle count 0
       if (this.xp_petrol_nozzle === 0 && this.powe_diesel_nozzle === 0) {
-        const indicesToRemove = [
-          labels.indexOf('XP_Petrol_Sell'),
-          labels.indexOf('Power_Diesel_Sell'),
-          labels.indexOf('XP_Petrol_Purchase'),
-          labels.indexOf('Power_Diesel_Purchase')
-        ];
-        indicesToRemove.sort((a, b) => b - a).forEach(idx => {
-          filteredLabels.splice(idx, 1);
-          filteredData.splice(idx, 1);
-          filteredColors.splice(idx, 1);
+        const remove = ['XP_Petrol_Sell', 'Power_Diesel_Sell', 'XP_Petrol_Purchase', 'Power_Diesel_Purchase'];
+        remove.forEach(label => {
+          const idx = labels.indexOf(label);
+          if (idx !== -1) {
+            labels.splice(idx, 1);
+            datasetData.splice(idx, 1);
+            colors.splice(idx, 1);
+          }
         });
       }
+
+      // Assign final chart data
       this.chartData = {
-        labels: filteredLabels,
-        datasets: [
-          {
-            data: filteredData,
-            backgroundColor: filteredColors,
-            hoverBackgroundColor: filteredColors
-          }
-        ]
+        labels: labels,
+        datasets: [{
+          data: datasetData,
+          backgroundColor: colors,
+          hoverBackgroundColor: colors,
+          borderRadius: 8,
+          barThickness: 22
+        }]
       };
+
     });
   }
 
 
-  public chartType: ChartType = 'bar'; // Set to 'pie' for pie chart
 
-  public chartData: ChartConfiguration['data'] = {
-    labels: [],
-    datasets: [
-      {
-        data: [],
-        label: 'Sales',
-        backgroundColor: [],
-        hoverBackgroundColor: []
-      }
-    ]
-  };
-
-  public chartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    scales: {
-      y: {
-        beginAtZero: true,
-        min: 100,
-        max: 1500000,
-        ticks: {
-          stepSize: 10000
-        }
-      }
-    }
-  };
 
   getPetrolCurrentYearData() {
     this.http.get<any>(`${API_PETROL_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
@@ -385,22 +411,9 @@ export class DashboardComponent implements OnInit {
   }
 
   updatePieChart() {
-    const petrol = Number(this.petrollabel) || 0;
-    const diesel = Number(this.diesellabel) || 0;
-    const baki = Number(this.jamabakilabel) || 0;
-    const xpPetrol = Number(this.xppetrollabel) || 0;
-    const dataPoints = [
-      { y: petrol, label: "Petrol" },
-      { y: diesel, label: "Diesel" },
-      { y: baki, label: "Total Baki" },
-    ];
-
     this.chartOptions2 = {
       animationEnabled: true,
-      exportEnabled: false,
-      title: {
-        text: "Fuel & Baki Distribution"
-      },
+      title: { text: "Fuel & Baki Distribution" },
       data: [{
         type: "pie",
         startAngle: 240,
@@ -409,7 +422,11 @@ export class DashboardComponent implements OnInit {
         indexLabelLineColor: "#000",
         indexLabelLineThickness: 1,
         indexLabel: "{label} - {y}%",
-        dataPoints: dataPoints
+        dataPoints: [
+          { y: Number(this.petrollabel), label: "Petrol" },
+          { y: Number(this.diesellabel), label: "Diesel" },
+          { y: Number(this.jamabakilabel), label: "Total Baki" },
+        ]
       }]
     };
   }

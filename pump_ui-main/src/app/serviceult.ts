@@ -1,12 +1,12 @@
 // import { environment } from "environments/environment";
 
+
 // const prefix = ".."
 // const prefix = environment.production
 
 // const prefix = ".."
 //   const prefix = ""  // for deply in spring boot
 const prefix = "api"  // for deploy on tomcat
-
 
 //report
 export const API_REPORT: string = `${prefix}/portal/api`;
@@ -179,7 +179,7 @@ export const API_POWER_DIESEL: string = `${prefix}/portal/api/powerDiesel`;
 export const API_XP_POWER_SAVE: string = `${prefix}/portal/api/saveXPPowerReport`;
 export const API_USER_PUMP: string = `${prefix}/portal/api/userPump`;
 export const API_PETROL_STOCK_ADDEDIT = `${prefix}/portal/api/petrolStockAddEdit`;
-export const API_DIESEL_STOCK_ADDEDIT= `${prefix}/portal/api/dieselStockAddEdit`;
+export const API_DIESEL_STOCK_ADDEDIT = `${prefix}/portal/api/dieselStockAddEdit`;
 
 export const API_XP_PETROL_STOCK_ADDEDIT = `${prefix}/portal/api/XPpetrolStockAddEdit`;
 export const API_POWER_DIESEL_STOCK_ADDEDIT = `${prefix}/portal/api/PowerdieselStockAddEdit`;
@@ -200,6 +200,12 @@ export const API_PROFIT_LOSS_PDF = `${prefix}/portal/api/generatePdf`;
 export const API_EXTRA_PROFIT_LOSS_PDF = `${prefix}/portal/api/extrageneratePdf`;
 
 export const API_CHANGE_PASSWORD: string = `${prefix}/portal/api/changePassword`;
+
+export const API_SEND_SMS: string = `${prefix}/sms/send`;
+export const API_SEND_WHATSAPP: string = `${prefix}/sms/whatsapp`;
+
+export const API_DATERANGE_BAKI_DETAILS: string = `${prefix}/portal/api/DateRangeExcludeZeroBaki`;
+
 
 
 

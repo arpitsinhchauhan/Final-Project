@@ -5,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AdminLayoutRoutes } from './admin-layout.routing';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
-import { MatOptionModule, MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatOptionModule, MatRippleModule } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
@@ -37,6 +37,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { CustomTableComponent } from 'app/modules/custom-table/custom-table.component';
+import { MatDatepicker, matDatepickerAnimations, MatDatepickerModule } from '@angular/material/datepicker';
 
 @NgModule({
   imports: [
@@ -58,10 +59,12 @@ import { CustomTableComponent } from 'app/modules/custom-table/custom-table.comp
     MatAutocompleteModule,
     MatTableModule,
     MatPaginatorModule,
-    MatFormFieldModule ,
+    MatFormFieldModule,
     MatInputModule,
-    MatIconModule ,
-    MatButtonModule
+    MatIconModule,
+    MatButtonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   declarations: [
     // DashboardComponent,

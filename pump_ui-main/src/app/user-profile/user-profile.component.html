@@ -109,6 +109,26 @@
                      </button>
                   </div>
                </div>
+               <hr />
+               <div class="row align-items-center" style="margin-top: 10px;">
+                  <div class="col-md-3 d-flex align-items-center">
+                     <h5 style="margin: 0; color: #d32f2f; font-weight: 400;">Pump Baki Details:</h5>
+                  </div>
+                  <div class="col-md-3">
+                     <label for="start-date-pdf" class="form-label mb-0">Start Date:</label>
+                     <input type="date" id="start-date-baki" [(ngModel)]="startDateBaki" class="form-control"
+                        required />
+                  </div>
+                  <div class="col-md-3">
+                     <label for="end-date-pdf" class="form-label mb-0">End Date:</label>
+                     <input type="date" id="end-date-baki" [(ngModel)]="endDateBaki" class="form-control" required />
+                  </div>
+                  <div class="col-md-3 d-flex justify-content-center" style="margin-top: 25px;">
+                     <button mat-raised-button (click)="bakiDetails()" style="width: 100%;">
+                        <mat-icon>save</mat-icon> Baki Details
+                     </button>
+                  </div>
+               </div>
             </div>
          </div>
       </div>
