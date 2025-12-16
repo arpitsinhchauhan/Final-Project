@@ -92,6 +92,7 @@ import { OillBillComponent } from './modules/billing/dailog/oill-bill/oill-bill.
 import { CommonService } from './services/common.service';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { BakiDetailsComponent } from './user-profile/baki-details/baki-details.component';
+import { AddloclDetailsComponent } from './modules/addlocl-details/addlocl-details.component';
 
 
 @NgModule({
@@ -200,7 +201,8 @@ import { BakiDetailsComponent } from './user-profile/baki-details/baki-details.c
     BillingComponent,
     BillComponent,
     OillBillComponent,
-    BakiDetailsComponent
+    BakiDetailsComponent,
+    AddloclDetailsComponent
     // KharchComponent,
     // JamaBakiComponent,
     // CustomPdfViewerComponent,

@@ -183,6 +183,9 @@ public class PurchaseController {
     private PowerdieseldailystockRepository powerdieseldailystockRepository;
 
     @Autowired
+    private loclcreditRepository loclcreditRepository;
+
+    @Autowired
     private PetrolgattRepository petrolgattRepository;
 
     @Autowired
@@ -3327,7 +3330,82 @@ public class PurchaseController {
         return JamabakiRepository.findReportByDateRangeExcludeZeroBaki(startDate, endDate, userId);
     }
 
+    @GetMapping(value = "/loclDetails")
+    public Map<String, Object> getloclDetails(@RequestParam String date, @RequestParam String userId) {
+        Integer loclCredit = loclcreditRepository.findTotalCreditByDateAndUser(date, userId);
+        Map<String, Object> response = new HashMap<>();
+        response.put("loclCredit", loclCredit);
+        return response;
+    }
+
+    @GetMapping(value = "/AllloclDetails")
+    public List<loclcredit> getAllloclDetails(@RequestParam String userId) {
+        List<loclcredit> loclcredit = loclcreditRepository.findByUserId(userId);
+        return loclcredit;
+    }
+
+//    @PostMapping("/loclDetailsAddEdit")
+//    public ResponseEntity<ApiResponse> loclDetailsAddEdit(@RequestBody List<loclcredit> loclcreditList) {
+//        try {
+//            for (loclcredit lc : loclcreditList) {
+//
+//                Optional<loclcredit> loclcreditOpt =loclcreditRepository.findByDateAndUserId(lc.getDate(), lc.getUserId() );
+//
+//                if (loclcreditOpt.isPresent()) {
+//                    loclcredit existing = loclcreditOpt.get();
+//                    existing.setCredit(lc.getCredit());
+//                    existing.setBalance(lc.getBalance());
+//                    existing.setRemark(lc.getRemark());
+//                    existing.setUserId(lc.getUserId());
+//                    existing.setDate(lc.getDate());
+//                    loclcreditRepository.save(existing);
+//                } else {
+//                    loclcreditRepository.save(lc);
+//                }
+//            }
+//            return ResponseEntity.ok(
+//                    new ApiResponse(true, "LOCL Details Added/Updated Successfully", loclcreditList)
+//            );
+//        } catch (Exception e) {
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+//                    .body(new ApiResponse("Error occurred: " + e.getMessage()));
+//        }
+//    }
+
+    @PostMapping("/loclDetailsAddEdit")
+    public ResponseEntity<ApiResponse> loclDetailsAddEdit(
+            @RequestBody List<loclcredit> loclcreditList) {
+
+        try {
+            for (loclcredit lc : loclcreditList) {
+                if (lc.getId() != null) {
+                    loclcreditRepository.save(lc); // update
+                } else {
+                    loclcreditRepository.save(lc); // insert
+                }
+            }
+
+            return ResponseEntity.ok(
+                    new ApiResponse(true,
+                            "LOCL Details Added/Updated Successfully",
+                            loclcreditList)
+            );
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ApiResponse("Error occurred: " + e.getMessage()));
+        }
+    }
 
 
+    @DeleteMapping("/deleteloclDetails/{id}")
+    public ResponseEntity<ApiResponse> deleteloclDetails(@PathVariable Integer id) {
+        try {
+            loclcreditRepository.deleteById(id);
+            ApiResponse response = new ApiResponse("locl dETAILS deleted successfully");
+            return ResponseEntity.ok(response);
+        } catch (EmptyResultDataAccessException ex) {
+            return ResponseEntity.notFound().build(); // ID not found
+        }
+    }
 
 }

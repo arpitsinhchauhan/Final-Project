@@ -103,6 +103,9 @@ import {
   API_CUSTOMER_DELETE,
   API_CHANGE_PASSWORD,
   API_DATERANGE_BAKI_DETAILS,
+  API_CREDIT_LOCL,
+  API_LOCL_DETAILS_ADDEDIT,
+  API_ALL_LOCL_DETAILS_LIST,
 } from "app/serviceult";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PurchaseDetails } from "app/models/PurchaseDetails ";
@@ -459,6 +462,17 @@ export class UserServiceService {
     return this.http.get<any>(API_POWER_DIESEL_STOCK, { params });
   }
 
+  getcreditNOteIOCL(date: string, userId: string): Observable<any> {
+    const params = new HttpParams().set("date", date).set("userId", userId);
+
+    return this.http.get<any>(API_CREDIT_LOCL, { params });
+  }
+
+  getAllcreditNOteIOCL(userId: string): Observable<any> {
+    const params = new HttpParams().set("userId", userId);
+    return this.http.get<any>(API_ALL_LOCL_DETAILS_LIST, { params });
+  }
+
 
 
   getOneDayAgoStock(date: string, userId: string): Observable<any> {
@@ -783,6 +797,10 @@ export class UserServiceService {
       .set('userId', userId);
 
     return this.http.get<any[]>(API_DATERANGE_BAKI_DETAILS, { params });
+  }
+
+  saveLOCLDetails(data: any): Observable<any> {
+    return this.http.post(API_LOCL_DETAILS_ADDEDIT, data);
   }
 
 }

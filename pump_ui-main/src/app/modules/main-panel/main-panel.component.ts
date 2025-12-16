@@ -23,6 +23,7 @@ import { AddDieselgattComponent } from '../add-dieselgatt/add-dieselgatt.compone
 import { AddXpPetrolgattComponent } from '../add-xp-petrolgatt/add-xp-petrolgatt.component';
 import { AddPowerDieselgattComponent } from '../add-power-dieselgatt/add-power-dieselgatt.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { AddloclDetailsComponent } from '../addlocl-details/addlocl-details.component';
 
 export const MY_DATE_FORMATS = {
   parse: {
@@ -161,6 +162,7 @@ export class MainPanelComponent implements OnInit {
   ten = 0;
   totalCaseCase = 0;
   note: String = '';
+  creditNOteIOCL: number = 0;
 
   constructor(private dialog: MatDialog, private use: UserServiceService,
     private notificationService: NotificationService, private http: HttpClient
@@ -192,6 +194,7 @@ export class MainPanelComponent implements OnInit {
       this.getDieselGatt();
       this.getXpPetrolGatt();
       this.getPowerDieselGatt();
+      this.getcreditNOteIOCL();
     } else {
       this.notificationService.failure("Plz Select the date..");
     }
@@ -888,6 +891,36 @@ export class MainPanelComponent implements OnInit {
       }
     );
   }
+
+  creditNoteIOCL(data?: any): void {
+    const dialogRef = this.dialog.open(AddloclDetailsComponent, {
+      width: window.innerWidth > 991 ? '65%' : '100%',
+      data: { date: this.use.getFormattedDate(this.reportDate) },
+      hasBackdrop: true,
+      panelClass: 'mat-dialog-custom-panel'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getcreditNOteIOCL();
+    });
+  }
+
+  getcreditNOteIOCL() {
+   const formattedDate = this.use.getFormattedDate(this.reportDate);
+    this.use.getcreditNOteIOCL(formattedDate, this.userId).subscribe(
+      data => {
+        if (data) {
+          this.creditNOteIOCL = data.loclCredit ?? 0;
+        } else {
+          this.creditNOteIOCL = 0;
+        }
+      },
+      error => {
+        console.error('Error fetching stock data', error);
+        this.creditNOteIOCL = 0;
+      }
+    );
+  }
+
 
   get totalCase(): number {
     return (

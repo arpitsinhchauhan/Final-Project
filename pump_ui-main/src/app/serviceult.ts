@@ -4,7 +4,7 @@
 // const prefix = ".."
 // const prefix = environment.production
 
-// const prefix = ".."
+ //const prefix = ".."
 //   const prefix = ""  // for deply in spring boot
 const prefix = "api"  // for deploy on tomcat
 
@@ -151,6 +151,7 @@ export const API_DIESEL_STOCK: string = `${prefix}/portal/api/dieselStock`;
 
 export const API_XP_PETROL_STOCK: string = `${prefix}/portal/api/XppetrolStock`;
 export const API_POWER_DIESEL_STOCK: string = `${prefix}/portal/api/PowerdieselStock`;
+export const API_CREDIT_LOCL: string = `${prefix}/portal/api/loclDetails`;
 
 export const API_OIL: string = `${prefix}/portal/api/OilList`;
 export const API_TRANSACTION: string = `${prefix}/portal/api/transaction`;
@@ -206,6 +207,10 @@ export const API_SEND_WHATSAPP: string = `${prefix}/sms/whatsapp`;
 
 export const API_DATERANGE_BAKI_DETAILS: string = `${prefix}/portal/api/DateRangeExcludeZeroBaki`;
 
+export const API_LOCL_DETAILS_ADDEDIT = `${prefix}/portal/api/loclDetailsAddEdit`;
+export const API_ALL_LOCL_DETAILS_LIST = `${prefix}/portal/api/AllloclDetails`;
+
+export const API_LOCL_DETAILS_DELETE: string = `${prefix}/portal/api/deleteloclDetails`;
 
 
 
