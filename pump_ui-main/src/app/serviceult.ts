@@ -4,7 +4,7 @@
 // const prefix = ".."
 // const prefix = environment.production
 
- //const prefix = ".."
+//const prefix = ".."
 //   const prefix = ""  // for deply in spring boot
 const prefix = "api"  // for deploy on tomcat
 
@@ -211,12 +211,12 @@ export const API_LOCL_DETAILS_ADDEDIT = `${prefix}/portal/api/loclDetailsAddEdit
 export const API_ALL_LOCL_DETAILS_LIST = `${prefix}/portal/api/AllloclDetails`;
 
 export const API_LOCL_DETAILS_DELETE: string = `${prefix}/portal/api/deleteloclDetails`;
-
-
+export const API_CREDITTYPE_ADD: string = `${prefix}/portal/api/addcreditType`;
+export const API_CREDITTYPE_LIST: string = `${prefix}/portal/api/creditlist`;
 
 // // Report
 // export const API_REPORT: string = `${prefix}/portal/api/generate`;
-// 
+//
 
 // // Purchase
 // export const API_PURCAHSEDATA: string = `${prefix}/portal/api/purchases`;
@@ -249,7 +249,7 @@ export const API_LOCL_DETAILS_DELETE: string = `${prefix}/portal/api/deleteloclD
 // export const API_DIPSTOCK_DELETE: string = `${prefix}/portal/api/dip`;
 // export const API_DIPSTOCK_UPDATE: string = `${prefix}/portal/api/dipsell`;
 
-// 
+//
 // export const API_DIP_VALUE: string = `${prefix}/portal/api/dipvalue`;
 // export const API_EMPLOYEES: string = `${prefix}/portal/api/employees`;
 
@@ -274,7 +274,7 @@ export const API_LOCL_DETAILS_DELETE: string = `${prefix}/portal/api/deleteloclD
 // export const API_LOGIN: string = `${prefix}/portal/api/authenticate`;
 
 
-// 
+//
 
 // // Customer
 // export const API_CUSTOMER_UPDATE: string = `${prefix}/portal/api/updateCustomer`;
@@ -284,16 +284,16 @@ export const API_LOCL_DETAILS_DELETE: string = `${prefix}/portal/api/deleteloclD
 
 
 // // findersenderrecevier
-// 
+//
 
 // // Employee
-// 
-// 
+//
+//
 
 // // JAMABAKI
 // export const API_JAMA_BAKI_DELETE: string = `${prefix}/portal/api/jamaBaki`;
 // export const API_JAMA_BAKI_UPDATE: string = `${prefix}/portal/api/updateJamaBaki`;
-// 
+//
 
 
 
@@ -301,6 +301,6 @@ export const API_LOCL_DETAILS_DELETE: string = `${prefix}/portal/api/deleteloclD
 // // export const API_KHARCH_LIST: string = `${prefix}/portal/api/kharch`;
 // export const API_JAMABAKI: string = `${prefix}/portal/api/jamabaki`;
 // export const API_UPLOAD: string = `${prefix}/portal/api/upload`;
-// 
+//
 // export const API_TRANSATION_DATA: string = `${prefix}/portal/api/transactiondata`;
 

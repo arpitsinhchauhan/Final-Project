@@ -167,7 +167,7 @@ export class KharchReportComponent implements OnInit {
   }
 
   getexpensesList() {
-    this.use.getexpensesList().subscribe((response) => {
+    this.use.getexpensesList(this.userId).subscribe((response) => {
       this.expensesList = response.map((item) => item.expensesList);
       this.filteredExpenses = [...this.expensesList]; // clone full list
     });

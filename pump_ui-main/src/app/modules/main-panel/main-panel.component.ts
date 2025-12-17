@@ -22,21 +22,21 @@ import { AddGattComponent } from '../add-gatt/add-gatt.component';
 import { AddDieselgattComponent } from '../add-dieselgatt/add-dieselgatt.component';
 import { AddXpPetrolgattComponent } from '../add-xp-petrolgatt/add-xp-petrolgatt.component';
 import { AddPowerDieselgattComponent } from '../add-power-dieselgatt/add-power-dieselgatt.component';
-import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
 import { AddloclDetailsComponent } from '../addlocl-details/addlocl-details.component';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
 
-export const MY_DATE_FORMATS = {
+export const MY_DATE_FORMATS: MatDateFormats = {
   parse: {
-    dateInput: 'DD-MM-YYYY', // for parsing input
+    dateInput: 'DD/MM/YYYY',
   },
   display: {
-    dateInput: 'DD-MM-YYYY', // format displayed in the input box
+    dateInput: 'DD/MM/YYYY',   // 👈 shown in HTML
     monthYearLabel: 'MMM YYYY',
-    dateA11yLabel: 'LL',
+    dateA11yLabel: 'DD/MM/YYYY',
     monthYearA11yLabel: 'MMMM YYYY',
   },
 };
-
 
 interface BackPageResponse {
   purchaseSellSummary: any;
@@ -47,6 +47,7 @@ interface BackPageResponse {
   transactionSellSummary: [string, string][];
   jamaSummary: [string, number][];
   bakiSummary: [string, number][];
+  loclcredit: [string, string][];
 }
 
 
@@ -55,9 +56,14 @@ interface BackPageResponse {
   templateUrl: './main-panel.component.html',
   styleUrls: ['./main-panel.component.scss'],
   providers: [
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, // dd/MM/yyyy
+    {
+      provide: DateAdapter,
+      useClass: MomentDateAdapter,
+      deps: [MAT_DATE_LOCALE],
+    },
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
   ]
-
 })
 export class MainPanelComponent implements OnInit {
 
@@ -73,6 +79,7 @@ export class MainPanelComponent implements OnInit {
   bakiSummary: [string, number][] = [];
   firstTableData: [string, number][] = [];
   secondTableData: [string, number][] = [];
+  creditTableData: any[];
 
   reportDate: any;
   userId = localStorage.getItem('userId');
@@ -680,6 +687,7 @@ export class MainPanelComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.getPetrolUgadtoStock();
+        this.backPage();
       }
     });
   }
@@ -715,6 +723,7 @@ export class MainPanelComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getDieselUgadtoStock();
+      this.backPage();
     });
   }
   getDieselUgadtoStock() {
@@ -747,6 +756,7 @@ export class MainPanelComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getxpPetrolUgadtoStock();
+      this.backPage();
     });
   }
 
@@ -780,6 +790,7 @@ export class MainPanelComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getpowerDieselUgadtoStock();
+      this.backPage();
     });
   }
 
@@ -829,6 +840,7 @@ export class MainPanelComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getPurchaselist();
+      this.backPage();
     });
   }
 
@@ -865,6 +877,7 @@ export class MainPanelComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getExtraPurchaselist();
+      this.backPage();
     });
   }
 
@@ -901,11 +914,12 @@ export class MainPanelComponent implements OnInit {
     });
     dialogRef.afterClosed().subscribe(result => {
       this.getcreditNOteIOCL();
+      this.backPage();
     });
   }
 
   getcreditNOteIOCL() {
-   const formattedDate = this.use.getFormattedDate(this.reportDate);
+    const formattedDate = this.use.getFormattedDate(this.reportDate);
     this.use.getcreditNOteIOCL(formattedDate, this.userId).subscribe(
       data => {
         if (data) {
@@ -1444,8 +1458,8 @@ export class MainPanelComponent implements OnInit {
 
         this.firstTableData = this.jamaSummary;
         this.secondTableData = this.bakiSummary;
-        console.log(this.secondTableData);
-
+        this.creditTableData = response.loclcredit || [];
+        console.log(this.creditTableData);
 
         // this.firstTableData = this.jamaSummary.filter(item => item[1] <= 10000);
         // this.secondTableData = this.bakiSummary.filter(item => item[1] <= 10000);
@@ -1454,6 +1468,7 @@ export class MainPanelComponent implements OnInit {
         console.error('Error fetching data', error);
         this.firstTableData = [];
         this.secondTableData = [];
+        this.creditTableData = [];
       }
     );
   }

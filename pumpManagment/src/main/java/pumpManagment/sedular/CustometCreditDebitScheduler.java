@@ -57,7 +57,7 @@ public class  CustometCreditDebitScheduler {
             return new BusinessError(99, "No data");
         }
         Map<Integer, String> userEmailMap = new HashMap<>();
-        userEmailMap.put(1, "arpitsinh.chauhan@jeksonvision.com");
+        userEmailMap.put(1, "arpitsinhchauhan634@gmail.com");
 //        userEmailMap.put(3, "aa@gmail.com");
         // Group by userId
         Map<Integer, List<CustomerReportDTO>> grouped =

@@ -14,24 +14,27 @@ export class ExpensesListComponent implements OnInit {
   inputValue: string = '';
 
   constructor(public dialogRef: MatDialogRef<ExpensesListComponent>,
-    private user:UserServiceService,private notificationService:NotificationService
+    private user: UserServiceService, private notificationService: NotificationService
   ) { }
 
   ngOnInit(): void {
   }
 
- logInput() {
-  const payload = { expensesList: this.inputValue };
-  this.user.addExpence(payload).subscribe({
-    next: res => {
-      if (res) {
-        this.notificationService.success("✅ Data saved successfully.");
-        this.dialogRef.close({ isReload: this.isReload });
-      }
-    },
-    error: (err) => console.error('Error saving:', err),
-  });
- }
+  logInput() {
+    const payload = {
+      userId: localStorage.getItem('userId'),
+      expensesList: this.inputValue
+    };
+    this.user.addExpence(payload).subscribe({
+      next: res => {
+        if (res) {
+          this.notificationService.success("✅ Data saved successfully.");
+          this.dialogRef.close({ isReload: this.isReload });
+        }
+      },
+      error: (err) => console.error('Error saving:', err),
+    });
+  }
 
   cancel() {
     this.dialogRef.close({ isReload: this.isReload });

@@ -74,7 +74,7 @@ export class OilReportComponent implements OnInit {
   }
 
   getoilList() {
-    this.use.getoilList().subscribe((response) => {
+    this.use.getoilList(this.userId).subscribe((response) => {
       this.typeList = response.map((item: any) => item.oilSellList);
       this.filteredExpenses = [...this.typeList];
     });

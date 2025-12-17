@@ -294,25 +294,21 @@ export class PumpDetailComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const includeXpAndPower = this.xp_petrol_nozzle > 0 || this.powe_diesel_nozzle > 0;
 
-    // ✅ Create rows with flat expense columns
     const dataForExcel = this.productList.map(item => {
       const row: any = { ...item };
-
-      // Expand expensesList into separate columns
       if (item.expensesList) {
         item.expensesList.forEach((exp: any) => {
-          row[exp.expenses] = exp.total_price; // e.g. row["ASSOSIASAN FEE EXP"] = 10800
+          row[exp.expenses] = exp.total_price;
         });
       }
 
       return row;
     });
 
-    // ✅ Create totals row with same structure
     const totalsRow: any = {
       date: "Total",
+      petrolTotalSum: this.totalPetrolQuantity,
       petrolTotalTotalSell: this.totalPetroltotalsum,
       dieselTotalSum: this.totalDieselsum,
       dieselTotalTotalSell: this.totalDieseltotalSum,
@@ -324,6 +320,8 @@ export class PumpDetailComponent implements OnInit {
       petrolCess: this.totalPetrolCess,
       petrolJtcpercentage: this.totalPetrolJtcpercentage,
       petrolTotalPurchase: this.totalPetrolTotalPurchase,
+      dieselQuantity: this.totalDieselQuantity,
+      dieselTotal: this.totalDieselTotal,
       dieselVat: this.totalDieselVat,
       dieselCess: this.totalDieselCess,
       dieselJtcpercentage: this.totalDieselJtcpercentage,
@@ -333,7 +331,6 @@ export class PumpDetailComponent implements OnInit {
       bakiTotal: this.totalBakiTotal
     };
 
-    // Add expense totals into totals row
     this.expenseHeaders.forEach(header => {
       totalsRow[header] = this.productList.reduce((sum, item) => {
         const match = item.expensesList?.find((exp: any) => exp.expenses === header);
@@ -343,31 +340,69 @@ export class PumpDetailComponent implements OnInit {
 
     const dataWithTotals = [...dataForExcel, totalsRow];
 
-    // ✅ Dynamically create header order (including expense columns)
     const headerOrder = [
-      "date", "petrolTotalSum", "petrolRate", "petrolTotalTotalSell", "petrolgatt_Total",
-      "dieselTotalSum", "dieselRate", "dieselTotalTotalSell", "dieselgatt_Total", "oilTotalPrice", "kharchTotal",
+      "date",
+      "petrolTotalSum", "petrolRate", "petrolTotalTotalSell", "petrolgatt_Total",
+      "dieselTotalSum", "dieselRate", "dieselTotalTotalSell", "dieselgatt_Total",
+      "oilTotalPrice", "kharchTotal",
       "petrolQuantity", "petrolTotal", "petrolVat", "petrolCess", "petrolJtcpercentage",
-      "petrolTotalPurchase", "dieselQuantity", "dieselTotal", "dieselVat", "dieselCess",
-      "dieselJtcpercentage", "dieselTotalPurchase", "amountTotal", "jamaTotal", "bakiTotal",
-      ...this.expenseHeaders // <-- dynamically add expense columns
+      "petrolTotalPurchase",
+      "dieselQuantity", "dieselTotal", "dieselVat", "dieselCess",
+      "dieselJtcpercentage", "dieselTotalPurchase",
+      "amountTotal", "jamaTotal", "bakiTotal",
+      ...this.expenseHeaders
     ];
 
-    // ✅ Generate worksheet
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(dataWithTotals, {
-      header: headerOrder,
-    });
+    const headerDisplayMap: any = {
+      date: "Date",
+      petrolTotalSum: "Petrol Sale Qty",
+      petrolRate: "Petrol Rate",
+      petrolTotalTotalSell: "Petrol Sale Amount",
+      petrolgatt_Total: "Petrol Gatt",
+      dieselTotalSum: "Diesel Sale Qty",
+      dieselRate: "Diesel Rate",
+      dieselTotalTotalSell: "Diesel Sale Amount",
+      dieselgatt_Total: "Diesel Gatt",
+      oilTotalPrice: "Oil Amount",
+      kharchTotal: "Kharch",
+      petrolQuantity: "Petrol Purchase Qty",
+      petrolTotal: "Petrol Purchase Amount",
+      petrolVat: "Petrol VAT",
+      petrolCess: "Petrol CESS",
+      petrolJtcpercentage: "Petrol JTC %",
+      petrolTotalPurchase: "Petrol Total Purchase",
+      dieselQuantity: "Diesel Purchase Qty",
+      dieselTotal: "Diesel Purchase Amount",
+      dieselVat: "Diesel VAT",
+      dieselCess: "Diesel CESS",
+      dieselJtcpercentage: "Diesel JTC %",
+      dieselTotalPurchase: "Diesel Total Purchase",
+      amountTotal: "Amount Total",
+      jamaTotal: "Jama",
+      bakiTotal: "Baki"
+    };
+
+    this.expenseHeaders.forEach(h => headerDisplayMap[h] = h);
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      dataWithTotals,
+      { header: headerOrder }
+    );
+
+    const displayHeaders = headerOrder.map(h => headerDisplayMap[h] || h);
+    XLSX.utils.sheet_add_aoa(worksheet, [displayHeaders], { origin: "A1" });
 
     const workbook: XLSX.WorkBook = {
       Sheets: { data: worksheet },
-      SheetNames: ["data"],
+      SheetNames: ["data"]
     };
 
     XLSX.writeFile(workbook, "ProductList.xlsx");
   }
 
 
-  close(){
+
+  close() {
     this.dialog.closeAll();
   }
 }

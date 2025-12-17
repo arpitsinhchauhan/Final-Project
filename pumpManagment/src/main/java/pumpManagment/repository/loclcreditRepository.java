@@ -14,7 +14,7 @@ import java.util.Optional;
 @Repository
 public interface loclcreditRepository extends JpaRepository<loclcredit, Integer> {
 
-    @Query(value = "SELECT COALESCE(SUM(credit), 0) " +
+    @Query(value = "SELECT COALESCE(SUM(balance), 0) " +
             "FROM loclcredit " +
             "WHERE date = :date AND user_id = :userId",
             nativeQuery = true)
@@ -25,4 +25,7 @@ public interface loclcreditRepository extends JpaRepository<loclcredit, Integer>
     Optional<loclcredit> findByDateAndUserId(String date, String userId);
 
     List<loclcredit> findByUserId(String userId);
+
+    @Query("SELECT l.credit, l.balance ,l.remark FROM loclcredit l WHERE l.date = :date AND l.userId = :userId")
+    List<Object[]> findbyDate(@Param("date") String date, @Param("userId") String userId);
 }

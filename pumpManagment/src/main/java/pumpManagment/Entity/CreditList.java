@@ -3,16 +3,13 @@ package pumpManagment.Entity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "expenseslist")
-public class Expenses {
-
+@Table(name = "creditlist")
+public class CreditList {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Integer id;
-
-    @Column(name = "expenses_list")
-    private String expensesList;
-
+    @Column(name = "credit_list")
+    private String creditList;
     @Column(name = "user_id")
     private String userId;
 
@@ -24,12 +21,12 @@ public class Expenses {
         this.id = id;
     }
 
-    public String getExpensesList() {
-        return expensesList;
+    public String getCreditList() {
+        return creditList;
     }
 
-    public void setExpensesList(String expensesList) {
-        this.expensesList = expensesList;
+    public void setCreditList(String creditList) {
+        this.creditList = creditList;
     }
 
     public String getUserId() {
@@ -40,5 +37,4 @@ public class Expenses {
         this.userId = userId;
     }
 }
-
 

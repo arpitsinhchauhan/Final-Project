@@ -5,6 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA, MatDialog } from '@angular/material/dial
 import { NotificationService } from 'app/services/notification.service';
 import { UserServiceService } from 'app/services/user-service.service';
 import { API_LOCL_DETAILS_DELETE } from 'app/serviceult';
+import { CreditTypeComponent } from './credit-type/credit-type.component';
 
 @Component({
   selector: 'app-addlocl-details',
@@ -27,6 +28,8 @@ export class AddloclDetailsComponent implements OnInit {
   row: any[] = [];
   userId: string;
   isReload: boolean;
+  creditTypeList: string[] = [];
+
 
   constructor(private http: HttpClient, private fb: FormBuilder,
     public dialogRef: MatDialogRef<AddloclDetailsComponent>,
@@ -40,6 +43,7 @@ export class AddloclDetailsComponent implements OnInit {
       this.purchaDipStockseDetails.date = this.data.date;
     }
     this.getloclDetails();
+    this.getCreditList();
   }
 
   getloclDetails() {
@@ -64,6 +68,16 @@ export class AddloclDetailsComponent implements OnInit {
     );
   }
 
+  getCreditList() {
+    this.use.getcreditList(this.userId).subscribe(
+      (res: any) => {
+        this.creditTypeList = res.map(item => item.creditList);
+      },
+      error => {
+        console.error('Error fetching LOCL details', error);
+      }
+    );
+  }
 
   addTable() {
     this.row.push({
@@ -80,7 +94,7 @@ export class AddloclDetailsComponent implements OnInit {
     this.row = this.row.map(item => ({
       ...item,
       date: this.purchaDipStockseDetails.date,
-      userId: this.userId 
+      userId: this.userId
     }));
     this.use.saveLOCLDetails(this.row).subscribe(
       res => {
@@ -95,23 +109,23 @@ export class AddloclDetailsComponent implements OnInit {
   }
 
   deleteRow(index: number) {
-  const item = this.row[index];
+    const item = this.row[index];
 
-  if (item.id) {
-    this.http.delete(`${API_LOCL_DETAILS_DELETE}/${item.id}`).subscribe({
-      next: () => {
-        this.notificationService.success("Row deleted successfully.");
-        this.row.splice(index, 1);
-      },
-      error: () => {
-        this.notificationService.failure("Failed to delete row from backend.");
-      }
-    });
-  } else {
-    this.row.splice(index, 1);
-    this.notificationService.success("Row removed locally.");
+    if (item.id) {
+      this.http.delete(`${API_LOCL_DETAILS_DELETE}/${item.id}`).subscribe({
+        next: () => {
+          this.notificationService.success("Row deleted successfully.");
+          this.row.splice(index, 1);
+        },
+        error: () => {
+          this.notificationService.failure("Failed to delete row from backend.");
+        }
+      });
+    } else {
+      this.row.splice(index, 1);
+      this.notificationService.success("Row removed locally.");
+    }
   }
-}
 
 
   cancel() {
@@ -136,6 +150,19 @@ export class AddloclDetailsComponent implements OnInit {
       }
     });
     return total;
+  }
+
+  creditType() {
+    const dialogRef = this.dialog.open(CreditTypeComponent, {
+      width: "40%",
+      height: "30%",
+      disableClose: true,
+    });
+
+    dialogRef.afterClosed().subscribe(() => {
+      this.getloclDetails();
+      this.getCreditList();
+    });
   }
 
 }

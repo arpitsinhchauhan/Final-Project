@@ -12,6 +12,8 @@ public class OilsellList {
     private Integer id;
     @Column(name = "oil_sell_list")
     private String OilSellList;
+    @Column(name = "user_id")
+    private String userId;
 
     public Integer getId() {
         return id;
@@ -27,5 +29,13 @@ public class OilsellList {
 
     public void setOilSellList(String oilSellList) {
         OilSellList = oilSellList;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

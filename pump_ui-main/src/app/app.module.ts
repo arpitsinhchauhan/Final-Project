@@ -93,6 +93,7 @@ import { CommonService } from './services/common.service';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { BakiDetailsComponent } from './user-profile/baki-details/baki-details.component';
 import { AddloclDetailsComponent } from './modules/addlocl-details/addlocl-details.component';
+import { CreditTypeComponent } from './modules/addlocl-details/credit-type/credit-type.component';
 
 
 @NgModule({
@@ -202,7 +203,8 @@ import { AddloclDetailsComponent } from './modules/addlocl-details/addlocl-detai
     BillComponent,
     OillBillComponent,
     BakiDetailsComponent,
-    AddloclDetailsComponent
+    AddloclDetailsComponent,
+    CreditTypeComponent
     // KharchComponent,
     // JamaBakiComponent,
     // CustomPdfViewerComponent,

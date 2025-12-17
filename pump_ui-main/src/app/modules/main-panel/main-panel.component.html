@@ -452,5 +452,32 @@
             </div>
          </div>
       </div>
+      <div class="row">
+         <div class="col-md-6">
+            <div class="table-wrapper">
+               <table *ngIf="creditTableData && creditTableData.length > 0">
+                  <thead>
+                     <tr>
+                        <th class="column">Credit Type</th>
+                        <th class="column">Remark</th>
+                        <th class="column">Balance</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr *ngFor="let item of creditTableData">
+                        <td>{{ item[0] }}</td>
+                        <td>{{ item[2] }}</td>
+                        <td>{{ item[1] }}</td>
+                     </tr>
+                     <tr class="totalR" style="background-color: rgb(198 198 198);">
+                        <td colspan="2"><strong>Total</strong></td>
+                        <td><strong>{{ creditNOteIOCL | number: '1.0-2' }}</strong></td>
+                     </tr>
+                  </tbody>
+               </table>
+               <p *ngIf="!creditTableData || creditTableData.length === 0">No data available.</p>
+            </div>
+         </div>
+      </div>
    </div>
 </div>

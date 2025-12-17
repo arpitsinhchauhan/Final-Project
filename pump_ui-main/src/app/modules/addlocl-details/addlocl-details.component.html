@@ -10,6 +10,7 @@
                         <mat-form-field appearance="fill" style="width: 50%;">
                             <input matInput [(ngModel)]="purchaDipStockseDetails.date" type="Date">
                         </mat-form-field>
+                        <button mat-raised-button color="primary" (click)="creditType()">Credit Type Add</button>
                     </div>
                     <div style="display:inline;">
                         <button (click)="addTable()">Add Row</button>
@@ -22,13 +23,23 @@
                 <br />
                 <table class="style">
                     <tr>
-                        <th>Credit</th>
+                        <th>Credit Type</th>
                         <th>Balance</th>
                         <th>Remark</th>
                         <th>Delete</th>
                     </tr>
                     <tr *ngFor="let item of row; let i = index">
-                        <td><input type="text" [(ngModel)]="item.credit" /></td>
+                        <td>
+                            <mat-form-field appearance="outline" class="w-100">
+                                <mat-select placeholder="Select Credit Type" [(ngModel)]="item.credit"
+                                    name="creditType{{ i }}">
+                                    <mat-option *ngFor="let type of creditTypeList" [value]="type">
+                                        {{ type }}
+                                    </mat-option>
+
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
                         <td><input type="text" [(ngModel)]="item.balance" /></td>
                         <td><input type="text" [(ngModel)]="item.remark" /></td>
                         <td>

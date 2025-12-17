@@ -22,6 +22,7 @@ public class SellSummaryDTO {
     private List<Object[]> transactionSellSummary;
     private List<Object[]> jamaSummary;
     private List<Object[]> bakiSummary;
+    private List<Object[]> loclcredit;
 
     public List<Object[]> getPurchaseSellSummary() {
         return purchaseSellSummary;
@@ -93,5 +94,13 @@ public class SellSummaryDTO {
 
     public void setBakiSummary(List<Object[]> bakiSummary) {
         this.bakiSummary = bakiSummary;
+    }
+
+    public List<Object[]> getLoclcredit() {
+        return loclcredit;
+    }
+
+    public void setLoclcredit(List<Object[]> loclcredit) {
+        this.loclcredit = loclcredit;
     }
 }

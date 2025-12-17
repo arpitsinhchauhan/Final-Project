@@ -4,17 +4,16 @@ import { NotificationService } from 'app/services/notification.service';
 import { UserServiceService } from 'app/services/user-service.service';
 
 @Component({
-  selector: 'app-oil-list',
-  templateUrl: './oil-list.component.html',
-  styleUrls: ['./oil-list.component.scss']
+  selector: 'app-credit-type',
+  templateUrl: './credit-type.component.html',
+  styleUrls: ['./credit-type.component.scss']
 })
-export class OilListComponent implements OnInit {
-
+export class CreditTypeComponent implements OnInit {
 
   isReload: boolean;
   inputValue: string = '';
 
-  constructor(public dialogRef: MatDialogRef<OilListComponent>,
+  constructor(public dialogRef: MatDialogRef<CreditTypeComponent>,
     private user: UserServiceService, private notificationService: NotificationService
   ) { }
 
@@ -24,9 +23,9 @@ export class OilListComponent implements OnInit {
   logInput() {
     const payload = {
       userId: localStorage.getItem('userId'),
-      oilSellList: this.inputValue
+      creditList: this.inputValue
     };
-    this.user.addOilType(payload).subscribe({
+    this.user.addCreditType(payload).subscribe({
       next: res => {
         if (res) {
           this.notificationService.success("✅ Data saved successfully.");

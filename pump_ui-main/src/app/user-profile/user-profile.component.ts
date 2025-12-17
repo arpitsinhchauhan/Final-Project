@@ -497,7 +497,7 @@ export class UserProfileComponent implements OnInit {
   }
 
   getexpensesList() {
-    this.use.getexpensesList().subscribe((response) => {
+    this.use.getexpensesList(this.userId).subscribe((response) => {
       this.expensesList = response.map((item) => item.expensesList);
     });
   }

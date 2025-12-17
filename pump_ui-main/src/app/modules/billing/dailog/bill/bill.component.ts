@@ -97,12 +97,9 @@ export class BillComponent implements OnInit {
     this.http.get(finalUrl, { responseType: 'text' })
       .subscribe({
         next: (res) => this.notificationService.success(res),
-        error: (err) => console.error('Failed to send WhatsApp:', err)
+        error: (err) => this.notificationService.failure('Failed to send WhatsApp:', err)
       });
   }
-
-
-
 
   cancel() {
     this.dialogRef.close();

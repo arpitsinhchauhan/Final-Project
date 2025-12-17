@@ -162,6 +162,9 @@ public class PurchaseController {
     private OilsellListRepository oilsellListRepository;
 
     @Autowired
+    private creditListRepository CreditListRepository;
+
+    @Autowired
     private XpPetorlRepository xpPetorlRepository;
 
     @Autowired
@@ -1223,6 +1226,7 @@ public class PurchaseController {
         sellSummaryDTO.setTransactionSellSummary(transactionRepository.findbyDate(date, userId));
         sellSummaryDTO.setBakiSummary(JamabakiRepository.findByDateAndBakiGreaterThan(date, userId));
         sellSummaryDTO.setJamaSummary(JamabakiRepository.findByDateAndJamaGreaterThan(date, userId));
+        sellSummaryDTO.setLoclcredit(loclcreditRepository.findbyDate(date, userId));
         return sellSummaryDTO;
     }
 
@@ -2952,8 +2956,8 @@ public class PurchaseController {
     }
 
     @GetMapping(value = "/expenseslist")
-    public List<Expenses> getexpenseslist() {
-        List<Expenses> expenses = expensesRepository.findAll();
+    public List<Expenses> getexpenseslist(@RequestParam String userId) {
+        List<Expenses> expenses = expensesRepository.findByUserId(userId);
         return expenses;
     }
 
@@ -2964,8 +2968,8 @@ public class PurchaseController {
     }
 
     @GetMapping(value = "/oillist")
-    public List<OilsellList> getoillist() {
-        List<OilsellList> oillist = oilsellListRepository.findAll();
+    public List<OilsellList> getoillist(@RequestParam String userId) {
+        List<OilsellList> oillist = oilsellListRepository.findByUserId(userId);
         return oillist;
     }
 
@@ -3407,5 +3411,17 @@ public class PurchaseController {
             return ResponseEntity.notFound().build(); // ID not found
         }
     }
+
+    @PostMapping(value = "/addcreditType")
+    public ResponseEntity<ApiResponse> savecreditType(@RequestBody CreditList creditList) {
+        CreditListRepository.save(creditList);
+        return ResponseEntity.ok(new ApiResponse("Data saved successfully."));
+    }
+
+    @GetMapping("/creditlist")
+    public List<CreditList> getCreditListByUserId(@RequestParam String userId) {
+        return CreditListRepository.findByUserId(userId);
+    }
+
 
 }

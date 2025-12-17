@@ -106,6 +106,8 @@ import {
   API_CREDIT_LOCL,
   API_LOCL_DETAILS_ADDEDIT,
   API_ALL_LOCL_DETAILS_LIST,
+  API_CREDITTYPE_ADD,
+  API_CREDITTYPE_LIST,
 } from "app/serviceult";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PurchaseDetails } from "app/models/PurchaseDetails ";
@@ -631,20 +633,28 @@ export class UserServiceService {
     return this.http.get<any>(API_MONEY_LIST, { params });
   }
 
-  getexpensesList(): Observable<any> {
-    return this.http.get<any>(API_EXPENSES_LIST);
+  getexpensesList(userId: string): Observable<any> {
+    const params = new HttpParams().set("userId", userId);
+
+    return this.http.get<any>(API_EXPENSES_LIST, { params });
   }
 
   addExpence(payload: { expensesList: string }) {
     return this.http.post(API_EXPENSES_ADD, payload);
   }
 
-  getoilList(): Observable<any> {
-    return this.http.get<any>(API_OILSELL_LIST_REPORT);
+  getoilList(userId: string): Observable<any> {
+    const params = new HttpParams().set("userId", userId);
+
+    return this.http.get<any>(API_OILSELL_LIST_REPORT, { params });
   }
 
   addOilType(payload: { oilSellList: string }) {
     return this.http.post(API_OILTYPE_ADD, payload);
+  }
+
+  addCreditType(payload: { creditList: string }) {
+    return this.http.post(API_CREDITTYPE_ADD, payload);
   }
 
   getExpenses(
@@ -801,6 +811,12 @@ export class UserServiceService {
 
   saveLOCLDetails(data: any): Observable<any> {
     return this.http.post(API_LOCL_DETAILS_ADDEDIT, data);
+  }
+
+  getcreditList(userId: string): Observable<any> {
+    const params = new HttpParams().set("userId", userId);
+
+    return this.http.get<any>(API_CREDITTYPE_LIST, { params });
   }
 
 }
