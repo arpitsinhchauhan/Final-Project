@@ -214,6 +214,8 @@ export const API_LOCL_DETAILS_DELETE: string = `${prefix}/portal/api/deleteloclD
 export const API_CREDITTYPE_ADD: string = `${prefix}/portal/api/addcreditType`;
 export const API_CREDITTYPE_LIST: string = `${prefix}/portal/api/creditlist`;
 
+export const API_TOTAL_BAKI_DETAILS: string = `${prefix}/portal/api/totalBakiDetails`;
+
 // // Report
 // export const API_REPORT: string = `${prefix}/portal/api/generate`;
 //

@@ -27,6 +27,7 @@ import { UserServiceService } from "app/services/user-service.service";
 import { NotificationService } from "app/services/notification.service";
 import { ExpensesExcelComponent } from "./expenses-excel/expenses-excel.component";
 import { BakiDetailsComponent } from "./baki-details/baki-details.component";
+import { PumpTotalBakiDetailsComponent } from "./pump-total-baki-details/pump-total-baki-details.component";
 
 @Component({
   selector: "app-user-profile",
@@ -67,6 +68,8 @@ export class UserProfileComponent implements OnInit {
   endDatePdf: string;
   startDateBaki: string;
   endDateBaki: string;
+  startDateCustomerBaki: string;
+  endDateCustomerBaki: string;
 
   constructor(
     private use: UserServiceService,
@@ -597,6 +600,30 @@ export class UserProfileComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe((result) => {
 
+    });
+  }
+
+  getBakiDetails() {
+    if (!this.startDateCustomerBaki || !this.endDateCustomerBaki) {
+      this.notificationService.failure(
+        "Please select both start date and end date"
+      );
+      return;
+    }
+
+    const dialogRef = this.dialog.open(PumpTotalBakiDetailsComponent, {
+      width: "90%",
+      height: "90%",
+      data: {
+        startDate: this.startDateCustomerBaki,
+        endDate: this.endDateCustomerBaki,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.getdata();
+      this.getCustomer();
+      this.getexpensesList();
     });
   }
 }

@@ -3423,5 +3423,13 @@ public class PurchaseController {
         return CreditListRepository.findByUserId(userId);
     }
 
+    @GetMapping("/totalBakiDetails")
+    public List<Object[]> getTotalBakiDetails(
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam String userId) {
+        List<Object[]>  totalbaki= JamabakiRepository.findReportNative(startDate, endDate, userId);
+        return totalbaki;
+    }
 
 }

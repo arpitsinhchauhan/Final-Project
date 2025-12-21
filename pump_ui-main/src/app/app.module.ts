@@ -94,6 +94,7 @@ import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { BakiDetailsComponent } from './user-profile/baki-details/baki-details.component';
 import { AddloclDetailsComponent } from './modules/addlocl-details/addlocl-details.component';
 import { CreditTypeComponent } from './modules/addlocl-details/credit-type/credit-type.component';
+import { PumpTotalBakiDetailsComponent } from './user-profile/pump-total-baki-details/pump-total-baki-details.component';
 
 
 @NgModule({
@@ -204,7 +205,8 @@ import { CreditTypeComponent } from './modules/addlocl-details/credit-type/credi
     OillBillComponent,
     BakiDetailsComponent,
     AddloclDetailsComponent,
-    CreditTypeComponent
+    CreditTypeComponent,
+    PumpTotalBakiDetailsComponent
     // KharchComponent,
     // JamaBakiComponent,
     // CustomPdfViewerComponent,

@@ -108,6 +108,7 @@ import {
   API_ALL_LOCL_DETAILS_LIST,
   API_CREDITTYPE_ADD,
   API_CREDITTYPE_LIST,
+  API_TOTAL_BAKI_DETAILS,
 } from "app/serviceult";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PurchaseDetails } from "app/models/PurchaseDetails ";
@@ -817,6 +818,15 @@ export class UserServiceService {
     const params = new HttpParams().set("userId", userId);
 
     return this.http.get<any>(API_CREDITTYPE_LIST, { params });
+  }
+
+  getTotalBakiReport(startDate: string, endDate: string, userId: string) {
+    let params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate)
+      .set('userId', userId);
+
+    return this.http.get<any[]>(API_TOTAL_BAKI_DETAILS, { params });
   }
 
 }
