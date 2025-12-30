@@ -2,32 +2,52 @@
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <div class="card">
             <div class="card-body">
-                <table class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th>Date</th>
-                            <th>Name</th>
-                            <th>Rate</th>
-                            <th>Type</th>
-                            <th>Ltr</th>
-                            <th>Baki</th>
-                            <th>Note</th>
-                        </tr>
-                    </thead>
+                <div *ngIf="reportList.length > 0">
+                    <div class="button-group">
+                        <button mat-raised-button (click)="exportExcel()">
+                            <mat-icon>file_download</mat-icon>
+                            Export to Excel
+                        </button>
+                        <button mat-raised-button (click)="pdf()">
+                            <mat-icon>picture_as_pdf</mat-icon>
+                            PDF
+                        </button>
+                        <button mat-raised-button (click)="cancel()">
+                            <mat-icon>cancel</mat-icon>
+                            Cancel
+                        </button>
+                    </div>
 
-                    <tbody>
-                        <tr *ngFor="let r of reportList">
-                            <td>{{ r.date }}</td>
-                            <td>{{ r.name }}</td>
-                            <td>{{ r.rate }}</td>
-                            <td>{{ r.type }}</td>
-                            <td>{{ r.ltr }}</td>
-                            <td>{{ r.baki }}</td>
-                            <td>{{ r.bakiNote }}</td>
-                        </tr>
-                    </tbody>
-                </table>
+                    <table id="bakiListTable">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Rate</th>
+                                <th>Type</th>
+                                <th>Ltr</th>
+                                <th>Baki</th>
+                                <th>Note</th>
+                            </tr>
+                        </thead>
 
+                        <tbody>
+                            <tr *ngFor="let r of reportList">
+                                <td>{{ r.date }}</td>
+                                <td>{{ r.name }}</td>
+                                <td>{{ r.rate }}</td>
+                                <td>{{ r.type }}</td>
+                                <td>{{ r.ltr }}</td>
+                                <td>{{ r.baki }}</td>
+                                <td>{{ r.bakiNote }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+                <div *ngIf="reportList.length === 0">
+                    No data available.
+                </div>
             </div>
         </div>
     </div>

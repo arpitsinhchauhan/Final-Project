@@ -122,10 +122,9 @@ public interface jamabakiRepository extends JpaRepository<jamabaki, Integer> {
             @Param("userId") String userId
     );
 
-    @Query(value = "SELECT j.date, j.name, j.rate, j.type, j.ltr, j.baki, j.baki_note FROM jamabakireport j WHERE j.user_id = :userId AND j.date BETWEEN :startDate AND :endDate ORDER BY j.date", nativeQuery = true)
-    List<Object[]> findReportNative(@Param("userId") String userId,
-                                    @Param("startDate") String startDate,
-                                    @Param("endDate") String endDate);
-
+//    @Query(value = "SELECT j.date, j.name, j.rate, j.type, j.ltr, j.baki, j.baki_note FROM jamabakireport j WHERE j.user_id = :userId AND j.date BETWEEN :startDate AND :endDate ORDER BY j.date", nativeQuery = true)
+//    List<jamabaki> findReportNative(@Param("userId") String userId,
+//                                    @Param("startDate") String startDate,
+//                                    @Param("endDate") String endDate);
 
 }

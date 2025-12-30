@@ -3428,8 +3428,8 @@ public class PurchaseController {
             @RequestParam String startDate,
             @RequestParam String endDate,
             @RequestParam String userId) {
-        List<Object[]>  totalbaki= JamabakiRepository.findReportNative(startDate, endDate, userId);
-        return totalbaki;
+        List<Object[]> list=JamabakiRepository.findReportByDateRangeExcludeZeroBaki(startDate, endDate, userId);
+        return list;
     }
 
 }
