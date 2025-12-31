@@ -90,14 +90,22 @@ public interface DailydieselstockRepository extends JpaRepository<dailydieselsto
 //    List<Double> findNextDayOpenStocks(@Param("startDate") String startDate,
 //                                       @Param("endDate") String endDate,
 //                                       @Param("userId") String userId);
-    @Query(value = "SELECT dieselopenstock " +
-            "FROM dailydieselstock " +
-            "WHERE date = ( " +
-            "SELECT MAX(date) " +
-            "FROM dailydieselstock " +
-            "WHERE date BETWEEN :startDate AND :endDate " +
-            "AND user_id = :userId " +
-            ")AND user_id = :userId", nativeQuery = true)
+//    @Query(value = "SELECT dieselopenstock " +
+//            "FROM dailydieselstock " +
+//            "WHERE date = ( " +
+//            "SELECT MAX(date) " +
+//            "FROM dailydieselstock " +
+//            "WHERE date BETWEEN :startDate AND :endDate " +
+//            "AND user_id = :userId " +
+//            ")AND user_id = :userId", nativeQuery = true)
+//    Double findLatestDieselOpenstockInRange(
+//            @Param("startDate") String startDate,
+//            @Param("endDate") String endDate,
+//            @Param("userId") String userId
+//    );
+
+    @Query(value = "SELECT dieselopenstock FROM dailydieselstock WHERE user_id = :userId AND date > :endDate AND date >= :startDate"+
+            " ORDER BY date ASC LIMIT 1", nativeQuery = true)
     Double findLatestDieselOpenstockInRange(
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,

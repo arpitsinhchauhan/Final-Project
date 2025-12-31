@@ -40,6 +40,7 @@ export class PumpDetailComponent implements OnInit {
   totalAmountTotal: number = 0;
   totalJamaTotal: number = 0;
   totalBakiTotal: number = 0;
+  totalloclTotal: number = 0;
   // XP Petrol Totals
   totalXpPetrolTotalSum: number = 0;
   totalXpPetrolTotalSell: number = 0;
@@ -61,6 +62,7 @@ export class PumpDetailComponent implements OnInit {
   totalPowerDieselTotalPurchase: number = 0;
   xp_petrol_nozzle: number;
   powe_diesel_nozzle: number;
+  loclDetailsTotal: number = 0;
   userId = localStorage.getItem("userId");
 
   constructor(
@@ -291,6 +293,10 @@ export class PumpDetailComponent implements OnInit {
       (sum, item) => sum + item.powerdieselTotalPurchase,
       0
     );
+    this.totalloclTotal = this.productList.reduce(
+      (sum, item) => sum + item.locl_balance_Total,
+      0
+    );
   }
 
   exportToExcel(): void {
@@ -328,7 +334,8 @@ export class PumpDetailComponent implements OnInit {
       dieselTotalPurchase: this.totalDieselTotalPurchase,
       amountTotal: this.totalAmountTotal,
       jamaTotal: this.totalJamaTotal,
-      bakiTotal: this.totalBakiTotal
+      bakiTotal: this.totalBakiTotal,
+      loclDetailsTotal: this.totalloclTotal
     };
 
     this.expenseHeaders.forEach(header => {
@@ -349,7 +356,7 @@ export class PumpDetailComponent implements OnInit {
       "petrolTotalPurchase",
       "dieselQuantity", "dieselTotal", "dieselVat", "dieselCess",
       "dieselJtcpercentage", "dieselTotalPurchase",
-      "amountTotal", "jamaTotal", "bakiTotal",
+      "amountTotal", "jamaTotal", "bakiTotal", "locl_balance_Total",
       ...this.expenseHeaders
     ];
 
@@ -379,7 +386,8 @@ export class PumpDetailComponent implements OnInit {
       dieselTotalPurchase: "Diesel Total Purchase",
       amountTotal: "Amount Total",
       jamaTotal: "Jama",
-      bakiTotal: "Baki"
+      bakiTotal: "Baki",
+      loclDetailsTotal: "Credit Total"
     };
 
     this.expenseHeaders.forEach(h => headerDisplayMap[h] = h);

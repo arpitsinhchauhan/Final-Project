@@ -91,6 +91,8 @@ public class AggregatedDataDTO {
     private Double xppetrolgatt_Total;
     private Double power_dieselgatt_Total;
 
+    private Double locl_balance_Total;
+
     private List<Map<String,Object>> expensesList;
 
     private Map<String, Double> expenseTotals = new HashMap<>();
@@ -630,5 +632,14 @@ public class AggregatedDataDTO {
 
     public void setExpensesList(List<Map<String, Object>> expensesList) {
         this.expensesList = expensesList;
+    }
+
+
+    public Double getLocl_balance_Total() {
+        return locl_balance_Total;
+    }
+
+    public void setLocl_balance_Total(Double locl_balance_Total) {
+        this.locl_balance_Total = locl_balance_Total;
     }
 }

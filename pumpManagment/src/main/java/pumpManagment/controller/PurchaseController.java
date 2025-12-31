@@ -1695,6 +1695,7 @@ public class PurchaseController {
             dto.setAmountTotal(convertToDouble(map.get("Amount_Total")));
             dto.setJamaTotal(convertToDouble(map.get("Jama_Total")));
             dto.setBakiTotal(convertToDouble(map.get("Baki_Total")));
+            dto.setLocl_balance_Total(convertToDouble(map.get("locl_balance_Total")));
 //            dto.setUser_id((String) map.get("user_id"));
             if (includeXpPetrol) {
 //                dto.setXppetrolLtr(convertToDouble(map.get("xppetrol_ltr")));
@@ -1827,6 +1828,7 @@ public class PurchaseController {
 
                 + "COALESCE(o.total_price, 0) AS oil_total_price, "
                 + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
+                + "COALESCE(loc.locl_balance_Total, 0) AS locl_balance_Total, "
                 + "COALESCE(pp.petrol_quantity, 0) AS Petrol_Quantity, "
                 + "COALESCE(pp.petrol_total, 0) AS Petrol_Total, "
                 + "COALESCE(pp.petrol_vat, 0) AS Petrol_Vat, "
@@ -2085,6 +2087,17 @@ public class PurchaseController {
 
                 + "LEFT JOIN (SELECT "
                 + "date, "
+                + "SUM(balance) AS locl_balance_Total "
+                + "FROM "
+                + "managment.loclcredit "
+                + "WHERE "
+                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+                + "AND user_id = '" + userId + "' "
+                + "GROUP BY date) loc "
+                + "ON p.date = loc.date "
+
+                + "LEFT JOIN (SELECT "
+                + "date, "
                 + "SUM(price) AS Kharch_Total "   // ✅ Removed `expenses` from SELECT
                 + "FROM "
                 + "managment.kharch "
@@ -2093,8 +2106,6 @@ public class PurchaseController {
                 + "AND user_id = '" + userId + "' "
                 + "GROUP BY date) ep "           // ✅ Removed `expenses` from GROUP BY
                 + "ON p.date = ep.date "
-
-
 
                 + "ORDER BY "
                 + "p.date;";

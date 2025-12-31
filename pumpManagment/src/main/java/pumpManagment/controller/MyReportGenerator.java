@@ -132,6 +132,8 @@ public class MyReportGenerator implements ProfitLossService {
                     dailydieselstockRepository.findLatestDieselOpenstockInRange(startDate, endDate, userId)
             ).orElse(0.0);
 
+
+
             // ---------- CALCULATIONS ----------
             totalPetrolAmount = petrolOneDayAgoStock * petrolLastRate;
             totalDieselAmount = dieselOneDayAgoStock * dieselLastRate;

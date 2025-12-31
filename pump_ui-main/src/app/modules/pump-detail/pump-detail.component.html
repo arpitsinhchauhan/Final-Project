@@ -36,6 +36,7 @@
                      <th>ATM Total</th>
                      <th>Jama Total</th>
                      <th>Baki Total</th>
+                     <th>Credit Total</th>
                      <th *ngFor="let header of expenseHeaders">{{ header }}</th>
                      <th *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">XP Petrol Total Sum</th>
                      <th *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">XP Petrol Rate</th>
@@ -87,6 +88,7 @@
                      <td>{{ item.amountTotal }}</td>
                      <td>{{ item.jamaTotal }}</td>
                      <td>{{ item.bakiTotal }}</td>
+                     <td>{{ item.locl_balance_Total }}</td>
                      <td *ngFor="let header of expenseHeaders">
                         {{ item.expenseMap[header] || 0 }}
                      </td>
@@ -140,6 +142,7 @@
                      <td>{{ totalAmountTotal }}</td>
                      <td>{{ totalJamaTotal }}</td>
                      <td>{{ totalBakiTotal }}</td>
+                     <td>{{ totalloclTotal }}</td>
                      <!-- XP Petrol Totals -->
                      <td *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">{{ totalXpPetrolTotalSum }}</td>
                      <td *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0"></td>

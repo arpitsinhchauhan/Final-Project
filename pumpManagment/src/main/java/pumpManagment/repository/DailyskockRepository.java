@@ -87,20 +87,30 @@ public interface DailyskockRepository extends JpaRepository<Dailystock, Integer>
 //    List<Double> findNextDayOpenStocks(@Param("startDate") String startDate,
 //                                       @Param("endDate") String endDate,
 //                                       @Param("userId") String userId);
-    @Query(value = "SELECT openstock " +
-            "FROM dailystock " +
-            "WHERE date = ( " +
-            "SELECT MAX(date) " +
-            "FROM dailystock " +
-            "WHERE date BETWEEN :startDate AND :endDate " +
-            "AND user_id = :userId " +
-            ") " +
-            "AND user_id = :userId ", nativeQuery = true)
+//    @Query(value = "SELECT openstock " +
+//            "FROM dailystock " +
+//            "WHERE date = ( " +
+//            "SELECT MAX(date) " +
+//            "FROM dailystock " +
+//            "WHERE date BETWEEN :startDate AND :endDate " +
+//            "AND user_id = :userId " +
+//            ") " +
+//            "AND user_id = :userId ", nativeQuery = true)
+//    Double findLatestOpenstockInRange(
+//            @Param("startDate") String startDate,
+//            @Param("endDate") String endDate,
+//            @Param("userId") String userId
+//    );
+
+
+    @Query(value = "SELECT openstock FROM dailystock WHERE user_id = :userId AND date > :endDate AND date >= :startDate"+
+    " ORDER BY date ASC LIMIT 1", nativeQuery = true)
     Double findLatestOpenstockInRange(
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,
             @Param("userId") String userId
     );
+
 
 
 
