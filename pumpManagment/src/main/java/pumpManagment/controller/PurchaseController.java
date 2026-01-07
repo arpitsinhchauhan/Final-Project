@@ -1692,6 +1692,12 @@ public class PurchaseController {
             dto.setDieselCess(convertToDouble(map.get("Diesel_Cess")));
             dto.setDieselJtcpercentage(convertToDouble(map.get("Diesel_Jtcpercentage")));
             dto.setDieselTotalPurchase(convertToDouble(map.get("Diesel_Total_Purchase")));
+            dto.setOilQuantity(convertToDouble(map.get("oil_Quantity")));
+            dto.setOilTotal(convertToDouble(map.get("oil_Total")));
+            dto.setOilVat(convertToDouble(map.get("oil_Vat")));
+            dto.setOilCess(convertToDouble(map.get("oil_Cess")));
+            dto.setOilJtcpercentage(convertToDouble(map.get("oil_Jtcpercentage")));
+            dto.setOilTotalPurchase(convertToDouble(map.get("oil_Total_Purchase")));
             dto.setAmountTotal(convertToDouble(map.get("Amount_Total")));
             dto.setJamaTotal(convertToDouble(map.get("Jama_Total")));
             dto.setBakiTotal(convertToDouble(map.get("Baki_Total")));
@@ -1841,6 +1847,12 @@ public class PurchaseController {
                 + "COALESCE(dp.diesel_cess, 0) AS Diesel_Cess, "
                 + "COALESCE(dp.diesel_jtcpercentage, 0) AS Diesel_Jtcpercentage, "
                 + "COALESCE(dp.diesel_total_purchase, 0) AS Diesel_Total_Purchase, "
+                + "COALESCE(ol.oil_quantity, 0) AS oil_Quantity, "
+                + "COALESCE(ol.oil_total, 0) AS oil_Total, "
+                + "COALESCE(ol.oil_vat, 0) AS oil_Vat, "
+                + "COALESCE(ol.oil_cess, 0) AS oil_Cess, "
+                + "COALESCE(ol.oil_jtcpercentage, 0) AS oil_Jtcpercentage, "
+                + "COALESCE(ol.oil_total_purchase, 0) AS oil_Total_Purchase, "
                 + "COALESCE(t.Amount_Total, 0) AS Amount_Total, "
                 + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
                 + "COALESCE(j.Baki_Total, 0) AS Baki_Total, "
@@ -1963,6 +1975,21 @@ public class PurchaseController {
                 + "type = 'diesel'  AND user_id = '" + userId + "') dp " // Filter by userId
                 + "ON "
                 + "d.date = dp.date "
+                + "LEFT JOIN "
+                + "(SELECT "
+                + "date, type, "
+                + "quantity AS oil_quantity, "
+                + "total AS oil_total, "
+                + "vat AS oil_vat, "
+                + "cess AS oil_cess, "
+                + "jtcpercentage AS oil_jtcpercentage, "
+                + "total_purchase AS oil_total_purchase "
+                + "FROM "
+                + "managment.purchase "
+                + "WHERE "
+                + "type = 'Oil'  AND user_id = '" + userId + "') ol " // Filter by userId
+                + "ON "
+                + "p.date = ol.date "
                 + "LEFT JOIN ("
                 + "SELECT date, "
                 + "extra_cess AS xppetrol_cess, "
@@ -3440,6 +3467,16 @@ public class PurchaseController {
             @RequestParam String endDate,
             @RequestParam String userId) {
         List<Object[]> list=JamabakiRepository.findReportByDateRangeExcludeZeroBaki(startDate, endDate, userId);
+        return list;
+    }
+
+
+    @GetMapping("/totalloclCreditDetails")
+    public List<Object[]> gettotalloclCreditDetails(
+            @RequestParam String startDate,
+            @RequestParam String endDate,
+            @RequestParam String userId) {
+        List<Object[]> list=loclcreditRepository.findReportBycredit(startDate, endDate, userId);
         return list;
     }
 

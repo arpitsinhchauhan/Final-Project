@@ -25,6 +25,12 @@ export interface AggregatedDataDTO {
   dieselCess: number;
   dieselJtcpercentage: number;
   dieselTotalPurchase: number;
+  oilQuantity: number;
+  oilTotal: number;
+  oilVat: number;
+  oilCess: number;
+  oilJtcpercentage: number;
+  oilTotalPurchase: number;
   amountTotal: number;
   jamaTotal: number;
   bakiTotal: number;

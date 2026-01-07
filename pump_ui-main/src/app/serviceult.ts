@@ -215,6 +215,7 @@ export const API_CREDITTYPE_ADD: string = `${prefix}/portal/api/addcreditType`;
 export const API_CREDITTYPE_LIST: string = `${prefix}/portal/api/creditlist`;
 
 export const API_TOTAL_BAKI_DETAILS: string = `${prefix}/portal/api/totalBakiDetails`;
+export const API_TOTAL_LOCL_DETAILS: string = `${prefix}/portal/api/totalloclCreditDetails`;
 
 // // Report
 // export const API_REPORT: string = `${prefix}/portal/api/generate`;

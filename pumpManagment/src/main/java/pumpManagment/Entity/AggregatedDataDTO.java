@@ -49,6 +49,13 @@ public class AggregatedDataDTO {
     private Double dieselCess;
     private Double dieselJtcpercentage;
     private Double dieselTotalPurchase;
+    private String oType;
+    private Double oilQuantity;
+    private Double oilTotal;
+    private Double oilVat;
+    private Double oilCess;
+    private Double oilJtcpercentage;
+    private Double oilTotalPurchase;
     private Double amountTotal;
     private Double jamaTotal;
     private Double bakiTotal;
@@ -641,5 +648,61 @@ public class AggregatedDataDTO {
 
     public void setLocl_balance_Total(Double locl_balance_Total) {
         this.locl_balance_Total = locl_balance_Total;
+    }
+
+    public String getoType() {
+        return oType;
+    }
+
+    public void setoType(String oType) {
+        this.oType = oType;
+    }
+
+    public Double getOilQuantity() {
+        return oilQuantity;
+    }
+
+    public void setOilQuantity(Double oilQuantity) {
+        this.oilQuantity = oilQuantity;
+    }
+
+    public Double getOilTotal() {
+        return oilTotal;
+    }
+
+    public void setOilTotal(Double oilTotal) {
+        this.oilTotal = oilTotal;
+    }
+
+    public Double getOilVat() {
+        return oilVat;
+    }
+
+    public void setOilVat(Double oilVat) {
+        this.oilVat = oilVat;
+    }
+
+    public Double getOilCess() {
+        return oilCess;
+    }
+
+    public void setOilCess(Double oilCess) {
+        this.oilCess = oilCess;
+    }
+
+    public Double getOilJtcpercentage() {
+        return oilJtcpercentage;
+    }
+
+    public void setOilJtcpercentage(Double oilJtcpercentage) {
+        this.oilJtcpercentage = oilJtcpercentage;
+    }
+
+    public Double getOilTotalPurchase() {
+        return oilTotalPurchase;
+    }
+
+    public void setOilTotalPurchase(Double oilTotalPurchase) {
+        this.oilTotalPurchase = oilTotalPurchase;
     }
 }

@@ -63,14 +63,22 @@ public interface PowerdieseldailystockRepository extends JpaRepository<powerdies
     );
 
 
-    @Query(value = "SELECT power_ugadto_stock " +
-            "FROM powerdieseldailystock " +
-            "WHERE date = ( " +
-            "SELECT MAX(date) " +
-            "FROM powerdieseldailystock " +
-            "WHERE date BETWEEN :startDate AND :endDate " +
-            "AND user_id = :userId " +
-            ")AND user_id = :userId", nativeQuery = true)
+//    @Query(value = "SELECT power_ugadto_stock " +
+//            "FROM powerdieseldailystock " +
+//            "WHERE date = ( " +
+//            "SELECT MAX(date) " +
+//            "FROM powerdieseldailystock " +
+//            "WHERE date BETWEEN :startDate AND :endDate " +
+//            "AND user_id = :userId " +
+//            ")AND user_id = :userId", nativeQuery = true)
+//    Double findLatestPowerDieselDailyStockInRange(
+//            @Param("startDate") String startDate,
+//            @Param("endDate") String endDate,
+//            @Param("userId") String userId
+//    );
+
+    @Query(value = "SELECT power_ugadto_stock FROM powerdieseldailystock WHERE user_id = :userId AND date > :endDate AND date >= :startDate"+
+            " ORDER BY date ASC LIMIT 1", nativeQuery = true)
     Double findLatestPowerDieselDailyStockInRange(
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,

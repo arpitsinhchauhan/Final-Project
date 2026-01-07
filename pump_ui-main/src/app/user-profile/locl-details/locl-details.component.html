@@ -2,7 +2,7 @@
     <div class="col-sm-12 col-md-12 col-lg-12 col-xl-12">
         <div class="card">
             <div class="card-body">
-                <div *ngIf="reportList.length > 0">
+                <div *ngIf="creditList.length > 0">
                     <div class="button-group">
                         <button mat-raised-button (click)="exportExcel()">
                             <mat-icon>file_download</mat-icon>
@@ -17,40 +17,32 @@
                             Cancel
                         </button>
                     </div>
-
-                    <table id="bakiListTable">
+                    <table id="creditListTable">
                         <thead>
                             <tr>
                                 <th>Date</th>
-                                <th>Name</th>
-                                <th>Rate</th>
-                                <th>Type</th>
-                                <th>Ltr</th>
-                                <th>Baki</th>
-                                <th>Note</th>
+                                <th>Credit</th>
+                                <th>Remark</th>
+                                <th>Balance</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            <tr *ngFor="let r of reportList">
+                            <tr *ngFor="let r of creditList">
                                 <td>{{ r.date }}</td>
-                                <td>{{ r.name }}</td>
-                                <td>{{ r.rate }}</td>
-                                <td>{{ r.type }}</td>
-                                <td>{{ r.ltr }}</td>
-                                <td>{{ r.baki }}</td>
-                                <td>{{ r.bakiNote }}</td>
+                                <td>{{ r.credit }}</td>
+                                <td>{{ r.remark }}</td>
+                                <td>{{ r.balance }}</td>
                             </tr>
                             <tr>
-                                <td colspan="5" style="text-align: right;"><strong>Total Baki:</strong></td>
-                                <td style="background-color: #d0b6b6;"><strong>{{ getTotalBaki() | number:'1.2-2'
+                                <td colspan="3" style="text-align: right;"><strong>Total Balance:</strong></td>
+                                <td style="background-color: #d0b6b6;"><strong>{{ getTotalBalance() | number:'1.2-2'
                                         }}</strong></td>
                             </tr>
                         </tbody>
                     </table>
-
                 </div>
-                <div *ngIf="reportList.length === 0">
+                <div *ngIf="creditList.length === 0">
                     No data available.
                 </div>
             </div>

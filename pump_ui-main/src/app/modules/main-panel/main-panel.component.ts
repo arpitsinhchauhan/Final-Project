@@ -127,6 +127,7 @@ export class MainPanelComponent implements OnInit {
 
   petolQuantity: number = 0;
   dieselQuantity: number = 0;
+  oilpurchase: number = 0;
 
   xpPetolQuantity: number = 0;
   powerDieselQuantity: number = 0;
@@ -855,11 +856,14 @@ export class MainPanelComponent implements OnInit {
               this.petolQuantity = quantity;
             } else if (type === 'Diesel') {
               this.dieselQuantity = quantity;
+            } else if (type === 'Oil') {
+              this.oilpurchase = quantity;
             }
           }
         } else {
           this.petolQuantity = 0;
           this.dieselQuantity = 0;
+          this.oilpurchase = 0;
         }
       },
       (error) => {

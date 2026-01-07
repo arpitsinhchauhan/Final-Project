@@ -109,6 +109,7 @@ import {
   API_CREDITTYPE_ADD,
   API_CREDITTYPE_LIST,
   API_TOTAL_BAKI_DETAILS,
+  API_TOTAL_LOCL_DETAILS,
 } from "app/serviceult";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PurchaseDetails } from "app/models/PurchaseDetails ";
@@ -829,4 +830,12 @@ export class UserServiceService {
     return this.http.get<any[]>(API_TOTAL_BAKI_DETAILS, { params });
   }
 
+  getTotalLoclReport(startDate: string, endDate: string, userId: string) {
+    let params = new HttpParams()
+      .set('startDate', startDate)
+      .set('endDate', endDate)
+      .set('userId', userId);
+
+    return this.http.get<any[]>(API_TOTAL_LOCL_DETAILS, { params });
+  }
 }

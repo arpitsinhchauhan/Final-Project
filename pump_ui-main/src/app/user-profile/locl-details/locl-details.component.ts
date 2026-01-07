@@ -1,21 +1,21 @@
-import { HttpClient, HttpParams } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
-import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { UserServiceService } from 'app/services/user-service.service';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { HttpClient } from '@angular/common/http';
+import { MatDialog, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { UserServiceService } from 'app/services/user-service.service';
 
 @Component({
-  selector: 'app-pump-total-baki-details',
-  templateUrl: './pump-total-baki-details.component.html',
-  styleUrls: ['./pump-total-baki-details.component.scss']
+  selector: 'app-locl-details',
+  templateUrl: './locl-details.component.html',
+  styleUrls: ['./locl-details.component.scss']
 })
-export class PumpTotalBakiDetailsComponent implements OnInit {
+export class LoclDetailsComponent implements OnInit {
 
   startDate!: string;
   endDate!: string;
   userId: string | null = localStorage.getItem('userId');
-  reportList: any[] = [];
+  creditList: any[] = [];
 
   constructor(
     private http: HttpClient,
@@ -28,20 +28,17 @@ export class PumpTotalBakiDetailsComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getTotalBakiDetails();
+    this.getTotalCreditDetails();
   }
 
-  getTotalBakiDetails(): void {
-    this.use.getTotalBakiReport(this.startDate, this.endDate, this.userId!)
+  getTotalCreditDetails(): void {
+    this.use.getTotalLoclReport(this.startDate, this.endDate, this.userId!)
       .subscribe((res: any[]) => {
-        this.reportList = res.map(r => ({
+        this.creditList = res.map(r => ({
           date: r[0],
-          name: r[1],
-          type: r[2],
-          rate: r[3],
-          ltr: r[4],
-          baki: r[5],
-          bakiNote: r[6]
+          balance: r[1],
+          credit: r[2],
+          remark: r[3],
         }));
       });
   }
@@ -49,15 +46,11 @@ export class PumpTotalBakiDetailsComponent implements OnInit {
 
 
   exportExcel(): void {
-
-    const excelData = this.reportList.map(b => ({
+    const excelData = this.creditList.map(b => ({
       Date: b.date,
-      Name: b.name,
-      Type: b.type,
-      Rate: b.rate,
-      LTR: b.ltr,
-      Baki: b.baki,
-      Note: b.bakiNote
+      Balance: b.balance,
+      Credit: b.credit,
+      Remark: b.remark,
     }));
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelData);
@@ -75,11 +68,11 @@ export class PumpTotalBakiDetailsComponent implements OnInit {
       { type: 'application/octet-stream' }
     );
 
-    saveAs(blob, 'Baki_Report.xlsx');
+    saveAs(blob, 'Credit_Report.xlsx');
   }
 
   pdf(): void {
-    const printContent = document.getElementById('bakiListTable')?.outerHTML;
+    const printContent = document.getElementById('creditListTable')?.outerHTML;
     const originalContent = document.body.innerHTML;
 
     document.body.innerHTML = printContent ?? '';
@@ -88,9 +81,10 @@ export class PumpTotalBakiDetailsComponent implements OnInit {
     window.location.reload();
   }
 
-  getTotalBaki(): number {
-    return this.reportList.reduce((sum, b) =>
-      sum + (parseFloat(b.baki) || 0), 0
+
+  getTotalBalance(): number {
+    return this.creditList.reduce((sum, locl) =>
+      sum + (parseFloat(locl.balance) || 0), 0
     );
   }
 

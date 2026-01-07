@@ -65,15 +65,23 @@ public interface XpdailystockRepository extends JpaRepository<xpdailystock, Inte
     );
 
 
-    @Query(value = "SELECT xp_ugadto_stock " +
-            "FROM xpdailystock " +
-            "WHERE date = ( " +
-            "SELECT MAX(date) " +
-            "FROM xpdailystock " +
-            "WHERE date BETWEEN :startDate AND :endDate " +
-            "AND user_id = :userId " +
-            ") " +
-            "AND user_id = :userId ", nativeQuery = true)
+//    @Query(value = "SELECT xp_ugadto_stock " +
+//            "FROM xpdailystock " +
+//            "WHERE date = ( " +
+//            "SELECT MAX(date) " +
+//            "FROM xpdailystock " +
+//            "WHERE date BETWEEN :startDate AND :endDate " +
+//            "AND user_id = :userId " +
+//            ") " +
+//            "AND user_id = :userId ", nativeQuery = true)
+//    Double findLatestXpUgadtoStockInRange(
+//            @Param("startDate") String startDate,
+//            @Param("endDate") String endDate,
+//            @Param("userId") String userId
+//    );
+
+    @Query(value = "SELECT xp_ugadto_stock FROM xpdailystock WHERE user_id = :userId AND date > :endDate AND date >= :startDate"+
+            " ORDER BY date ASC LIMIT 1", nativeQuery = true)
     Double findLatestXpUgadtoStockInRange(
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,

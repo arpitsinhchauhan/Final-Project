@@ -16,7 +16,7 @@ export class PurchaseReportComponent implements OnInit {
   isReload: boolean;
   // userId: string;
   userId = localStorage.getItem('userId');
-  row = [
+  row: PurchaseRow[] = [
     {
       id: this.purchase.id,
       type: 'Petrol',
@@ -32,6 +32,18 @@ export class PurchaseReportComponent implements OnInit {
     {
       id: this.purchase.id,
       type: 'Diesel',
+      quantity: '',
+      total: '',
+      vat: '',
+      cess: '',
+      total_purchase: '',
+      jtcpercentage: "",
+      date: '',
+      userId: this.userId
+    },
+    {
+      id: this.purchase.id,
+      type: 'Oil',
       quantity: '',
       total: '',
       vat: '',
@@ -89,9 +101,13 @@ export class PurchaseReportComponent implements OnInit {
     this.notificationService.success('Purchase Data Succefully Delete.');
   }
 
-  totalPrice() {
-    return this.row.reduce((acc, item) => acc + (parseFloat(item.total_purchase) || 0), 0);
+  totalPrice(): number {
+    return this.row.reduce(
+      (acc, item) => acc + (Number(item.total_purchase) || 0),
+      0
+    );
   }
+
 
   validateData(): boolean {
     if (!this.purchaDipStockseDetails.date) {
@@ -99,8 +115,21 @@ export class PurchaseReportComponent implements OnInit {
       return false;
     }
     for (let item of this.row) {
-      if (!this.isNumber(item.quantity) || !this.isNumber(item.total) || !this.isNumber(item.vat) || !this.isNumber(item.cess) || !this.isNumber(item.jtcpercentage) || !this.isNumber(item.total_purchase)) {
-        this.notificationService.failure("All numeric fields must contain valid numbers.");
+      item.quantity = item.quantity === null || item.quantity === '' ? 0 : Number(item.quantity);
+      item.total = item.total === null || item.total === '' ? 0 : Number(item.total);
+      item.vat = item.vat === null || item.vat === '' ? 0 : Number(item.vat);
+      item.cess = item.cess === null || item.cess === '' ? 0 : Number(item.cess);
+      item.jtcpercentage = item.jtcpercentage === null || item.jtcpercentage === '' ? 0 : Number(item.jtcpercentage);
+      item.total_purchase = item.total_purchase === null || item.total_purchase === '' ? 0 : Number(item.total_purchase);
+      if (
+        isNaN(item.quantity) ||
+        isNaN(item.total) ||
+        isNaN(item.vat) ||
+        isNaN(item.cess) ||
+        isNaN(item.jtcpercentage) ||
+        isNaN(item.total_purchase)
+      ) {
+        this.notificationService.failure('All numeric fields must contain valid numbers.');
         return false;
       }
       if (!item.type) {
@@ -108,8 +137,10 @@ export class PurchaseReportComponent implements OnInit {
         return false;
       }
     }
+
     return true;
   }
+
 
   order() {
     if (!this.validateData()) {
@@ -196,8 +227,21 @@ export class PurchaseReportComponent implements OnInit {
         userId: this.userId
       };
 
+      const oilRow = filteredData.find(item => item.type === 'Oil') || {
+        id: this.purchase?.id,
+        type: 'Oil',
+        quantity: '',
+        total: '',
+        vat: '',
+        cess: '',
+        jtcpercentage: '',
+        total_purchase: '',
+        date: this.purchaDipStockseDetails.date || '',
+        userId: this.userId
+      };
+
       // Ensure Petrol & Diesel always appear at the top
-      this.row = [petrolRow, dieselRow, ...filteredData.filter(item => item.type !== 'Petrol' && item.type !== 'Diesel')];
+      this.row = [petrolRow, dieselRow, oilRow, ...filteredData.filter(item => item.type !== 'Petrol' && item.type !== 'Diesel' && item.type !== 'Oil')];
     });
   }
 

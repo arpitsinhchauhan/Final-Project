@@ -144,7 +144,7 @@ export class AddloclDetailsComponent implements OnInit {
   totalPrice() {
     let total = 0;
     this.row.forEach(item => {
-      const value = parseFloat(item.credit);
+      const value = parseFloat(item.balance);
       if (!isNaN(value)) {
         total += value;
       }

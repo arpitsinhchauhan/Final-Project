@@ -28,6 +28,7 @@ import { NotificationService } from "app/services/notification.service";
 import { ExpensesExcelComponent } from "./expenses-excel/expenses-excel.component";
 import { BakiDetailsComponent } from "./baki-details/baki-details.component";
 import { PumpTotalBakiDetailsComponent } from "./pump-total-baki-details/pump-total-baki-details.component";
+import { LoclDetailsComponent } from "./locl-details/locl-details.component";
 
 @Component({
   selector: "app-user-profile",
@@ -70,6 +71,8 @@ export class UserProfileComponent implements OnInit {
   endDateBaki: string;
   startDateCustomerBaki: string;
   endDateCustomerBaki: string;
+  startDateCredit: string;
+  endDateCredit: string;
 
   constructor(
     private use: UserServiceService,
@@ -617,6 +620,31 @@ export class UserProfileComponent implements OnInit {
       data: {
         startDate: this.startDateCustomerBaki,
         endDate: this.endDateCustomerBaki,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      this.getdata();
+      this.getCustomer();
+      this.getexpensesList();
+    });
+  }
+
+
+  creditDetails() {
+    if (!this.startDateCredit || !this.endDateCredit) {
+      this.notificationService.failure(
+        "Please select both start date and end date"
+      );
+      return;
+    }
+
+    const dialogRef = this.dialog.open(LoclDetailsComponent, {
+      width: "90%",
+      height: "90%",
+      data: {
+        startDate: this.startDateCredit,
+        endDate: this.endDateCredit,
       },
     });
 

@@ -95,6 +95,7 @@ import { BakiDetailsComponent } from './user-profile/baki-details/baki-details.c
 import { AddloclDetailsComponent } from './modules/addlocl-details/addlocl-details.component';
 import { CreditTypeComponent } from './modules/addlocl-details/credit-type/credit-type.component';
 import { PumpTotalBakiDetailsComponent } from './user-profile/pump-total-baki-details/pump-total-baki-details.component';
+import { LoclDetailsComponent } from './user-profile/locl-details/locl-details.component';
 
 
 @NgModule({
@@ -206,7 +207,8 @@ import { PumpTotalBakiDetailsComponent } from './user-profile/pump-total-baki-de
     BakiDetailsComponent,
     AddloclDetailsComponent,
     CreditTypeComponent,
-    PumpTotalBakiDetailsComponent
+    PumpTotalBakiDetailsComponent,
+    LoclDetailsComponent
     // KharchComponent,
     // JamaBakiComponent,
     // CustomPdfViewerComponent,

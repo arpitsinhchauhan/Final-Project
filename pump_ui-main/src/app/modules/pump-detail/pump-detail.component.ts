@@ -37,6 +37,12 @@ export class PumpDetailComponent implements OnInit {
   totalDieselCess: number = 0;
   totalDieselJtcpercentage: number = 0;
   totalDieselTotalPurchase: number = 0;
+  totalOilQuantity: number = 0;
+  totalOilTotal: number = 0;
+  totalOilVat: number = 0;
+  totalOilCess: number = 0;
+  totalOilJtcpercentage: number = 0;
+  totalOilTotalPurchase: number = 0;
   totalAmountTotal: number = 0;
   totalJamaTotal: number = 0;
   totalBakiTotal: number = 0;
@@ -215,6 +221,30 @@ export class PumpDetailComponent implements OnInit {
       (sum, item) => sum + item.dieselTotalPurchase,
       0
     );
+    this.totalOilQuantity = this.productList.reduce(
+      (sum, item) => sum + item.oilQuantity,
+      0
+    );
+    this.totalOilTotal = this.productList.reduce(
+      (sum, item) => sum + item.oilTotal,
+      0
+    );
+    this.totalOilVat = this.productList.reduce(
+      (sum, item) => sum + item.oilVat,
+      0
+    );
+    this.totalOilCess = this.productList.reduce(
+      (sum, item) => sum + item.oilCess,
+      0
+    );
+    this.totalOilJtcpercentage = this.productList.reduce(
+      (sum, item) => sum + item.oilJtcpercentage,
+      0
+    );
+    this.totalOilTotalPurchase = this.productList.reduce(
+      (sum, item) => sum + item.oilTotalPurchase,
+      0
+    );
     this.totalAmountTotal = this.productList.reduce(
       (sum, item) => sum + item.amountTotal,
       0
@@ -332,6 +362,12 @@ export class PumpDetailComponent implements OnInit {
       dieselCess: this.totalDieselCess,
       dieselJtcpercentage: this.totalDieselJtcpercentage,
       dieselTotalPurchase: this.totalDieselTotalPurchase,
+      oilQuantity: this.totalOilQuantity,
+      oilTotal: this.totalOilTotal,
+      oilVat: this.totalOilVat,
+      oilCess: this.totalOilCess,
+      oilJtcpercentage: this.totalOilJtcpercentage,
+      oilTotalPurchase: this.totalOilTotalPurchase,
       amountTotal: this.totalAmountTotal,
       jamaTotal: this.totalJamaTotal,
       bakiTotal: this.totalBakiTotal,
@@ -356,6 +392,8 @@ export class PumpDetailComponent implements OnInit {
       "petrolTotalPurchase",
       "dieselQuantity", "dieselTotal", "dieselVat", "dieselCess",
       "dieselJtcpercentage", "dieselTotalPurchase",
+      "oilQuantity", "oilTotal", "oilVat", "oilCess",
+      "oilJtcpercentage", "oilTotalPurchase",
       "amountTotal", "jamaTotal", "bakiTotal", "locl_balance_Total",
       ...this.expenseHeaders
     ];
@@ -384,6 +422,12 @@ export class PumpDetailComponent implements OnInit {
       dieselCess: "Diesel CESS",
       dieselJtcpercentage: "Diesel JTC %",
       dieselTotalPurchase: "Diesel Total Purchase",
+      oilQuantity: "Oil Purchase Qty",
+      oilTotal: "Oil Purchase Amount",
+      oilVat: "Oil VAT",
+      oilCess: "Oil CESS",
+      oilJtcpercentage: "Oil JTC %",
+      oilTotalPurchase: "Oil Total Purchase",
       amountTotal: "Amount Total",
       jamaTotal: "Jama",
       bakiTotal: "Baki",

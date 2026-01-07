@@ -194,9 +194,9 @@
                <input type="number" [(ngModel)]="multipliers.twenty" (input)="calculateTotal()" placeholder="0" />
             </td>
             <td>{{ twenty | number:'1.2-2' }}</td>
-            <td colspan="2">Petrol Purchase LTR / Diesel Purchase LTR</td>
+            <td colspan="2">Petrol Purchase LTR / Diesel Purchase LTR/Oil Purchase LTR</td>
             <td (click)="openPurchase()" class="clickText"> {{petolQuantity | number:'1.2-2'}} / {{dieselQuantity |
-               number:'1.2-2'}}</td>
+               number:'1.2-2'}} / {{oilpurchase | number:'1.2-2'}}</td>
          </tr>
          <tr>
             <td>10</td>
