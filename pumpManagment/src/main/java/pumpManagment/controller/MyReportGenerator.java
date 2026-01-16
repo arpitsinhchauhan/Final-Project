@@ -74,6 +74,9 @@ public class MyReportGenerator implements ProfitLossService {
     @Autowired
     private extraPurchaseRepository extraPurchaseRepository;
 
+    @Autowired
+    private loclcreditRepository loclcreditRepository;
+
     public ResponseEntity<byte[]> generatePdf(String userId, String startDate, String endDate) throws ParseException {
         try {
             double totalPetrolOpenAmount = 0;
@@ -132,6 +135,9 @@ public class MyReportGenerator implements ProfitLossService {
                     dailydieselstockRepository.findLatestDieselOpenstockInRange(startDate, endDate, userId)
             ).orElse(0.0);
 
+            double creditBalance = Optional.ofNullable(
+                    loclcreditRepository.sumBalanceNative(startDate, endDate, userId)
+            ).orElse(0.0);
 
 
             // ---------- CALCULATIONS ----------
@@ -160,7 +166,7 @@ public class MyReportGenerator implements ProfitLossService {
                 }
             }
 
-            double totalRs = grossProfit - totalPrice;
+            double totalRs = grossProfit - totalPrice + creditBalance;
 
             // ---------- THYMELEAF ----------
             Context ctx = new Context();
@@ -179,6 +185,7 @@ public class MyReportGenerator implements ProfitLossService {
             ctx.setVariable("grossProfit", df.format(grossProfit));
             ctx.setVariable("kharchList", kharchList);
             ctx.setVariable("totalRs", df.format(totalRs));
+            ctx.setVariable("creditBalance", df.format(creditBalance));
 
             // ---------- PDF ----------
             ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
@@ -379,7 +386,7 @@ public class MyReportGenerator implements ProfitLossService {
                 Optional<Double> powerDieselRate = powerDieselRepository.findLastRateByDateRangeAndUser(startDate, endDate, userId);
                 Double xpPetrolOneDayAgoStcok = xpdailystockRepository.findLatestXpUgadtoStockInRange(startDate, endDate, userId);
                 Double powerDieselOneDayAgoStcok = powerdieseldailystockRepository.findLatestPowerDieselDailyStockInRange(startDate, endDate, userId);
-
+                double creditBalance = Optional.ofNullable(loclcreditRepository.sumBalanceNative(startDate, endDate, userId)).orElse(0.0);
                 List<Object[]> kharchList = kharchrepository.getExpenseDetails(startDate, endDate, userId);
 
 
@@ -433,7 +440,7 @@ public class MyReportGenerator implements ProfitLossService {
 
                 System.out.println("Total Price: " + totalPrice);
 
-                Double totalRs = grossProfit - totalPrice;
+                Double totalRs = grossProfit - totalPrice+creditBalance;
 
                 final Context ctx = new Context();
                 ctx.setVariable("petrolStock", df.format(totalOpenPetrolAmount));
@@ -459,6 +466,7 @@ public class MyReportGenerator implements ProfitLossService {
                 ctx.setVariable("grossProfit", df.format(grossProfit));
 
                 ctx.setVariable("kharchList", kharchList);
+                ctx.setVariable("creditBalance", df.format(creditBalance));
 
                 ctx.setVariable("totalRs", df.format(totalRs));
 

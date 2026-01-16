@@ -89,10 +89,27 @@ public interface jamabakiRepository extends JpaRepository<jamabaki, Integer> {
             @Param("userId") String userId
     );
 
-    @Query("SELECT SUM(j.jama) - SUM(j.baki) AS JamaBakiDifference "
-            + "FROM jamabaki j "
-            + "WHERE YEAR(j.date) = YEAR(CURRENT_DATE()) AND j.userId = :userId")
-    Double findJamaBakiDifferenceForCurrentYear(@Param("userId") String userId);
+//    @Query("SELECT SUM(j.jama) - SUM(j.baki) AS JamaBakiDifference "
+//            + "FROM jamabaki j "
+//            + "WHERE YEAR(j.date) = YEAR(CURRENT_DATE()) AND j.userId = :userId")
+//    Double findJamaBakiDifferenceForCurrentYear(@Param("userId") String userId);
+@Query(value = "SELECT SUM(j.jama) - SUM(j.baki) " +
+        "FROM jamabaki j " +
+        "WHERE j.date BETWEEN " +
+            "CASE " +
+                "WHEN MONTH(CURDATE()) >= 4 " +
+                "THEN CONCAT(YEAR(CURDATE()), '-04-01') " +
+                "ELSE CONCAT(YEAR(CURDATE()) - 1, '-04-01') " +
+            "END " +
+        "AND " +
+            "CASE " +
+                "WHEN MONTH(CURDATE()) >= 4 " +
+                "THEN CONCAT(YEAR(CURDATE()) + 1, '-03-31') " +
+                "ELSE CONCAT(YEAR(CURDATE()), '-03-31') " +
+            "END " +
+        "AND j.user_id = :userId",nativeQuery = true)
+Double findJamaBakiDifferenceForCurrentYear(@Param("userId") String userId);
+
 
     @Query("SELECT j.jama, j.baki FROM jamabaki j WHERE j.date = :date AND j.userId = :userId")
     List<Object[]> getjamaBakiDataOnDate(@Param("date") String date, @Param("userId") String userId);
@@ -109,18 +126,36 @@ public interface jamabakiRepository extends JpaRepository<jamabaki, Integer> {
             "ORDER BY user_id ASC, name ASC ", nativeQuery = true)
             List<Object[]> fetchJamaBakiSummaryRaw();
 
-    @Query(value = "SELECT j.date, j.name, j.type, j.rate, j.ltr, j.baki, j.baki_note " +
-            "FROM jamabakireport j " +
-            "WHERE j.date BETWEEN :startDate AND :endDate " +
-            "AND j.baki <> 0 " +
-            "AND j.user_id = :userId " +
-            "ORDER BY j.date DESC",
-            nativeQuery = true)
+    @Query(value = "SELECT " +
+                    "j.name AS name, " +
+                    "SUM(j.baki) AS total_baki, " +
+                    "SUM(j.jama) AS total_jama, " +
+                    "(SUM(j.baki) - SUM(j.jama)) AS baki_total " +
+                    "FROM jamabakireport j " +
+                    "WHERE j.date BETWEEN :startDate AND :endDate " +
+                    "AND j.user_id = :userId " +
+                    "GROUP BY j.name " +
+                    "ORDER BY j.name",
+            nativeQuery = true
+    )
     List<Object[]> findReportByDateRangeExcludeZeroBaki(
             @Param("startDate") String startDate,
             @Param("endDate") String endDate,
             @Param("userId") String userId
     );
+
+//    @Query(value = "SELECT j.date, j.name, j.type, j.rate, j.ltr, j.baki, j.baki_note " +
+//            "FROM jamabakireport j " +
+//            "WHERE j.date BETWEEN :startDate AND :endDate " +
+//            "AND j.baki <> 0 " +
+//            "AND j.user_id = :userId " +
+//            "ORDER BY j.date DESC",
+//            nativeQuery = true)
+//    List<Object[]> findReportByDateRangeExcludeZeroBaki(
+//            @Param("startDate") String startDate,
+//            @Param("endDate") String endDate,
+//            @Param("userId") String userId
+//    );
 
 //    @Query(value = "SELECT j.date, j.name, j.rate, j.type, j.ltr, j.baki, j.baki_note FROM jamabakireport j WHERE j.user_id = :userId AND j.date BETWEEN :startDate AND :endDate ORDER BY j.date", nativeQuery = true)
 //    List<jamabaki> findReportNative(@Param("userId") String userId,

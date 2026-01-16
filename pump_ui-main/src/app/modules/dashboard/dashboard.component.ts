@@ -421,7 +421,7 @@ export class DashboardComponent implements OnInit {
         indexLabelFontSize: 14,
         indexLabelLineColor: "#000",
         indexLabelLineThickness: 1,
-        indexLabel: "{label} - {y}%",
+        indexLabel: "{label} - {y}",
         dataPoints: [
           { y: Number(this.petrollabel), label: "Petrol" },
           { y: Number(this.diesellabel), label: "Diesel" },

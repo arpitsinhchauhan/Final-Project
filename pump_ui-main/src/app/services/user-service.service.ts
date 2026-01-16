@@ -110,6 +110,9 @@ import {
   API_CREDITTYPE_LIST,
   API_TOTAL_BAKI_DETAILS,
   API_TOTAL_LOCL_DETAILS,
+  API_OIL_PURCHASE,
+  API_OIL_PURCHASE_EDIT,
+  API_OIL_PURCHASE_DELETE,
 } from "app/serviceult";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PurchaseDetails } from "app/models/PurchaseDetails ";
@@ -183,6 +186,12 @@ export class UserServiceService {
     });
   }
 
+  getUpdateOilPurchase(data: PurchaseDetails): Observable<string> {
+    return this.http.post(API_OIL_PURCHASE_EDIT, data, {
+      responseType: "text", // ✅ No need to cast to 'json'
+    });
+  }
+
   getUpdateExtraPurchase(data: ExtraPurchaseDetails): Observable<string> {
     return this.http.post(API_EXTRA_PURCHASE_EDIT, data, {
       responseType: "text", // ✅ No need to cast to 'json'
@@ -191,6 +200,10 @@ export class UserServiceService {
 
   deletePurchasedata(id: string): Observable<any> {
     return this.http.delete(`${API_PURCHASE_DELETE}/${id}`);
+  }
+
+  deleteOilPurchasedata(id: string): Observable<any> {
+    return this.http.delete(`${API_OIL_PURCHASE_DELETE}/${id}`);
   }
 
   deleteExtraPurchasedata(id: string): Observable<any> {
@@ -513,6 +526,12 @@ export class UserServiceService {
     const params = new HttpParams().set("date", date).set("userId", userId);
 
     return this.http.get<any>(API_PURCHASE, { params });
+  }
+
+  getOilPurchaseiList(date: string, userId: string): Observable<any> {
+    const params = new HttpParams().set("date", date).set("userId", userId);
+
+    return this.http.get<any>(API_OIL_PURCHASE, { params });
   }
 
   getExtraPurchaseiList(date: string, userId: string): Observable<any> {

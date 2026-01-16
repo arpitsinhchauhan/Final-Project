@@ -21,28 +21,22 @@
                     <table id="bakiListTable">
                         <thead>
                             <tr>
-                                <th>Date</th>
                                 <th>Name</th>
-                                <th>Rate</th>
-                                <th>Type</th>
-                                <th>Ltr</th>
                                 <th>Baki</th>
-                                <th>Note</th>
+                                <th>Jama</th>
+                                <th>Total_Baki</th>
                             </tr>
                         </thead>
 
                         <tbody>
                             <tr *ngFor="let r of reportList">
-                                <td>{{ r.date }}</td>
                                 <td>{{ r.name }}</td>
-                                <td>{{ r.rate }}</td>
-                                <td>{{ r.type }}</td>
-                                <td>{{ r.ltr }}</td>
-                                <td>{{ r.baki }}</td>
-                                <td>{{ r.bakiNote }}</td>
+                                <td>{{ r.total_baki }}</td>
+                                <td>{{ r.total_jama }}</td>
+                                <td>{{ r.baki_total }}</td>
                             </tr>
                             <tr>
-                                <td colspan="5" style="text-align: right;"><strong>Total Baki:</strong></td>
+                                <td colspan="3" style="text-align: right;"><strong>Total Baki:</strong></td>
                                 <td style="background-color: #d0b6b6;"><strong>{{ getTotalBaki() | number:'1.2-2'
                                         }}</strong></td>
                             </tr>

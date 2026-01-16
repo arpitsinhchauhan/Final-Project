@@ -25,6 +25,7 @@ import { AddPowerDieselgattComponent } from '../add-power-dieselgatt/add-power-d
 import { DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE, MatDateFormats } from '@angular/material/core';
 import { AddloclDetailsComponent } from '../addlocl-details/addlocl-details.component';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { OilpurchaseComponent } from '../oil-purchase-table/oilpurchase/oilpurchase.component';
 
 export const MY_DATE_FORMATS: MatDateFormats = {
   parse: {
@@ -127,7 +128,7 @@ export class MainPanelComponent implements OnInit {
 
   petolQuantity: number = 0;
   dieselQuantity: number = 0;
-  oilpurchase: number = 0;
+  oilQuantity: number = 0;
 
   xpPetolQuantity: number = 0;
   powerDieselQuantity: number = 0;
@@ -203,6 +204,7 @@ export class MainPanelComponent implements OnInit {
       this.getXpPetrolGatt();
       this.getPowerDieselGatt();
       this.getcreditNOteIOCL();
+      this.getOilPurchaseList();
     } else {
       this.notificationService.failure("Plz Select the date..");
     }
@@ -833,7 +835,7 @@ export class MainPanelComponent implements OnInit {
   // }
 
   openPurchase(data?: any): void {
-    const dialogRef = this.dialog.open(PurchaseReportComponent, {
+    const dialogRef = this.dialog.open(OilpurchaseComponent, {
       width: window.innerWidth > 991 ? '65%' : '100%',
       data: { date: this.use.getFormattedDate(this.reportDate) },
       hasBackdrop: true,
@@ -856,14 +858,11 @@ export class MainPanelComponent implements OnInit {
               this.petolQuantity = quantity;
             } else if (type === 'Diesel') {
               this.dieselQuantity = quantity;
-            } else if (type === 'Oil') {
-              this.oilpurchase = quantity;
             }
           }
         } else {
           this.petolQuantity = 0;
           this.dieselQuantity = 0;
-          this.oilpurchase = 0;
         }
       },
       (error) => {
@@ -939,6 +938,39 @@ export class MainPanelComponent implements OnInit {
     );
   }
 
+  openOilPurchase(data?: any): void {
+    const dialogRef = this.dialog.open(OilpurchaseComponent, {
+      width: window.innerWidth > 991 ? '65%' : '100%',
+      data: { date: this.use.getFormattedDate(this.reportDate) },
+      hasBackdrop: true,
+      panelClass: 'mat-dialog-custom-panel'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      this.getOilPurchaseList();
+      this.backPage();
+    });
+  }
+
+  getOilPurchaseList() {
+    const formattedDate = this.use.getFormattedDate(this.reportDate);
+    this.use.getOilPurchaseiList(formattedDate, this.userId).subscribe(
+      (data) => {
+        if (data && data.length > 0) {
+          for (const item of data) {
+            const [quantity, type] = item;
+            if (type === 'oil') {
+              this.oilQuantity = quantity;
+            }
+          }
+        } else {
+          this.oilQuantity = 0;
+        }
+      },
+      (error) => {
+        this.notificationService.failure("Failed to fetch Purchase data.");
+      }
+    );
+  }
 
   get totalCase(): number {
     return (
@@ -948,7 +980,8 @@ export class MainPanelComponent implements OnInit {
       (Number(this.kharchTotal) || 0) -
       (Number(this.bakiTotal) || 0) +
       (Number(this.jamaTotal) || 0) -
-      (Number(this.Petrolgatt) || 0)
+      (Number(this.Petrolgatt) || 0) +
+      (Number(this.creditNOteIOCL) || 0)
     );
   }
 

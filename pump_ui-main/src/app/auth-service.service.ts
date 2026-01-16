@@ -18,14 +18,14 @@ export class AuthServiceService {
   private isAuthenticatedSubject = new BehaviorSubject<boolean>(false);
   isAuthenticated$ = this.isAuthenticatedSubject.asObservable();
 
-  
+
   private isRoleAdminSubject = new BehaviorSubject<boolean>(false);
   isRoleAdmin$ = this.isRoleAdminSubject.asObservable();
 
 
 
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   attemptAuth(ussername: string, password: string): Observable<any> {
     const credentials = { username: ussername, password: password };
@@ -41,7 +41,7 @@ export class AuthServiceService {
       map(value => {
         return value.res.token
       }),
-      catchError(this.handleError('attemptAuth')) 
+      catchError(this.handleError('attemptAuth'))
     );
   }
 

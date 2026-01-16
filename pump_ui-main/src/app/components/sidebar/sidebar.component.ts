@@ -34,6 +34,7 @@ export const ROUTES: RouteInfo[] = [
     class: 'group',
     children: [
       { path: '/purchasedetails', title: 'Purchase Petrol & Diesel', icon: 'account_balance_wallet', class: '' },
+      { path: '/oilPurchasedetails', title: 'Purchase Oil', icon: 'account_balance_wallet', class: '' },
       { path: '/extraPurchasedetails', title: 'Extra Purchase Petrol & Diesel', icon: 'add_shopping_cart', class: '' },
     ]
   },

@@ -49,13 +49,13 @@ public class AggregatedDataDTO {
     private Double dieselCess;
     private Double dieselJtcpercentage;
     private Double dieselTotalPurchase;
-    private String oType;
     private Double oilQuantity;
     private Double oilTotal;
     private Double oilVat;
     private Double oilCess;
     private Double oilJtcpercentage;
     private Double oilTotalPurchase;
+    private String oType;
     private Double amountTotal;
     private Double jamaTotal;
     private Double bakiTotal;

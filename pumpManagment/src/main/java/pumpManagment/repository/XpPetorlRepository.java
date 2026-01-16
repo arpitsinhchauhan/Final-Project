@@ -29,7 +29,25 @@ public interface XpPetorlRepository extends JpaRepository<xpPetrol, Integer>{
     
     Optional<xpPetrol> findByDateAndPumpAndUserId(String date, String pump, String userId);
     
-    @Query(value = "SELECT SUM(p.xppetrol_ltr) FROM xppetrol p WHERE YEAR(p.date) = YEAR(CURDATE()) AND p.user_id = :userId", nativeQuery = true)
+//    @Query(value = "SELECT SUM(p.xppetrol_ltr) FROM xppetrol p WHERE YEAR(p.date) = YEAR(CURDATE()) AND p.user_id = :userId", nativeQuery = true)
+//    Double findTotalXPPetrolLtrForCurrentYear(@Param("userId") String userId);
+
+    @Query(value = "SELECT SUM(p.xppetrol_ltr) " +
+            "FROM xppetrol p " +
+            "WHERE p.date BETWEEN " +
+            "CASE " +
+            "WHEN MONTH(CURDATE()) >= 4 " +
+            "THEN CONCAT(YEAR(CURDATE()), '-04-01') " +
+            "ELSE CONCAT(YEAR(CURDATE()) - 1, '-04-01') " +
+            "END " +
+            "AND " +
+            "CASE " +
+            "WHEN MONTH(CURDATE()) >= 4 " +
+            "THEN CONCAT(YEAR(CURDATE()) + 1, '-03-31') " +
+            "ELSE CONCAT(YEAR(CURDATE()), '-03-31') " +
+            "END " +
+            "AND p.user_id = :userId ", nativeQuery = true
+    )
     Double findTotalXPPetrolLtrForCurrentYear(@Param("userId") String userId);
 
     @Query(value = "SELECT CONVERT(SUM(total_sell), CHAR) FROM xppetrol WHERE date BETWEEN :startDate AND :endDate AND user_id = :userId", nativeQuery = true)

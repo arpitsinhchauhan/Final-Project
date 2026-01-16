@@ -27,8 +27,26 @@ public interface PetrolSellRepository extends JpaRepository<PetrolSell, Integer>
     @Query("SELECT SUM(ps.total_sell) FROM PetrolSell ps WHERE ps.date = CURRENT_DATE")
     List<Object[]> findTotalPetrolSellForToday();
 
-    @Query("SELECT SUM(p.petrol_ltr) FROM PetrolSell p WHERE YEAR(p.date) = YEAR(CURDATE()) AND p.userId = :userId")
-    Double findTotalPetrolLtrForCurrentYear(@Param("userId") String userId);
+//    @Query("SELECT SUM(p.petrol_ltr) FROM PetrolSell p WHERE YEAR(p.date) = YEAR(CURDATE()) AND p.userId = :userId")
+//    Double findTotalPetrolLtrForCurrentYear(@Param("userId") String userId);
+@Query(value = "SELECT SUM(p.total_sell) " +
+        "FROM petrolsell p " +
+        "WHERE p.date BETWEEN " +
+            "CASE " +
+                "WHEN MONTH(CURDATE()) >= 4 " +
+                "THEN CONCAT(YEAR(CURDATE()), '-04-01') " +
+                "ELSE CONCAT(YEAR(CURDATE()) - 1, '-04-01') " +
+            "END " +
+        "AND " +
+            "CASE " +
+                "WHEN MONTH(CURDATE()) >= 4 " +
+                "THEN CONCAT(YEAR(CURDATE()) + 1, '-03-31') " +
+                "ELSE CONCAT(YEAR(CURDATE()), '-03-31') " +
+            "END " +
+        "AND p.user_id = :userId ", nativeQuery = true
+)
+Double findTotalPetrolLtrForCurrentYear(@Param("userId") String userId);
+
 
     @Query("SELECT "
             + "COALESCE(p.close_meter, '0'), "

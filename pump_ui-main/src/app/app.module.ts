@@ -96,6 +96,9 @@ import { AddloclDetailsComponent } from './modules/addlocl-details/addlocl-detai
 import { CreditTypeComponent } from './modules/addlocl-details/credit-type/credit-type.component';
 import { PumpTotalBakiDetailsComponent } from './user-profile/pump-total-baki-details/pump-total-baki-details.component';
 import { LoclDetailsComponent } from './user-profile/locl-details/locl-details.component';
+import { OilPurchaseTableComponent } from './modules/oil-purchase-table/oil-purchase-table.component';
+import { OilpurchaseComponent } from './modules/oil-purchase-table/oilpurchase/oilpurchase.component';
+import { OilPuchasePdfExcelComponent } from './modules/oil-purchase-table/oil-puchase-pdf-excel/oil-puchase-pdf-excel.component';
 
 
 @NgModule({
@@ -208,7 +211,10 @@ import { LoclDetailsComponent } from './user-profile/locl-details/locl-details.c
     AddloclDetailsComponent,
     CreditTypeComponent,
     PumpTotalBakiDetailsComponent,
-    LoclDetailsComponent
+    LoclDetailsComponent,
+    OilpurchaseComponent,
+    OilPurchaseTableComponent,
+    OilPuchasePdfExcelComponent
     // KharchComponent,
     // JamaBakiComponent,
     // CustomPdfViewerComponent,

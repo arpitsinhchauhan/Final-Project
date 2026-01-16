@@ -130,6 +130,12 @@
                     <td class="left-align highlight">GROSS PROFIT C/O</td>
                     <td th:text="${grossProfit}" class="left-align highlight"></td>
                 </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td class="left-align">Credit Balance</td>
+                    <td th:text="${creditBalance}"></td>
+                </tr>
                 <tr th:each="row : ${kharchList}">
                     <td th:text="${row[0]}">Expense</td>
                     <td th:text="${row[1]}">Price</td>

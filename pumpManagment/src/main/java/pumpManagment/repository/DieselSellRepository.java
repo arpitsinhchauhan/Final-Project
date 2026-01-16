@@ -46,7 +46,25 @@ public interface DieselSellRepository extends JpaRepository<Dieselsell, Integer>
 //            @Param("endDate") String endDate);
     Optional<Dieselsell> findByDateAndPump(String date, String pump);
 
-    @Query("SELECT SUM(d.diesel_ltr) FROM Dieselsell d WHERE YEAR(d.date) = YEAR(CURDATE()) AND d.userId = :userId")
+//    @Query("SELECT SUM(d.diesel_ltr) FROM Dieselsell d WHERE YEAR(d.date) = YEAR(CURDATE()) AND d.userId = :userId")
+//    Double findTotalDieselLtrForCurrentYear(@Param("userId") String userId);
+
+    @Query(value = "SELECT SUM(d.diesel_ltr) " +
+            "FROM Dieselsell d " +
+            "WHERE d.date BETWEEN " +
+            "CASE " +
+            "WHEN MONTH(CURDATE()) >= 4 " +
+            "THEN CONCAT(YEAR(CURDATE()), '-04-01') " +
+            "ELSE CONCAT(YEAR(CURDATE()) - 1, '-04-01') " +
+            "END " +
+            "AND " +
+            "CASE " +
+            "WHEN MONTH(CURDATE()) >= 4 " +
+            "THEN CONCAT(YEAR(CURDATE()) + 1, '-03-31') " +
+            "ELSE CONCAT(YEAR(CURDATE()), '-03-31') " +
+            "END " +
+            "AND d.user_id = :userId ", nativeQuery = true
+    )
     Double findTotalDieselLtrForCurrentYear(@Param("userId") String userId);
 
     @Query("SELECT "

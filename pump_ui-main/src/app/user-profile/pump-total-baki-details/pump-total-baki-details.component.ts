@@ -35,13 +35,10 @@ export class PumpTotalBakiDetailsComponent implements OnInit {
     this.use.getTotalBakiReport(this.startDate, this.endDate, this.userId!)
       .subscribe((res: any[]) => {
         this.reportList = res.map(r => ({
-          date: r[0],
-          name: r[1],
-          type: r[2],
-          rate: r[3],
-          ltr: r[4],
-          baki: r[5],
-          bakiNote: r[6]
+          name: r[0],
+          total_baki: r[1],
+          total_jama: r[2],
+          baki_total: r[3],
         }));
       });
   }
@@ -51,13 +48,10 @@ export class PumpTotalBakiDetailsComponent implements OnInit {
   exportExcel(): void {
 
     const excelData = this.reportList.map(b => ({
-      Date: b.date,
       Name: b.name,
-      Type: b.type,
-      Rate: b.rate,
-      LTR: b.ltr,
-      Baki: b.baki,
-      Note: b.bakiNote
+      Total_Baki: b.total_baki,
+      Total_Jama: b.total_jama,
+      Baki_Total: b.baki_total,
     }));
 
     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(excelData);
@@ -90,7 +84,7 @@ export class PumpTotalBakiDetailsComponent implements OnInit {
 
   getTotalBaki(): number {
     return this.reportList.reduce((sum, b) =>
-      sum + (parseFloat(b.baki) || 0), 0
+      sum + (parseFloat(b.baki_total) || 0), 0
     );
   }
 

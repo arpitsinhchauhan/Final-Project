@@ -95,6 +95,9 @@ public class PurchaseController {
     private PurchaseRepository purchaseRepository;
 
     @Autowired
+    private OilPurchaseRepository oilPurchaseRepository;
+
+    @Autowired
     private PetrolSellRepository petrolSellRepository;
 
     @Autowired
@@ -350,6 +353,58 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> deleteEntity(@PathVariable Integer id) {
         try {
             purchaseRepository.deleteById(id);
+            ApiResponse response = new ApiResponse("Entity deleted successfully");
+            return ResponseEntity.ok(response);
+        } catch (EmptyResultDataAccessException ex) {
+            return ResponseEntity.notFound().build(); // ID not found
+        }
+    }
+
+    // OIL PURCHASE SELL
+    @GetMapping(value = "/oilpurchasesList")
+    public List<Oilpurchase> getAllOilPayment(@RequestParam String userId) {
+        List<Oilpurchase> data = oilPurchaseRepository.findByUserId(userId);
+        return data;
+    }
+
+    @PostMapping("/addoilPurchase")
+    public ResponseEntity<List<Oilpurchase>> updateOilPurchase(@RequestBody List<Oilpurchase> expenses) {
+        List<Oilpurchase> updatedExpenses = new ArrayList<>();
+
+        for (Oilpurchase expense : expenses) {
+            Optional<Oilpurchase> existingEntry = oilPurchaseRepository.findByDateAndTypeAndUserId(
+                    expense.getDate(), expense.getType(), expense.getUserId()
+            );
+            if (existingEntry.isPresent()) {
+                Oilpurchase existingExpense = existingEntry.get();
+                existingExpense.setQuantity(expense.getQuantity());
+                existingExpense.setTotal(expense.getTotal());
+                existingExpense.setVat(expense.getVat());
+                existingExpense.setCess(expense.getCess());
+                existingExpense.setJtcpercentage(expense.getJtcpercentage());
+                existingExpense.setTotal_purchase(expense.getTotal_purchase());
+                Oilpurchase savedExpense = oilPurchaseRepository.save(existingExpense);
+                updatedExpenses.add(savedExpense);
+            } else {
+                Oilpurchase savedExpense = oilPurchaseRepository.save(expense);
+                updatedExpenses.add(savedExpense);
+            }
+        }
+        return ResponseEntity.ok(updatedExpenses);
+    }
+
+
+    @PostMapping("/updateoilPurchase")
+    public ResponseEntity<ApiResponse> updateOilPurchase(@RequestBody Oilpurchase purchase) {
+        oilPurchaseRepository.save(purchase);
+        ApiResponse response = new ApiResponse("Oilpurchase updated and saved successfully");
+        return ResponseEntity.ok(response);
+    }
+
+    @DeleteMapping("/deleteoilPurchase/{id}")
+    public ResponseEntity<ApiResponse> deleteOilpurchaseEntity(@PathVariable Integer id) {
+        try {
+            oilPurchaseRepository.deleteById(id);
             ApiResponse response = new ApiResponse("Entity deleted successfully");
             return ResponseEntity.ok(response);
         } catch (EmptyResultDataAccessException ex) {
@@ -1692,12 +1747,12 @@ public class PurchaseController {
             dto.setDieselCess(convertToDouble(map.get("Diesel_Cess")));
             dto.setDieselJtcpercentage(convertToDouble(map.get("Diesel_Jtcpercentage")));
             dto.setDieselTotalPurchase(convertToDouble(map.get("Diesel_Total_Purchase")));
-            dto.setOilQuantity(convertToDouble(map.get("oil_Quantity")));
-            dto.setOilTotal(convertToDouble(map.get("oil_Total")));
-            dto.setOilVat(convertToDouble(map.get("oil_Vat")));
-            dto.setOilCess(convertToDouble(map.get("oil_Cess")));
-            dto.setOilJtcpercentage(convertToDouble(map.get("oil_Jtcpercentage")));
-            dto.setOilTotalPurchase(convertToDouble(map.get("oil_Total_Purchase")));
+            dto.setOilQuantity(convertToDouble(map.get("Oil_Quantity")));
+            dto.setOilTotal(convertToDouble(map.get("Oil_Total")));
+            dto.setOilVat(convertToDouble(map.get("Oil_Vat")));
+            dto.setOilCess(convertToDouble(map.get("Oil_Cess")));
+            dto.setOilJtcpercentage(convertToDouble(map.get("Oil_Jtcpercentage")));
+            dto.setOilTotalPurchase(convertToDouble(map.get("Oil_Total_Purchase")));
             dto.setAmountTotal(convertToDouble(map.get("Amount_Total")));
             dto.setJamaTotal(convertToDouble(map.get("Jama_Total")));
             dto.setBakiTotal(convertToDouble(map.get("Baki_Total")));
@@ -1841,18 +1896,18 @@ public class PurchaseController {
                 + "COALESCE(pp.petrol_cess, 0) AS Petrol_Cess, "
                 + "COALESCE(pp.petrol_jtcpercentage, 0) AS Petrol_Jtcpercentage, "
                 + "COALESCE(pp.petrol_total_purchase, 0) AS Petrol_Total_Purchase, "
+                + "COALESCE(ol.oil_quantity, 0) AS Oil_Quantity, "
+                + "COALESCE(ol.oil_total, 0) AS Oil_Total, "
+                + "COALESCE(ol.oil_vat, 0) AS Oil_Vat, "
+                + "COALESCE(ol.oil_cess, 0) AS Oil_Cess, "
+                + "COALESCE(ol.oil_jtcpercentage, 0) AS Oil_Jtcpercentage, "
+                + "COALESCE(ol.oil_total_purchase, 0) AS Oil_Total_Purchase, "
                 + "COALESCE(dp.diesel_quantity, 0) AS Diesel_Quantity, "
                 + "COALESCE(dp.diesel_total, 0) AS Diesel_Total, "
                 + "COALESCE(dp.diesel_vat, 0) AS Diesel_Vat, "
                 + "COALESCE(dp.diesel_cess, 0) AS Diesel_Cess, "
                 + "COALESCE(dp.diesel_jtcpercentage, 0) AS Diesel_Jtcpercentage, "
                 + "COALESCE(dp.diesel_total_purchase, 0) AS Diesel_Total_Purchase, "
-                + "COALESCE(ol.oil_quantity, 0) AS oil_Quantity, "
-                + "COALESCE(ol.oil_total, 0) AS oil_Total, "
-                + "COALESCE(ol.oil_vat, 0) AS oil_Vat, "
-                + "COALESCE(ol.oil_cess, 0) AS oil_Cess, "
-                + "COALESCE(ol.oil_jtcpercentage, 0) AS oil_Jtcpercentage, "
-                + "COALESCE(ol.oil_total_purchase, 0) AS oil_Total_Purchase, "
                 + "COALESCE(t.Amount_Total, 0) AS Amount_Total, "
                 + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
                 + "COALESCE(j.Baki_Total, 0) AS Baki_Total, "
@@ -1949,6 +2004,21 @@ public class PurchaseController {
                 + "p.date = pp.date "
                 + "LEFT JOIN "
                 + "(SELECT "
+                + "date, type, "
+                + "quantity AS oil_quantity, "
+                + "total AS oil_total, "
+                + "vat AS oil_vat, "
+                + "cess AS oil_cess, "
+                + "jtcpercentage AS oil_jtcpercentage, "
+                + "total_purchase AS oil_total_purchase "
+                + "FROM "
+                + "managment.oilpurchase "
+                + "WHERE "
+                + "type = 'oil' AND user_id = '" + userId + "') ol " // Filter by userId
+                + "ON "
+                + "p.date = ol.date "
+                + "LEFT JOIN "
+                + "(SELECT "
                 + "date, "
                 + "SUM(amount) AS Amount_Total "
                 + "FROM "
@@ -1975,21 +2045,6 @@ public class PurchaseController {
                 + "type = 'diesel'  AND user_id = '" + userId + "') dp " // Filter by userId
                 + "ON "
                 + "d.date = dp.date "
-                + "LEFT JOIN "
-                + "(SELECT "
-                + "date, type, "
-                + "quantity AS oil_quantity, "
-                + "total AS oil_total, "
-                + "vat AS oil_vat, "
-                + "cess AS oil_cess, "
-                + "jtcpercentage AS oil_jtcpercentage, "
-                + "total_purchase AS oil_total_purchase "
-                + "FROM "
-                + "managment.purchase "
-                + "WHERE "
-                + "type = 'Oil'  AND user_id = '" + userId + "') ol " // Filter by userId
-                + "ON "
-                + "p.date = ol.date "
                 + "LEFT JOIN ("
                 + "SELECT date, "
                 + "extra_cess AS xppetrol_cess, "
@@ -2521,6 +2576,12 @@ public class PurchaseController {
     public List<Purchase> getPurchase(@RequestParam String date, @RequestParam String userId) {
         List<Purchase> purchase = purchaseRepository.getPurchase(date, userId);
         return purchase;
+    }
+
+    @GetMapping(value = "/oilPurchase")
+    public List<Oilpurchase> getOilPurchase(@RequestParam String date, @RequestParam String userId) {
+        List<Oilpurchase> oilpurchase = oilPurchaseRepository.getOilPurchase(date, userId);
+        return oilpurchase;
     }
 
     @GetMapping(value = "/extraPurchase")

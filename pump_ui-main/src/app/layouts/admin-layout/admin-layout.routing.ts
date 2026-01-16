@@ -16,6 +16,7 @@ import { KharchComponent } from 'app/modules/kharch/kharch.component';
 import { MainPanelComponent } from 'app/modules/main-panel/main-panel.component';
 import { MapsComponent } from 'app/modules/maps/maps.component';
 import { NotificationsComponent } from 'app/modules/notifications/notifications.component';
+import { OilPurchaseTableComponent } from 'app/modules/oil-purchase-table/oil-purchase-table.component';
 import { PowerDiesellistComponent } from 'app/modules/power-diesellist/power-diesellist.component';
 import { TableListComponent } from 'app/modules/table-list/table-list.component';
 import { TypographyComponent } from 'app/modules/typography/typography.component';
@@ -31,6 +32,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'Report', component: UserProfileComponent, canActivate: [AuthGuard] },
     // { path: 'bill', component: BillingComponent, canActivate: [AuthGuard] },
     { path: 'purchasedetails', component: TableListComponent, canActivate: [AuthGuard] },
+    { path: 'oilPurchasedetails', component: OilPurchaseTableComponent, canActivate: [AuthGuard] },
     { path: 'extraPurchasedetails', component: ExtraPurchaseListComponent, canActivate: [AuthGuard] },
     { path: 'petroldetails', component: TypographyComponent, canActivate: [AuthGuard] },
     { path: 'dieseldetails', component: IconsComponent, canActivate: [AuthGuard] },

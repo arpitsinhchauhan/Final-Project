@@ -40,5 +40,16 @@ public interface loclcreditRepository extends JpaRepository<loclcredit, Integer>
             @Param("userId") String userId
     );
 
+    @Query(value = "SELECT SUM(l.balance) " +
+        "FROM loclcredit l " +
+        "WHERE l.date BETWEEN :startDate AND :endDate " +
+          "AND l.user_id = :userId", nativeQuery = true)
+    Double sumBalanceNative(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate,
+            @Param("userId") String userId
+    );
+
+
 
 }

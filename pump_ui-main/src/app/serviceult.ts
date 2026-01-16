@@ -40,6 +40,13 @@ export const API_PURCHASE_ADD: string = `${prefix}/portal/api/addPurchase`;
 export const API_PURCHASE_EDIT: string = `${prefix}/portal/api/updatePurchase`;
 export const API_PURCHASE_DELETE: string = `${prefix}/portal/api/deletePurchase`;
 
+
+// Oil Purchase Sell
+export const API_OIL_PURCHASE_LIST: string = `${prefix}/portal/api/oilpurchasesList`;
+export const API_OIL_PURCHASE_ADD: string = `${prefix}/portal/api/addoilPurchase`;
+export const API_OIL_PURCHASE_EDIT: string = `${prefix}/portal/api/updateoilPurchase`;
+export const API_OIL_PURCHASE_DELETE: string = `${prefix}/portal/api/deleteoilPurchase`;
+
 // Extra Purchase Sell
 export const API_EXTRA_PURCHASE_LIST: string = `${prefix}/portal/api/extraPurchasesList`;
 export const API_EXTRA_PURCHASE_ADD: string = `${prefix}/portal/api/extraAddPurchase`;
@@ -158,6 +165,7 @@ export const API_TRANSACTION: string = `${prefix}/portal/api/transaction`;
 export const API_KHARCH: string = `${prefix}/portal/api/kharch`;
 export const API_JAMA_BAKI: string = `${prefix}/portal/api/jamabaki`;
 export const API_PURCHASE: string = `${prefix}/portal/api/purchase`;
+export const API_OIL_PURCHASE: string = `${prefix}/portal/api/oilPurchase`;
 export const API_EXTRA_PURCHASE: string = `${prefix}/portal/api/extraPurchase`;
 export const API_DIP: string = `${prefix}/portal/api/dip`;
 export const API_EXTRA_DIP: string = `${prefix}/portal/api/extraDip`;
