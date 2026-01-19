@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import * as d3 from 'd3';
-import { API_CURRENTMOUNTH_TOTAL, API_CURRENTYEAR_TOTAL, API_DAILY_CHART, API_DAILY_TOTAL, API_DIESEL_CURRENTYEAR_DATE, API_JAMABAKI_CURRENTYEAR_DATE, API_PETROL_CURRENTYEAR_DATE, API_XP_PETROL_CURRENTYEAR_DATE } from 'app/serviceult';
+import { API_CURRENTMOUNTH_TOTAL, API_CURRENTYEAR_TOTAL, API_DAILY_CHART, API_DAILY_TOTAL, API_DIESEL_CURRENTYEAR_DATE, API_JAMABAKI_CURRENTYEAR_DATE, API_PETROL_CURRENTYEAR_DATE, API_POWER_DIESEL_CURRENTYEAR_DATE, API_XP_PETROL_CURRENTYEAR_DATE } from 'app/serviceult';
 import { ChartType, ChartConfiguration } from 'chart.js';
 import { LoaderService } from 'app/services/loader.service';
 import { NotificationService } from 'app/services/notification.service';
@@ -37,7 +37,10 @@ export class DashboardComponent implements OnInit {
   thumbnails: SafeUrl[] = [];
   customers: string[] = [];
   selectedCustomer: string = '';
-
+  showPetrolPumpsCount: number = 0;
+  showDieselPumpsCount: number = 0;
+  showXpPetrolCount: number = 0;
+  showPowerDieselCount: number = 0;
   min: number = 0;
   max: number = 100;
   append: string = '%';
@@ -53,8 +56,11 @@ export class DashboardComponent implements OnInit {
   petrol: number;
   petrollabel: string;
   xppetrollabel: string;
+  powerDiesellabel: string;
   userId = localStorage.getItem('userId');
   filterType: string = 'today';
+  selectedYear = new Date().getFullYear();
+  yearList: number[] = [];
   xp_petrol_nozzle: number;
   powe_diesel_nozzle: number;
 
@@ -129,6 +135,7 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.loaderService.display(false);
     this.getUserName();
+    this.getUserPump();
     this.userId = localStorage.getItem('userId');
     this.getDailytotal();
     this.getCurrentmonthtotal();
@@ -137,7 +144,19 @@ export class DashboardComponent implements OnInit {
     this.getPetrolCurrentYearData();
     this.getDieselCurrentYearData();
     this.getXpPetrolCurrentYearData();
+    this.getPowerDieselCurrentYearData();
     this.getJamaBakiCurrentYearData();
+    const currentYear = new Date().getFullYear();
+    for (let y = currentYear - 4; y <= currentYear + 1; y++) {
+      this.yearList.push(y);
+    }
+
+  }
+
+  onFilterChange() {
+    if (this.filterType !== 'fy') {
+      this.getPiechartValue();
+    }
   }
 
   getUserName() {
@@ -148,6 +167,7 @@ export class DashboardComponent implements OnInit {
       }
     );
   }
+
 
   fetchData(): void {
     if (!this.startDate || !this.endDate) {
@@ -304,10 +324,12 @@ export class DashboardComponent implements OnInit {
   }
 
   getPiechartValue() {
-    const params = new HttpParams()
+    let params = new HttpParams()
       .set('userId', this.userId)
       .set('filter', this.filterType);
-
+    if (this.filterType === 'fy') {
+      params = params.set('year', this.selectedYear.toString());
+    }
     this.http.get<any>(`${API_DAILY_CHART}`, { params }).subscribe((data) => {
 
       const labels = [
@@ -398,6 +420,14 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+
+  getPowerDieselCurrentYearData() {
+    this.http.get<any>(`${API_POWER_DIESEL_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
+      this.powerDiesellabel = data;
+      this.updatePieChart();
+    });
+  }
+
   getJamaBakiCurrentYearData() {
     this.http.get<any>(`${API_JAMABAKI_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
       (data);
@@ -410,7 +440,77 @@ export class DashboardComponent implements OnInit {
     });
   }
 
+  getUserPump() {
+    this.use.getUserPump(this.userId).subscribe(
+      response => {
+        if (response && response.success && response.data) {
+          const data = response.data;
+
+          this.showPetrolPumpsCount = data.petrol_nozzle;
+          this.showDieselPumpsCount = data.diesel_nozzle;
+          this.showXpPetrolCount = data.xp_petrol_nozzle;
+          this.showPowerDieselCount = data.powe_diesel_nozzle;
+          // If you want total count
+          const totalPumpCount = this.showPetrolPumpsCount + this.showDieselPumpsCount + this.showXpPetrolCount + this.showPowerDieselCount;
+          this.updatePieChart();
+        }
+      },
+      error => {
+        console.error("Error fetching pump data", error);
+      }
+    );
+  }
+
+  // updatePieChart() {
+  //   this.chartOptions2 = {
+  //     animationEnabled: true,
+  //     title: { text: "Fuel & Baki Distribution" },
+  //     data: [{
+  //       type: "pie",
+  //       startAngle: 240,
+  //       indexLabelPlacement: "outside",
+  //       indexLabelFontSize: 14,
+  //       indexLabelLineColor: "#000",
+  //       indexLabelLineThickness: 1,
+  //       indexLabel: "{label} - {y}",
+  //       dataPoints: [
+  //         { y: Number(this.petrollabel), label: "Petrol" },
+  //         { y: Number(this.diesellabel), label: "Diesel" },
+  //         { y: Number(this.xppetrollabel), label: "XP Petrol" },
+  //         { y: Number(this.powerDiesellabel), label: "Power Diesel" },
+  //         { y: Number(this.jamabakilabel), label: "Total Baki" },
+  //       ]
+  //     }]
+  //   };
+  // }
   updatePieChart() {
+    const dataPoints: any[] = [];
+
+    // Always visible
+    dataPoints.push({ y: Number(this.petrollabel), label: "Petrol" });
+    dataPoints.push({ y: Number(this.diesellabel), label: "Diesel" });
+
+    // Conditionally visible
+    if (this.showXpPetrolCount > 0) {
+      dataPoints.push({
+        y: Number(this.xppetrollabel),
+        label: "XP Petrol"
+      });
+    }
+
+    if (this.showPowerDieselCount > 0) {
+      dataPoints.push({
+        y: Number(this.powerDiesellabel),
+        label: "Power Diesel"
+      });
+    }
+
+    // Always visible
+    dataPoints.push({
+      y: Number(this.jamabakilabel),
+      label: "Total Baki"
+    });
+
     this.chartOptions2 = {
       animationEnabled: true,
       title: { text: "Fuel & Baki Distribution" },
@@ -422,12 +522,9 @@ export class DashboardComponent implements OnInit {
         indexLabelLineColor: "#000",
         indexLabelLineThickness: 1,
         indexLabel: "{label} - {y}",
-        dataPoints: [
-          { y: Number(this.petrollabel), label: "Petrol" },
-          { y: Number(this.diesellabel), label: "Diesel" },
-          { y: Number(this.jamabakilabel), label: "Total Baki" },
-        ]
+        dataPoints: dataPoints
       }]
     };
   }
+
 }

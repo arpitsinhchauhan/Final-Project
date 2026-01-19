@@ -46,4 +46,9 @@ public interface OilSellRepository extends JpaRepository<OilSell, Integer> {
 
     @Query("SELECT SUM(t1.price) AS total_price FROM OilSell t1 WHERE t1.date = :date AND t1.userId = :userId")
     List<OilSell> getoilData(@Param("date") String date, @Param("userId") String userId);
+
+    @Query(value = "SELECT COALESCE(SUM(price), 0) FROM OilSell WHERE date BETWEEN :startDate AND :endDate AND user_id = :userId", nativeQuery = true)
+    Double getTotalOilSellBetweenDates(@Param("startDate") String startDate,
+                                          @Param("endDate") String endDate,
+                                          @Param("userId") String userId);
 }

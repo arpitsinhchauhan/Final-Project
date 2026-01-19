@@ -30,6 +30,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Year;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -1415,77 +1416,197 @@ public class PurchaseController {
     }
 
     @GetMapping("/dailyChart")
-    public DailySalesSummaryDTO getSalesReport(@RequestParam String userId, @RequestParam String filter) {
-        String dateCondition = "";
+    public DailySalesSummaryDTO getSalesReport(
+            @RequestParam String userId,
+            @RequestParam String filter,
+            @RequestParam(required = false) Integer year) {
+
+        String dateCondition;
+
         switch (filter.toLowerCase()) {
+
             case "today":
                 dateCondition = "date = CURDATE()";
                 break;
+
             case "month":
-                dateCondition = "MONTH(date) = MONTH(CURDATE()) AND YEAR(date) = YEAR(CURDATE())";
+                dateCondition = "MONTH(date) = MONTH(CURDATE()) " +
+                        "AND YEAR(date) = YEAR(CURDATE())";
                 break;
+
             case "year":
-                dateCondition = "YEAR(date) = YEAR(CURDATE())";
+                // calendar year (Jan–Dec)
+                int calYear = (year != null) ? year : Year.now().getValue();
+                dateCondition = "YEAR(date) = " + calYear;
                 break;
+
+            case "fy":
+                // Financial Year (Apr–Mar)
+                int fyYear = (year != null) ? year : Year.now().getValue();
+                dateCondition = "date BETWEEN '" + fyYear + "-04-01' " +
+                        "AND '" + (fyYear + 1) + "-03-31'";
+                break;
+
             default:
-                dateCondition = "date = CURDATE()"; // fallback
+                dateCondition = "date = CURDATE()";
         }
 
-        String sql = "SELECT "
-                + "COALESCE(p.PetrolSell_Total, 0) AS PetrolSell_Total, "
-                + "COALESCE(xp.xppetrol, 0) AS XP_PetrolSell_Total, "
-                + "COALESCE(po.powerdiesel, 0) AS Power_DieselSell_Total, "
-                + "COALESCE(d.DieselSell_Total, 0) AS DieselSell_Total, "
-                + "COALESCE(o.OilSell_Total, 0) AS OilSell_Total, "
-                + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
-                + "COALESCE(t.Atm_total, 0) AS Atm_total, "
-                + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
-                + "COALESCE(j.baki_Total, 0) AS baki_Total, "
-                + "COALESCE(purchase.total_petrol_purchase, 0) AS total_petrol_purchase, "
-                + "COALESCE(purchase.total_diesel_purchase, 0) AS total_diesel_purchase, "
-                + "COALESCE(extra.XP_total_petrol_purchase, 0) AS XP_total_petrol_purchase, "
-                + "COALESCE(extra.Power_total_diesel_purchase, 0) AS Power_total_diesel_purchase "
-                + "FROM "
-                + "(SELECT SUM(total_sell) AS PetrolSell_Total FROM managment.petrolsell WHERE " + dateCondition + " AND user_id = ?) p "
-                + "LEFT JOIN (SELECT SUM(total_sell) AS xppetrol FROM managment.xppetrol WHERE " + dateCondition + " AND user_id = ?) xp ON 1=1 "
-                + "LEFT JOIN (SELECT SUM(total_sell) AS powerdiesel FROM managment.powerdiesel WHERE " + dateCondition + " AND user_id = ?) po ON 1=1 "
-                + "LEFT JOIN (SELECT SUM(total_sell) AS DieselSell_Total FROM managment.dieselsell WHERE " + dateCondition + " AND user_id = ?) d ON 1=1 "
-                + "LEFT JOIN (SELECT SUM(price) AS OilSell_Total FROM managment.oilsell WHERE " + dateCondition + " AND user_id = ?) o ON 1=1 "
-                + "LEFT JOIN (SELECT SUM(price) AS Kharch_Total FROM managment.kharch WHERE " + dateCondition + " AND user_id = ?) k ON 1=1 "
-                + "LEFT JOIN (SELECT SUM(amount) AS Atm_total FROM managment.transaction WHERE " + dateCondition + " AND user_id = ?) t ON 1=1 "
-                + "LEFT JOIN (SELECT SUM(jama) AS Jama_Total, SUM(baki) AS baki_Total FROM managment.jamabakireport WHERE " + dateCondition + " AND user_id = ?) j ON 1=1 "
-                + "LEFT JOIN (SELECT "
-                + "SUM(CASE WHEN extra_type = 'XP Petrol' THEN extra_total_purchase ELSE 0 END) AS XP_total_petrol_purchase, "
-                + "SUM(CASE WHEN extra_type = 'Power Diesel' THEN extra_total_purchase ELSE 0 END) AS Power_total_diesel_purchase "
-                + "FROM managment.extrapurchases WHERE " + dateCondition + " AND user_id = ?) extra ON 1=1 "
-                + "LEFT JOIN (SELECT "
-                + "SUM(CASE WHEN type = 'petrol' THEN total_purchase ELSE 0 END) AS total_petrol_purchase, "
-                + "SUM(CASE WHEN type = 'diesel' THEN total_purchase ELSE 0 END) AS total_diesel_purchase "
-                + "FROM managment.purchase WHERE " + dateCondition + " AND user_id = ?) purchase ON 1=1";
+        String sql =
+                "SELECT " +
+                        "COALESCE(p.PetrolSell_Total, 0) AS PetrolSell_Total, " +
+                        "COALESCE(xp.xppetrol, 0) AS XP_PetrolSell_Total, " +
+                        "COALESCE(po.powerdiesel, 0) AS Power_DieselSell_Total, " +
+                        "COALESCE(d.DieselSell_Total, 0) AS DieselSell_Total, " +
+                        "COALESCE(o.OilSell_Total, 0) AS OilSell_Total, " +
+                        "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, " +
+                        "COALESCE(t.Atm_total, 0) AS Atm_total, " +
+                        "COALESCE(j.Jama_Total, 0) AS Jama_Total, " +
+                        "COALESCE(j.baki_Total, 0) AS baki_Total, " +
+                        "COALESCE(purchase.total_petrol_purchase, 0) AS total_petrol_purchase, " +
+                        "COALESCE(purchase.total_diesel_purchase, 0) AS total_diesel_purchase, " +
+                        "COALESCE(extra.XP_total_petrol_purchase, 0) AS XP_total_petrol_purchase, " +
+                        "COALESCE(extra.Power_total_diesel_purchase, 0) AS Power_total_diesel_purchase " +
 
-        List<DailySalesSummaryDTO> results = jdbcTemplate.query(sql,
-                new Object[]{userId, userId, userId, userId, userId, userId, userId, userId, userId, userId},
-                (rs, rowNum) -> {
-                    DailySalesSummaryDTO dto = new DailySalesSummaryDTO();
-//                    dto.setDate(rs.getDate("date").toString());
-                    dto.setPetrolSellTotal(rs.getDouble("PetrolSell_Total"));
-                    dto.setXpPetrolSellTotal(rs.getDouble("XP_PetrolSell_Total"));
-                    dto.setPowerDieselSellTotal(rs.getDouble("Power_DieselSell_Total"));
-                    dto.setDieselSellTotal(rs.getDouble("DieselSell_Total"));
-                    dto.setOilSellTotal(rs.getDouble("OilSell_Total"));
-                    dto.setKharchTotal(rs.getDouble("Kharch_Total"));
-                    dto.setAtmTotal(rs.getDouble("Atm_total"));
-                    dto.setJamaTotal(rs.getDouble("Jama_Total"));
-                    dto.setBakiTotal(rs.getDouble("baki_Total"));
-                    dto.setTotalPetrolPurchase(rs.getDouble("total_petrol_purchase"));
-                    dto.setTotalDieselPurchase(rs.getDouble("total_diesel_purchase"));
-                    dto.setXpTotalPetrolPurchase(rs.getDouble("XP_total_petrol_purchase"));
-                    dto.setPowerTotalDieselPurchase(rs.getDouble("Power_total_diesel_purchase"));
-                    return dto;
-                });
+                        "FROM " +
+                        "(SELECT SUM(total_sell) AS PetrolSell_Total FROM managment.petrolsell " +
+                        " WHERE " + dateCondition + " AND user_id = ?) p " +
+
+                        "LEFT JOIN (SELECT SUM(total_sell) AS xppetrol FROM managment.xppetrol " +
+                        " WHERE " + dateCondition + " AND user_id = ?) xp ON 1=1 " +
+
+                        "LEFT JOIN (SELECT SUM(total_sell) AS powerdiesel FROM managment.powerdiesel " +
+                        " WHERE " + dateCondition + " AND user_id = ?) po ON 1=1 " +
+
+                        "LEFT JOIN (SELECT SUM(total_sell) AS DieselSell_Total FROM managment.dieselsell " +
+                        " WHERE " + dateCondition + " AND user_id = ?) d ON 1=1 " +
+
+                        "LEFT JOIN (SELECT SUM(price) AS OilSell_Total FROM managment.oilsell " +
+                        " WHERE " + dateCondition + " AND user_id = ?) o ON 1=1 " +
+
+                        "LEFT JOIN (SELECT SUM(price) AS Kharch_Total FROM managment.kharch " +
+                        " WHERE " + dateCondition + " AND user_id = ?) k ON 1=1 " +
+
+                        "LEFT JOIN (SELECT SUM(amount) AS Atm_total FROM managment.transaction " +
+                        " WHERE " + dateCondition + " AND user_id = ?) t ON 1=1 " +
+
+                        "LEFT JOIN (SELECT SUM(jama) AS Jama_Total, SUM(baki) AS baki_Total " +
+                        " FROM managment.jamabakireport " +
+                        " WHERE " + dateCondition + " AND user_id = ?) j ON 1=1 " +
+
+                        "LEFT JOIN (SELECT " +
+                        " SUM(CASE WHEN extra_type = 'XP Petrol' THEN extra_total_purchase ELSE 0 END) AS XP_total_petrol_purchase, " +
+                        " SUM(CASE WHEN extra_type = 'Power Diesel' THEN extra_total_purchase ELSE 0 END) AS Power_total_diesel_purchase " +
+                        " FROM managment.extrapurchases " +
+                        " WHERE " + dateCondition + " AND user_id = ?) extra ON 1=1 " +
+
+                        "LEFT JOIN (SELECT " +
+                        " SUM(CASE WHEN type = 'petrol' THEN total_purchase ELSE 0 END) AS total_petrol_purchase, " +
+                        " SUM(CASE WHEN type = 'diesel' THEN total_purchase ELSE 0 END) AS total_diesel_purchase " +
+                        " FROM managment.purchase " +
+                        " WHERE " + dateCondition + " AND user_id = ?) purchase ON 1=1";
+
+        List<DailySalesSummaryDTO> results =
+                jdbcTemplate.query(
+                        sql,
+                        new Object[]{
+                                userId, userId, userId, userId, userId,
+                                userId, userId, userId, userId, userId
+                        },
+                        (rs, rowNum) -> {
+                            DailySalesSummaryDTO dto = new DailySalesSummaryDTO();
+                            dto.setPetrolSellTotal(rs.getDouble("PetrolSell_Total"));
+                            dto.setXpPetrolSellTotal(rs.getDouble("XP_PetrolSell_Total"));
+                            dto.setPowerDieselSellTotal(rs.getDouble("Power_DieselSell_Total"));
+                            dto.setDieselSellTotal(rs.getDouble("DieselSell_Total"));
+                            dto.setOilSellTotal(rs.getDouble("OilSell_Total"));
+                            dto.setKharchTotal(rs.getDouble("Kharch_Total"));
+                            dto.setAtmTotal(rs.getDouble("Atm_total"));
+                            dto.setJamaTotal(rs.getDouble("Jama_Total"));
+                            dto.setBakiTotal(rs.getDouble("baki_Total"));
+                            dto.setTotalPetrolPurchase(rs.getDouble("total_petrol_purchase"));
+                            dto.setTotalDieselPurchase(rs.getDouble("total_diesel_purchase"));
+                            dto.setXpTotalPetrolPurchase(rs.getDouble("XP_total_petrol_purchase"));
+                            dto.setPowerTotalDieselPurchase(rs.getDouble("Power_total_diesel_purchase"));
+                            return dto;
+                        }
+                );
 
         return results.isEmpty() ? null : results.get(0);
     }
+
+
+//    @GetMapping("/dailyChart")
+//    public DailySalesSummaryDTO getSalesReport(@RequestParam String userId, @RequestParam String filter,) {
+//        String dateCondition = "";
+//        switch (filter.toLowerCase()) {
+//            case "today":
+//                dateCondition = "date = CURDATE()";
+//                break;
+//            case "month":
+//                dateCondition = "MONTH(date) = MONTH(CURDATE()) AND YEAR(date) = YEAR(CURDATE())";
+//                break;
+//            case "year":
+//                dateCondition = "YEAR(date) = YEAR(CURDATE())";
+//                break;
+//            default:
+//                dateCondition = "date = CURDATE()"; // fallback
+//        }
+//
+//        String sql = "SELECT "
+//                + "COALESCE(p.PetrolSell_Total, 0) AS PetrolSell_Total, "
+//                + "COALESCE(xp.xppetrol, 0) AS XP_PetrolSell_Total, "
+//                + "COALESCE(po.powerdiesel, 0) AS Power_DieselSell_Total, "
+//                + "COALESCE(d.DieselSell_Total, 0) AS DieselSell_Total, "
+//                + "COALESCE(o.OilSell_Total, 0) AS OilSell_Total, "
+//                + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
+//                + "COALESCE(t.Atm_total, 0) AS Atm_total, "
+//                + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
+//                + "COALESCE(j.baki_Total, 0) AS baki_Total, "
+//                + "COALESCE(purchase.total_petrol_purchase, 0) AS total_petrol_purchase, "
+//                + "COALESCE(purchase.total_diesel_purchase, 0) AS total_diesel_purchase, "
+//                + "COALESCE(extra.XP_total_petrol_purchase, 0) AS XP_total_petrol_purchase, "
+//                + "COALESCE(extra.Power_total_diesel_purchase, 0) AS Power_total_diesel_purchase "
+//                + "FROM "
+//                + "(SELECT SUM(total_sell) AS PetrolSell_Total FROM managment.petrolsell WHERE " + dateCondition + " AND user_id = ?) p "
+//                + "LEFT JOIN (SELECT SUM(total_sell) AS xppetrol FROM managment.xppetrol WHERE " + dateCondition + " AND user_id = ?) xp ON 1=1 "
+//                + "LEFT JOIN (SELECT SUM(total_sell) AS powerdiesel FROM managment.powerdiesel WHERE " + dateCondition + " AND user_id = ?) po ON 1=1 "
+//                + "LEFT JOIN (SELECT SUM(total_sell) AS DieselSell_Total FROM managment.dieselsell WHERE " + dateCondition + " AND user_id = ?) d ON 1=1 "
+//                + "LEFT JOIN (SELECT SUM(price) AS OilSell_Total FROM managment.oilsell WHERE " + dateCondition + " AND user_id = ?) o ON 1=1 "
+//                + "LEFT JOIN (SELECT SUM(price) AS Kharch_Total FROM managment.kharch WHERE " + dateCondition + " AND user_id = ?) k ON 1=1 "
+//                + "LEFT JOIN (SELECT SUM(amount) AS Atm_total FROM managment.transaction WHERE " + dateCondition + " AND user_id = ?) t ON 1=1 "
+//                + "LEFT JOIN (SELECT SUM(jama) AS Jama_Total, SUM(baki) AS baki_Total FROM managment.jamabakireport WHERE " + dateCondition + " AND user_id = ?) j ON 1=1 "
+//                + "LEFT JOIN (SELECT "
+//                + "SUM(CASE WHEN extra_type = 'XP Petrol' THEN extra_total_purchase ELSE 0 END) AS XP_total_petrol_purchase, "
+//                + "SUM(CASE WHEN extra_type = 'Power Diesel' THEN extra_total_purchase ELSE 0 END) AS Power_total_diesel_purchase "
+//                + "FROM managment.extrapurchases WHERE " + dateCondition + " AND user_id = ?) extra ON 1=1 "
+//                + "LEFT JOIN (SELECT "
+//                + "SUM(CASE WHEN type = 'petrol' THEN total_purchase ELSE 0 END) AS total_petrol_purchase, "
+//                + "SUM(CASE WHEN type = 'diesel' THEN total_purchase ELSE 0 END) AS total_diesel_purchase "
+//                + "FROM managment.purchase WHERE " + dateCondition + " AND user_id = ?) purchase ON 1=1";
+//
+//        List<DailySalesSummaryDTO> results = jdbcTemplate.query(sql,
+//                new Object[]{userId, userId, userId, userId, userId, userId, userId, userId, userId, userId},
+//                (rs, rowNum) -> {
+//                    DailySalesSummaryDTO dto = new DailySalesSummaryDTO();
+////                    dto.setDate(rs.getDate("date").toString());
+//                    dto.setPetrolSellTotal(rs.getDouble("PetrolSell_Total"));
+//                    dto.setXpPetrolSellTotal(rs.getDouble("XP_PetrolSell_Total"));
+//                    dto.setPowerDieselSellTotal(rs.getDouble("Power_DieselSell_Total"));
+//                    dto.setDieselSellTotal(rs.getDouble("DieselSell_Total"));
+//                    dto.setOilSellTotal(rs.getDouble("OilSell_Total"));
+//                    dto.setKharchTotal(rs.getDouble("Kharch_Total"));
+//                    dto.setAtmTotal(rs.getDouble("Atm_total"));
+//                    dto.setJamaTotal(rs.getDouble("Jama_Total"));
+//                    dto.setBakiTotal(rs.getDouble("baki_Total"));
+//                    dto.setTotalPetrolPurchase(rs.getDouble("total_petrol_purchase"));
+//                    dto.setTotalDieselPurchase(rs.getDouble("total_diesel_purchase"));
+//                    dto.setXpTotalPetrolPurchase(rs.getDouble("XP_total_petrol_purchase"));
+//                    dto.setPowerTotalDieselPurchase(rs.getDouble("Power_total_diesel_purchase"));
+//                    return dto;
+//                });
+//
+//        return results.isEmpty() ? null : results.get(0);
+//    }
 
     @GetMapping("/petrol-year-total")
     public Double getTotalPetrolLtrForCurrentYear(@RequestParam String userId) {
@@ -1500,6 +1621,11 @@ public class PurchaseController {
     @GetMapping("/XPpetrol-year-total")
     public Double getTotalXpPetrolLtrForCurrentYear(@RequestParam String userId) {
         return xpPetorlRepository.findTotalXPPetrolLtrForCurrentYear(userId);
+    }
+
+    @GetMapping("/Powerdiesel-year-total")
+    public Double getTotalPowerDieselLtrForCurrentYear(@RequestParam String userId) {
+        return powerDieselRepository.findTotalPowerDieselLtrForCurrentYear(userId);
     }
 
     @GetMapping("/jamabaki-year-total")

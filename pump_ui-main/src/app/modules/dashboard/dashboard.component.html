@@ -77,6 +77,41 @@
             </div>
             <div class="card-body">
                <div class="mb-3">
+                  <mat-button-toggle-group name="filterType" [(ngModel)]="filterType" (change)="onFilterChange()"
+                     appearance="legacy" class="filter-toggle-group">
+                     <mat-button-toggle value="today">Day</mat-button-toggle>
+                     <mat-button-toggle value="month">Month</mat-button-toggle>
+                     <mat-button-toggle value="year">This Year</mat-button-toggle>
+                     <mat-button-toggle value="fy">Financial Year</mat-button-toggle>
+                  </mat-button-toggle-group>
+               </div>
+               <div *ngIf="filterType === 'fy'" class="mt-2">
+                  <mat-form-field appearance="outline">
+                     <mat-label>Select Financial Year</mat-label>
+                     <mat-select [(ngModel)]="selectedYear" (selectionChange)="getPiechartValue()">
+                        <mat-option *ngFor="let y of yearList" [value]="y">
+                           {{ y }} - {{ y + 1 }}
+                        </mat-option>
+                     </mat-select>
+                  </mat-form-field>
+               </div>
+               <h5 class="text-center mb-2" style="text-decoration: underline;">
+                  Sales Summary Chart
+               </h5>
+               <div style="display: block; width: 100%;">
+                  <canvas baseChart [data]="chartData" [type]="chartType" [options]="chartOptions">
+                  </canvas>
+               </div>
+            </div>
+         </div>
+      </div>
+      <!-- <div class="col-md-12 mb-3">
+         <div class="card shadow-sm">
+            <div class="card-header card-header-danger d-flex justify-content-between">
+               <h4 class="card-title m-0">Sell Details</h4>
+            </div>
+            <div class="card-body">
+               <div class="mb-3">
                   <mat-button-toggle-group name="filterType" [(ngModel)]="filterType" (change)="getPiechartValue()"
                      appearance="legacy" class="filter-toggle-group">
                      <mat-button-toggle value="today">Day</mat-button-toggle>
@@ -93,6 +128,6 @@
                </div>
             </div>
          </div>
-      </div>
+      </div> -->
    </div>
 </div>

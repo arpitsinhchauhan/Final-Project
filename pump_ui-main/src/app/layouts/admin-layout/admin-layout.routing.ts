@@ -30,7 +30,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'User', component: UserMasterComponent, canActivate: [AuthGuard] },
     { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard] },
     { path: 'Report', component: UserProfileComponent, canActivate: [AuthGuard] },
-    // { path: 'bill', component: BillingComponent, canActivate: [AuthGuard] },
+    { path: 'bill', component: BillingComponent, canActivate: [AuthGuard] },
     { path: 'purchasedetails', component: TableListComponent, canActivate: [AuthGuard] },
     { path: 'oilPurchasedetails', component: OilPurchaseTableComponent, canActivate: [AuthGuard] },
     { path: 'extraPurchasedetails', component: ExtraPurchaseListComponent, canActivate: [AuthGuard] },

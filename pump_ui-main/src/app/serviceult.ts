@@ -32,6 +32,7 @@ export const API_DAILY_CHART: string = `${prefix}/portal/api/dailyChart`;
 export const API_PETROL_CURRENTYEAR_DATE: string = `${prefix}/portal/api/petrol-year-total`;
 export const API_DIESEL_CURRENTYEAR_DATE: string = `${prefix}/portal/api/diesel-year-total`;
 export const API_XP_PETROL_CURRENTYEAR_DATE: string = `${prefix}/portal/api/XPpetrol-year-total`;
+export const API_POWER_DIESEL_CURRENTYEAR_DATE: string = `${prefix}/portal/api/Powerdiesel-year-total`;
 export const API_JAMABAKI_CURRENTYEAR_DATE: string = `${prefix}/portal/api/jamabaki-year-total`;
 
 // Purchase Sell

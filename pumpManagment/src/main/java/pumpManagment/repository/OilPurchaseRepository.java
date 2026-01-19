@@ -18,4 +18,13 @@ public interface OilPurchaseRepository extends JpaRepository<Oilpurchase, Intege
 
     Optional<Oilpurchase> findByDateAndTypeAndUserId(String date, String type, String userId);
 
+    @Query(value = "SELECT SUM(total_purchase) " +
+            "FROM Oilpurchase " +
+            "WHERE `date` BETWEEN :startDate AND :endDate " +
+            "AND user_id = :userId " +
+            "AND `type` = 'oil'", nativeQuery = true)
+    Double findOilTotalPurchase(@Param("startDate") String startDate,
+                                   @Param("endDate") String endDate,
+                                   @Param("userId") String userId);
+
 }

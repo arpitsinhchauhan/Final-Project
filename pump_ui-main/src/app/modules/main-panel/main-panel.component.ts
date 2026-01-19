@@ -247,8 +247,6 @@ export class MainPanelComponent implements OnInit {
   getUserPump() {
     this.use.getUserPump(this.userId).subscribe(
       response => {
-        console.log(response);
-
         if (response && response.success && response.data) {
           const data = response.data;
 
@@ -256,10 +254,8 @@ export class MainPanelComponent implements OnInit {
           this.showDieselPumpsCount = data.diesel_nozzle;
           this.showXpPetrolCount = data.xp_petrol_nozzle;
           this.showPowerDieselCount = data.powe_diesel_nozzle;
-
           // If you want total count
           const totalPumpCount = this.showPetrolPumpsCount + this.showDieselPumpsCount + this.showXpPetrolCount + this.showPowerDieselCount;
-          console.log('Total Pump Count:', totalPumpCount);
         }
       },
       error => {
@@ -835,7 +831,7 @@ export class MainPanelComponent implements OnInit {
   // }
 
   openPurchase(data?: any): void {
-    const dialogRef = this.dialog.open(OilpurchaseComponent, {
+    const dialogRef = this.dialog.open(PurchaseReportComponent, {
       width: window.innerWidth > 991 ? '65%' : '100%',
       data: { date: this.use.getFormattedDate(this.reportDate) },
       hasBackdrop: true,

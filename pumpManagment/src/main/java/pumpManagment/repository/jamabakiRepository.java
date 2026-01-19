@@ -94,7 +94,7 @@ public interface jamabakiRepository extends JpaRepository<jamabaki, Integer> {
 //            + "WHERE YEAR(j.date) = YEAR(CURRENT_DATE()) AND j.userId = :userId")
 //    Double findJamaBakiDifferenceForCurrentYear(@Param("userId") String userId);
 @Query(value = "SELECT SUM(j.jama) - SUM(j.baki) " +
-        "FROM jamabaki j " +
+        "FROM jamabakireport j " +
         "WHERE j.date BETWEEN " +
             "CASE " +
                 "WHEN MONTH(CURDATE()) >= 4 " +

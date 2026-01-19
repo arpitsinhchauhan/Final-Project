@@ -46,4 +46,22 @@ public interface powerDieselRepository extends JpaRepository<powerDiesel, Intege
     Optional<Double> findfirstRateByDateRangeAndUser(@Param("startDate") String startDate,
                                                     @Param("endDate") String endDate,
                                                     @Param("userId") String userId);
+
+    @Query(value = "SELECT SUM(p.powerdiesel_ltr) " +
+            "FROM powerdiesel p " +
+            "WHERE p.date BETWEEN " +
+            "CASE " +
+            "WHEN MONTH(CURDATE()) >= 4 " +
+            "THEN CONCAT(YEAR(CURDATE()), '-04-01') " +
+            "ELSE CONCAT(YEAR(CURDATE()) - 1, '-04-01') " +
+            "END " +
+            "AND " +
+            "CASE " +
+            "WHEN MONTH(CURDATE()) >= 4 " +
+            "THEN CONCAT(YEAR(CURDATE()) + 1, '-03-31') " +
+            "ELSE CONCAT(YEAR(CURDATE()), '-03-31') " +
+            "END " +
+            "AND p.user_id = :userId ", nativeQuery = true
+    )
+    Double findTotalPowerDieselLtrForCurrentYear(@Param("userId") String userId);
 }
