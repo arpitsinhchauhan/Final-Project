@@ -74,6 +74,7 @@ public class MyReportGenerator implements ProfitLossService {
     @Autowired
     private extraPurchaseRepository extraPurchaseRepository;
 
+<<<<<<< HEAD
     @Autowired
     private loclcreditRepository loclcreditRepository;
 
@@ -83,6 +84,8 @@ public class MyReportGenerator implements ProfitLossService {
     @Autowired
     private OilSellRepository oilSellRepository;
 
+=======
+>>>>>>> 2e766fa9188d69cd54c10734dce72d7635fe35a5
     public ResponseEntity<byte[]> generatePdf(String userId, String startDate, String endDate) throws ParseException {
         try {
             double totalPetrolOpenAmount = 0;
@@ -141,9 +144,6 @@ public class MyReportGenerator implements ProfitLossService {
                     dailydieselstockRepository.findLatestDieselOpenstockInRange(startDate, endDate, userId)
             ).orElse(0.0);
 
-            double creditBalance = Optional.ofNullable(
-                    loclcreditRepository.sumBalanceNative(startDate, endDate, userId)
-            ).orElse(0.0);
 
             double oilPurchase = Optional.ofNullable(
                     oilPurchaseRepository.findOilTotalPurchase(startDate, endDate, userId)
@@ -180,7 +180,7 @@ public class MyReportGenerator implements ProfitLossService {
                 }
             }
 
-            double totalRs = grossProfit - totalPrice + creditBalance;
+            double totalRs = grossProfit - totalPrice;
 
             // ---------- THYMELEAF ----------
             Context ctx = new Context();
@@ -199,9 +199,12 @@ public class MyReportGenerator implements ProfitLossService {
             ctx.setVariable("grossProfit", df.format(grossProfit));
             ctx.setVariable("kharchList", kharchList);
             ctx.setVariable("totalRs", df.format(totalRs));
+<<<<<<< HEAD
             ctx.setVariable("creditBalance", df.format(creditBalance));
             ctx.setVariable("oilPurchase", df.format(oilPurchase));
             ctx.setVariable("oilSell", df.format(oilSell));
+=======
+>>>>>>> 2e766fa9188d69cd54c10734dce72d7635fe35a5
 
             // ---------- PDF ----------
             ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
@@ -402,7 +405,7 @@ public class MyReportGenerator implements ProfitLossService {
                 Optional<Double> powerDieselRate = powerDieselRepository.findLastRateByDateRangeAndUser(startDate, endDate, userId);
                 Double xpPetrolOneDayAgoStcok = xpdailystockRepository.findLatestXpUgadtoStockInRange(startDate, endDate, userId);
                 Double powerDieselOneDayAgoStcok = powerdieseldailystockRepository.findLatestPowerDieselDailyStockInRange(startDate, endDate, userId);
-                double creditBalance = Optional.ofNullable(loclcreditRepository.sumBalanceNative(startDate, endDate, userId)).orElse(0.0);
+
                 List<Object[]> kharchList = kharchrepository.getExpenseDetails(startDate, endDate, userId);
                 double oilPurchase = Optional.ofNullable(
                         oilPurchaseRepository.findOilTotalPurchase(startDate, endDate, userId)
@@ -461,7 +464,7 @@ public class MyReportGenerator implements ProfitLossService {
 
                 System.out.println("Total Price: " + totalPrice);
 
-                Double totalRs = grossProfit - totalPrice+creditBalance;
+                Double totalRs = grossProfit - totalPrice;
 
                 final Context ctx = new Context();
                 ctx.setVariable("petrolStock", df.format(totalOpenPetrolAmount));
@@ -488,8 +491,12 @@ public class MyReportGenerator implements ProfitLossService {
                 ctx.setVariable("grossProfit", df.format(grossProfit));
 
                 ctx.setVariable("kharchList", kharchList);
+<<<<<<< HEAD
                 ctx.setVariable("creditBalance", df.format(creditBalance));
                 ctx.setVariable("oilPurchase", df.format(oilPurchase));
+=======
+
+>>>>>>> 2e766fa9188d69cd54c10734dce72d7635fe35a5
                 ctx.setVariable("totalRs", df.format(totalRs));
 
                 ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();

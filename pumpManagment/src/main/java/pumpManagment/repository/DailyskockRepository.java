@@ -111,8 +111,14 @@ public interface DailyskockRepository extends JpaRepository<Dailystock, Integer>
             @Param("userId") String userId
     );
 
-
-
-
+    @Query(
+            value = "SELECT openstock FROM dailystock WHERE date = (SELECT MIN(date) FROM dailystock WHERE date > :endDate AND date >= :startDate AND user_id = :userId) AND user_id = :userId",
+            nativeQuery = true
+    )
+    Double findNextDayClosestock(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate,
+            @Param("userId") String userId
+    );
 
 }

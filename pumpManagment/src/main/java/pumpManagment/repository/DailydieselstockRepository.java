@@ -113,4 +113,16 @@ public interface DailydieselstockRepository extends JpaRepository<dailydieselsto
     );
 
 
+
+    @Query(
+            value = "SELECT dieselopenstock FROM dailydieselstock WHERE date = (SELECT MIN(date) FROM dailydieselstock WHERE date > :endDate AND date >= :startDate AND user_id = :userId) AND user_id = :userId",
+            nativeQuery = true
+    )
+    Double findNextDayClosestock(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate,
+            @Param("userId") String userId
+    );
+
+
 }

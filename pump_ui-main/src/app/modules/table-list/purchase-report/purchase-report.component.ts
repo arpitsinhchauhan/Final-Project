@@ -40,6 +40,18 @@ export class PurchaseReportComponent implements OnInit {
       jtcpercentage: "",
       date: '',
       userId: this.userId
+    },
+    {
+      id: this.purchase.id,
+      type: 'Oil',
+      quantity: '',
+      total: '',
+      vat: '',
+      cess: '',
+      total_purchase: '',
+      jtcpercentage: "",
+      date: '',
+      userId: this.userId
     }
   ];
 
@@ -215,8 +227,21 @@ export class PurchaseReportComponent implements OnInit {
         userId: this.userId
       };
 
+      const oilRow = filteredData.find(item => item.type === 'Oil') || {
+        id: this.purchase?.id,
+        type: 'Oil',
+        quantity: '',
+        total: '',
+        vat: '',
+        cess: '',
+        jtcpercentage: '',
+        total_purchase: '',
+        date: this.purchaDipStockseDetails.date || '',
+        userId: this.userId
+      };
+
       // Ensure Petrol & Diesel always appear at the top
-      this.row = [petrolRow, dieselRow, ...filteredData.filter(item => item.type !== 'Petrol' && item.type !== 'Diesel')];
+      this.row = [petrolRow, dieselRow, oilRow, ...filteredData.filter(item => item.type !== 'Petrol' && item.type !== 'Diesel' && item.type !== 'Oil')];
     });
   }
 
