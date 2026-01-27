@@ -3495,7 +3495,7 @@ public class PurchaseController {
             @RequestParam String startDate,
             @RequestParam String endDate,
             @RequestParam String userId) {
-        return JamabakiRepository.findReportByDateRangeExcludeZeroBaki(startDate, endDate, userId);
+        return JamabakiRepository.findReportByDateRangeExclud(startDate, endDate, userId);
     }
 
     @GetMapping(value = "/loclDetails")

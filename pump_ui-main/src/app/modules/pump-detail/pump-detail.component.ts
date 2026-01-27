@@ -371,7 +371,7 @@ export class PumpDetailComponent implements OnInit {
       amountTotal: this.totalAmountTotal,
       jamaTotal: this.totalJamaTotal,
       bakiTotal: this.totalBakiTotal,
-      loclDetailsTotal: this.totalloclTotal
+      locl_balance_Total: this.totalloclTotal
     };
 
     this.expenseHeaders.forEach(header => {
@@ -431,7 +431,7 @@ export class PumpDetailComponent implements OnInit {
       amountTotal: "Amount Total",
       jamaTotal: "Jama",
       bakiTotal: "Baki",
-      loclDetailsTotal: "Credit Total"
+      locl_balance_Total: "Credit Total"
     };
 
     this.expenseHeaders.forEach(h => headerDisplayMap[h] = h);

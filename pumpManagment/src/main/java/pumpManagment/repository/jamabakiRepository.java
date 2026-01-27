@@ -144,18 +144,18 @@ Double findJamaBakiDifferenceForCurrentYear(@Param("userId") String userId);
             @Param("userId") String userId
     );
 
-//    @Query(value = "SELECT j.date, j.name, j.type, j.rate, j.ltr, j.baki, j.baki_note " +
-//            "FROM jamabakireport j " +
-//            "WHERE j.date BETWEEN :startDate AND :endDate " +
-//            "AND j.baki <> 0 " +
-//            "AND j.user_id = :userId " +
-//            "ORDER BY j.date DESC",
-//            nativeQuery = true)
-//    List<Object[]> findReportByDateRangeExcludeZeroBaki(
-//            @Param("startDate") String startDate,
-//            @Param("endDate") String endDate,
-//            @Param("userId") String userId
-//    );
+    @Query(value = "SELECT j.date, j.name, j.type, j.rate, j.ltr, j.baki, j.baki_note " +
+            "FROM jamabakireport j " +
+            "WHERE j.date BETWEEN :startDate AND :endDate " +
+            "AND j.baki <> 0 " +
+            "AND j.user_id = :userId " +
+            "ORDER BY j.date DESC",
+            nativeQuery = true)
+    List<Object[]> findReportByDateRangeExclud(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate,
+            @Param("userId") String userId
+    );
 
     @Query(value = "SELECT j.date, j.name, j.rate, j.type, j.ltr, j.baki, j.baki_note FROM jamabakireport j WHERE j.user_id = :userId AND j.date BETWEEN :startDate AND :endDate ORDER BY j.date", nativeQuery = true)
     List<Object[]> findReportNative(@Param("userId") String userId,

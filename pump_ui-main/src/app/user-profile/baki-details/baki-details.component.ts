@@ -35,7 +35,6 @@ export class BakiDetailsComponent implements OnInit {
   getBakiDetails() {
     this.use.getBakiReport(this.startDate, this.endDate, this.userId)
       .subscribe((res) => {
-        console.log(res);
         this.bakiList = res;
       });
   }
