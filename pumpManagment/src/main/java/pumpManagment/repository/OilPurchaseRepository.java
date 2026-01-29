@@ -27,4 +27,28 @@ public interface OilPurchaseRepository extends JpaRepository<Oilpurchase, Intege
                                    @Param("endDate") String endDate,
                                    @Param("userId") String userId);
 
+    @Query(value = "SELECT total_purchase AS last_total_purchase " +
+                    "FROM Oilpurchase " +
+                    "WHERE date BETWEEN :startDate AND :endDate " +
+                    "AND user_id = :userId " +
+                    "ORDER BY date DESC " +
+                    "LIMIT 1",nativeQuery = true)
+    Double findLastDateAndPrice(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate,
+            @Param("userId") String userId
+    );
+
+    @Query(value = "SELECT total_purchase AS first_total_purchase " +
+            "FROM Oilpurchase " +
+            "WHERE date BETWEEN :startDate AND :endDate " +
+            "AND user_id = :userId " +
+            "ORDER BY date asc " +
+            "LIMIT 1",nativeQuery = true)
+    Double findfirstDateAndPrice(
+            @Param("startDate") String startDate,
+            @Param("endDate") String endDate,
+            @Param("userId") String userId
+    );
+
 }

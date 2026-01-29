@@ -40,7 +40,7 @@ export class BillingComponent implements OnInit {
     this.getCustomer();
     this.getOilSell();
     this.billRows = [{ ltr: '', rate: '', fuel: '' }];
-    this.oilRows = [{ oiltype: '', rate: '', amount: '' }];
+    this.oilRows = [{ oiltype: '', rate: '', amount: '', note: '' }];
   }
 
   getUserName() {
@@ -76,7 +76,7 @@ export class BillingComponent implements OnInit {
   }
 
   addRowOil() {
-    this.oilRows.push({ oiltype: '', amount: '' });
+    this.oilRows.push({ oiltype: '', amount: '', note: '' });
   }
 
   deleteRowOil(index: number) {
@@ -120,15 +120,22 @@ export class BillingComponent implements OnInit {
       this.notificationService.failure('Please select a customer');
       return;
     }
+    const oilTypeList = this.oilRows
+      .map(row => row.oiltype.oilSellList)
+      .join(', ');
+    const note = this.oilRows
+      .map(row => row.note)
+      .join(', ');
 
+    const totalAmount = this.oilRows
+      .reduce((sum, row) => sum + Number(row.amount), 0);
     const billoillData = {
       date: this.oillDate,
       customer: this.selectedOilCustomer,
       PumpName: this.PumpName,
-      items: this.oilRows.map(row => ({
-        type: row.oiltype.oilSellList,
-        amount: row.amount
-      })),
+      oilType: oilTypeList,
+      price: totalAmount,
+      note: note
     };
 
     this.dialog.open(OillBillComponent, {

@@ -453,7 +453,6 @@ export class PumpDetailComponent implements OnInit {
   }
 
 
-
   close() {
     this.dialog.closeAll();
   }

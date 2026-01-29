@@ -100,6 +100,7 @@
                             <tr>
                                 <th style="width: 30%;">Type</th>
                                 <th>Amount</th>
+                                <th>Note</th>
                                 <th>Action</th>
                                 <th>Action</th>
                             </tr>
@@ -119,6 +120,9 @@
                                 <td>
                                     <input type="number" [(ngModel)]="row.amount" placeholder="0"
                                         class="form-control" />
+                                </td>
+                                <td>
+                                    <input type="text" [(ngModel)]="row.note" class="form-control" />
                                 </td>
                                 <td>
                                     <mat-icon (click)="addRowOil()">add_circle</mat-icon>

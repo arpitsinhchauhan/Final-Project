@@ -26,6 +26,8 @@ import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Level;
@@ -152,6 +154,13 @@ public class MyReportGenerator implements ProfitLossService {
                     oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId)
             ).orElse(0.0);
 
+            double openOilSell = Optional.ofNullable(
+                    oilPurchaseRepository.findfirstDateAndPrice(startDate, endDate, userId)
+            ).orElse(0.0);
+
+            double closeOilSell = Optional.ofNullable(
+                    oilPurchaseRepository.findLastDateAndPrice(startDate, endDate, userId)
+            ).orElse(0.0);
 
             // ---------- CALCULATIONS ----------
             totalPetrolAmount = petrolOneDayAgoStock * petrolLastRate;
@@ -182,11 +191,12 @@ public class MyReportGenerator implements ProfitLossService {
                     totalPrice += price.doubleValue();
                 }
             }
-
             double totalRs = grossProfit - totalPrice +creditBalance;
 
             // ---------- THYMELEAF ----------
             Context ctx = new Context();
+            ctx.setVariable("startDate", toIndianDate(startDate));
+            ctx.setVariable("endDate", toIndianDate(endDate));
             ctx.setVariable("petrolStock", df.format(totalPetrolOpenAmount));
             ctx.setVariable("dieselstock", df.format(totalDieselOpenAmount));
             ctx.setVariable("petrolPurchase", df.format(petrolPurchase));
@@ -206,6 +216,8 @@ public class MyReportGenerator implements ProfitLossService {
             ctx.setVariable("creditBalance", df.format(creditBalance));
             ctx.setVariable("oilPurchase", df.format(oilPurchase));
             ctx.setVariable("oilSell", df.format(oilSell));
+            ctx.setVariable("openOilSell", df.format(openOilSell));
+            ctx.setVariable("closeOilSell", df.format(closeOilSell));
 
             // ---------- PDF ----------
             ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
@@ -416,6 +428,15 @@ public class MyReportGenerator implements ProfitLossService {
                         oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId)
                 ).orElse(0.0);
 
+                double openOilSell = Optional.ofNullable(
+                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId)
+                ).orElse(0.0);
+
+                double closeOilSell = Optional.ofNullable(
+                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId)
+                ).orElse(0.0);
+
+
                 if (petrolRate.isPresent() && petrolOneDayAgoStcok != null) {
                     totalPetrolAmount = petrolOneDayAgoStcok * petrolRate.get();
                 }
@@ -465,10 +486,11 @@ public class MyReportGenerator implements ProfitLossService {
                 }
 
                 System.out.println("Total Price: " + totalPrice);
-
                 Double totalRs = grossProfit - totalPrice +creditBalance;
 
                 final Context ctx = new Context();
+                ctx.setVariable("startDate", toIndianDate(startDate));
+                ctx.setVariable("endDate", toIndianDate(endDate));
                 ctx.setVariable("petrolStock", df.format(totalOpenPetrolAmount));
                 ctx.setVariable("dieselstock", df.format(totalOpenDieselAmount));
                 ctx.setVariable("petrolPurchase", petrolPurchase);
@@ -489,6 +511,8 @@ public class MyReportGenerator implements ProfitLossService {
                 ctx.setVariable("closePowerDieselAmount", df.format(totalPowerDieselAmount));
                 ctx.setVariable("totalCloseAndSale", df.format(totalCloseAndSale));
                 ctx.setVariable("oilSell", df.format(oilSell));
+                ctx.setVariable("openOilSell", df.format(openOilSell));
+                ctx.setVariable("closeOilSell", df.format(closeOilSell));
 
                 ctx.setVariable("grossProfit", df.format(grossProfit));
 
@@ -541,4 +565,11 @@ public class MyReportGenerator implements ProfitLossService {
             }
             return null;
         }
+
+    public static String toIndianDate(String dateStr) {
+        DateTimeFormatter in = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        DateTimeFormatter out = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        return LocalDate.parse(dateStr, in).format(out);
     }
+
+}
