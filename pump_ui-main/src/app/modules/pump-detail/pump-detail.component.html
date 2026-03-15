@@ -5,9 +5,9 @@
             <h4 class="card-title">Pump Excel Details :-</h4>
          </div>
          <div class="card-body" style="overflow: scroll;">
+            <button (click)="close()">cancel</button>
             <div *ngIf="productList.length > 0">
                <button (click)="exportToExcel()">Export to Excel</button>
-               <button (click)="close()">cancel</button>
                <table>
                   <tr>
                      <th>Date</th>
@@ -33,6 +33,25 @@
                      <th>Diesel Cess</th>
                      <th>Diesel Jtcpercentage</th>
                      <th>Diesel Total Purchase</th>
+                     <th>Oil Quantity</th>
+                     <th>Oil Date</th>
+                     <th>Oil Type</th>
+                     <th>Oil GST %</th>
+                     <th>Oil HSN</th>
+                     <th>Oil MRP</th>
+                     <th>Oil Net Amount</th>
+                     <th>Oil Net Total</th>
+                     <th>Oil Qty Ltr/Kg</th>
+                     <th>Oil Rate</th>
+                     <th>Oil SKU Name</th>
+                     <th>Oil SKU Number</th>
+                     <th>Oil Taxable Value</th>
+                     <th>Oil Unit</th>
+                     <th>Oil Vendor Name</th>
+                     <th>Oil Cess Amount</th>
+                     <th>Oil Cess %</th>
+                     <th>Oil Discount</th>
+                     <th>Oil GST Amount</th>
                      <th>ATM Total</th>
                      <th>Jama Total</th>
                      <th>Baki Total</th>
@@ -85,6 +104,25 @@
                      <td>{{ item.dieselCess }}</td>
                      <td>{{ item.dieselJtcpercentage }}</td>
                      <td>{{ item.dieselTotalPurchase }}</td>
+                     <td>{{ item.oilQuantity }}</td>
+                     <td>{{ item.oilDate }}</td>
+                     <td>{{ item.oilType }}</td>
+                     <td>{{ item.oilGstPercentage }}</td>
+                     <td>{{ item.oilHsn }}</td>
+                     <td>{{ item.oilMrp }}</td>
+                     <td>{{ item.oilNetAmount }}</td>
+                     <td>{{ item.oilNetTotal }}</td>
+                     <td>{{ item.oilQtyLtrOrKg }}</td>
+                     <td>{{ item.oilRate }}</td>
+                     <td>{{ item.oilSkuName }}</td>
+                     <td>{{ item.oilSkuNumber }}</td>
+                     <td>{{ item.oilTaxableValue }}</td>
+                     <td>{{ item.oilUnit }}</td>
+                     <td>{{ item.oilVendorName }}</td>
+                     <td>{{ item.oilCessAmount }}</td>
+                     <td>{{ item.oilCessPercentage }}</td>
+                     <td>{{ item.oilDiscount }}</td>
+                     <td>{{ item.oilGstAmount }}</td>
                      <td>{{ item.amountTotal }}</td>
                      <td>{{ item.jamaTotal }}</td>
                      <td>{{ item.bakiTotal }}</td>
@@ -139,6 +177,27 @@
                      <td>{{ totalDieselCess }}</td>
                      <td>{{ totalDieselJtcpercentage }}</td>
                      <td>{{ totalDieselTotalPurchase }}</td>
+                     <td></td>
+                     <td>{{ totalOilQuantity }}</td>
+                     <td></td>
+                     <td></td>
+                     <td></td>
+                     <td>{{ totalOilGstPercentage }}</td>
+                     <td></td>
+                     <td>{{ totalOilMrp }}</td>
+                     <td>{{ totalOilNetAmount }}</td>
+                     <td>{{ totalOilNetTotal }}</td>
+                     <td>{{ totalOilQtyLtrOrKg }}</td>
+                     <td>{{ totalOilRate }}</td>
+                     <td></td>
+                     <td></td>
+                     <td>{{ totalOilTaxableValue }}</td>
+                     <td></td>
+                     <td></td>
+                     <td>{{ totalOilCessAmount }}</td>
+                     <td>{{ totalOilCessPercentage }}</td>
+                     <td>{{ totalOilDiscount }}</td>
+                     <td>{{ totalOilGstAmount }}</td>
                      <td>{{ totalAmountTotal }}</td>
                      <td>{{ totalJamaTotal }}</td>
                      <td>{{ totalBakiTotal }}</td>

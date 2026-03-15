@@ -39,12 +39,23 @@ export class OilPuchasePdfExcelComponent implements OnInit {
     const totalRow = {
       date: 'Total',
       type: '',
+      vendorName: '',
+      skuName: '',
+      skuNumber: '',
+      hsn: '',
+      mrp: '',
+      qtyLtrOrKg: '',
       quantity: '',
-      total: '',
-      vat: '',
-      cess: '',
-      jtcpercentage: '',
-      total_purchase: totalPurchase
+      unit: '',
+      rate: '',
+      netTotal: '',
+      discount: '',
+      taxableValue: '',
+      gstPercentage: '',
+      gstAmount: '',
+      cessPercentage: '',
+      cessAmount: '',
+      netAmount: totalPurchase
     };
 
     const dataWithTotal = [...this.oilProductList, totalRow];
@@ -72,7 +83,7 @@ export class OilPuchasePdfExcelComponent implements OnInit {
     window.location.reload; // To reload the page and reset the original content
   }
   getTotalPurchase(): number {
-    return this.oilProductList.reduce((sum, product) => sum + product.total_purchase, 0);
+    return this.oilProductList.reduce((sum: number, product: any) => sum + (Number(product.netAmount) || 0), 0);
   }
 
   cancel() {

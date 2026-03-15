@@ -50,11 +50,26 @@ public class AggregatedDataDTO {
     private Double dieselJtcpercentage;
     private Double dieselTotalPurchase;
     private Double oilQuantity;
-    private Double oilTotal;
-    private Double oilVat;
-    private Double oilCess;
-    private Double oilJtcpercentage;
-    private Double oilTotalPurchase;
+    private Double oilNetTotal;
+    private Double oilGstAmount;
+    private Double oilCessAmount;
+    private Double oilGstPercentage;
+    private Double oilNetAmount;
+    private String oilHsn;
+    private Double oilMrp;
+    private Double oilQtyLtrOrKg;
+    private Double oilRate;
+    private String oilSkuName;
+    private String oilSkuNumber;
+    private Double oilTaxableValue;
+    private String oilUnit;
+    private String oilVendorName;
+    private Double oilCessPercentage;
+    private Double oilDiscount;
+    private Integer oilId;
+    private String oilType;
+    private String oilUserId;
+    private String oilDate;
     private String oType;
     private Double amountTotal;
     private Double jamaTotal;
@@ -666,43 +681,163 @@ public class AggregatedDataDTO {
         this.oilQuantity = oilQuantity;
     }
 
-    public Double getOilTotal() {
-        return oilTotal;
+    public Double getOilNetTotal() {
+        return oilNetTotal;
     }
 
-    public void setOilTotal(Double oilTotal) {
-        this.oilTotal = oilTotal;
+    public void setOilNetTotal(Double oilNetTotal) {
+        this.oilNetTotal = oilNetTotal;
     }
 
-    public Double getOilVat() {
-        return oilVat;
+    public Double getOilGstAmount() {
+        return oilGstAmount;
     }
 
-    public void setOilVat(Double oilVat) {
-        this.oilVat = oilVat;
+    public void setOilGstAmount(Double oilGstAmount) {
+        this.oilGstAmount = oilGstAmount;
     }
 
-    public Double getOilCess() {
-        return oilCess;
+    public Double getOilCessAmount() {
+        return oilCessAmount;
     }
 
-    public void setOilCess(Double oilCess) {
-        this.oilCess = oilCess;
+    public void setOilCessAmount(Double oilCessAmount) {
+        this.oilCessAmount = oilCessAmount;
     }
 
-    public Double getOilJtcpercentage() {
-        return oilJtcpercentage;
+    public Double getOilGstPercentage() {
+        return oilGstPercentage;
     }
 
-    public void setOilJtcpercentage(Double oilJtcpercentage) {
-        this.oilJtcpercentage = oilJtcpercentage;
+    public void setOilGstPercentage(Double oilGstPercentage) {
+        this.oilGstPercentage = oilGstPercentage;
     }
 
-    public Double getOilTotalPurchase() {
-        return oilTotalPurchase;
+    public Double getOilNetAmount() {
+        return oilNetAmount;
     }
 
-    public void setOilTotalPurchase(Double oilTotalPurchase) {
-        this.oilTotalPurchase = oilTotalPurchase;
+    public void setOilNetAmount(Double oilNetAmount) {
+        this.oilNetAmount = oilNetAmount;
+    }
+
+    public String getOilHsn() {
+        return oilHsn;
+    }
+
+    public void setOilHsn(String oilHsn) {
+        this.oilHsn = oilHsn;
+    }
+
+    public Double getOilMrp() {
+        return oilMrp;
+    }
+
+    public void setOilMrp(Double oilMrp) {
+        this.oilMrp = oilMrp;
+    }
+
+    public Double getOilQtyLtrOrKg() {
+        return oilQtyLtrOrKg;
+    }
+
+    public void setOilQtyLtrOrKg(Double oilQtyLtrOrKg) {
+        this.oilQtyLtrOrKg = oilQtyLtrOrKg;
+    }
+
+    public Double getOilRate() {
+        return oilRate;
+    }
+
+    public void setOilRate(Double oilRate) {
+        this.oilRate = oilRate;
+    }
+
+    public String getOilSkuName() {
+        return oilSkuName;
+    }
+
+    public void setOilSkuName(String oilSkuName) {
+        this.oilSkuName = oilSkuName;
+    }
+
+    public String getOilSkuNumber() {
+        return oilSkuNumber;
+    }
+
+    public void setOilSkuNumber(String oilSkuNumber) {
+        this.oilSkuNumber = oilSkuNumber;
+    }
+
+    public Double getOilTaxableValue() {
+        return oilTaxableValue;
+    }
+
+    public void setOilTaxableValue(Double oilTaxableValue) {
+        this.oilTaxableValue = oilTaxableValue;
+    }
+
+    public String getOilUnit() {
+        return oilUnit;
+    }
+
+    public void setOilUnit(String oilUnit) {
+        this.oilUnit = oilUnit;
+    }
+
+    public String getOilVendorName() {
+        return oilVendorName;
+    }
+
+    public void setOilVendorName(String oilVendorName) {
+        this.oilVendorName = oilVendorName;
+    }
+
+    public Double getOilCessPercentage() {
+        return oilCessPercentage;
+    }
+
+    public void setOilCessPercentage(Double oilCessPercentage) {
+        this.oilCessPercentage = oilCessPercentage;
+    }
+
+    public Double getOilDiscount() {
+        return oilDiscount;
+    }
+
+    public void setOilDiscount(Double oilDiscount) {
+        this.oilDiscount = oilDiscount;
+    }
+
+    public Integer getOilId() {
+        return oilId;
+    }
+
+    public void setOilId(Integer oilId) {
+        this.oilId = oilId;
+    }
+
+    public String getOilType() {
+        return oilType;
+    }
+
+    public void setOilType(String oilType) {
+        this.oilType = oilType;
+    }
+
+    public String getOilUserId() {
+        return oilUserId;
+    }
+
+    public void setOilUserId(String oilUserId) {
+        this.oilUserId = oilUserId;
+    }
+
+    public String getOilDate() {
+        return oilDate;
+    }
+
+    public void setOilDate(String oilDate) {
+        this.oilDate = oilDate;
     }
 }

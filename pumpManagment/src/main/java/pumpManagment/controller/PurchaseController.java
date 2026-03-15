@@ -379,11 +379,23 @@ public class PurchaseController {
             if (existingEntry.isPresent()) {
                 Oilpurchase existingExpense = existingEntry.get();
                 existingExpense.setQuantity(expense.getQuantity());
-                existingExpense.setTotal(expense.getTotal());
-                existingExpense.setVat(expense.getVat());
-                existingExpense.setCess(expense.getCess());
-                existingExpense.setJtcpercentage(expense.getJtcpercentage());
-                existingExpense.setTotal_purchase(expense.getTotal_purchase());
+                existingExpense.setVendorName(expense.getVendorName());
+                existingExpense.setSkuName(expense.getSkuName());
+                existingExpense.setSkuNumber(expense.getSkuNumber());
+                existingExpense.setHsn(expense.getHsn());
+                existingExpense.setMrp(expense.getMrp());
+                existingExpense.setQtyLtrOrKg(expense.getQtyLtrOrKg());
+                existingExpense.setUnit(expense.getUnit());
+                existingExpense.setRate(expense.getRate());
+                existingExpense.setNetTotal(expense.getNetTotal());
+                existingExpense.setDiscount(expense.getDiscount());
+                existingExpense.setTaxableValue(expense.getTaxableValue());
+                existingExpense.setGstPercentage(expense.getGstPercentage());
+                existingExpense.setGstAmount(expense.getGstAmount());
+                existingExpense.setCessPercentage(expense.getCessPercentage());
+                existingExpense.setCessAmount(expense.getCessAmount());
+                existingExpense.setNetAmount(expense.getNetAmount());
+
                 Oilpurchase savedExpense = oilPurchaseRepository.save(existingExpense);
                 updatedExpenses.add(savedExpense);
             } else {
@@ -1465,7 +1477,8 @@ public class PurchaseController {
                         "COALESCE(purchase.total_petrol_purchase, 0) AS total_petrol_purchase, " +
                         "COALESCE(purchase.total_diesel_purchase, 0) AS total_diesel_purchase, " +
                         "COALESCE(extra.XP_total_petrol_purchase, 0) AS XP_total_petrol_purchase, " +
-                        "COALESCE(extra.Power_total_diesel_purchase, 0) AS Power_total_diesel_purchase " +
+                        "COALESCE(extra.Power_total_diesel_purchase, 0) AS Power_total_diesel_purchase, " +
+                        "COALESCE(oil_purchase.total_oil_purchase, 0) AS total_oil_purchase " +
 
                         "FROM " +
                         "(SELECT SUM(total_sell) AS PetrolSell_Total FROM managment.petrolsell " +
@@ -1503,14 +1516,17 @@ public class PurchaseController {
                         " SUM(CASE WHEN type = 'petrol' THEN total_purchase ELSE 0 END) AS total_petrol_purchase, " +
                         " SUM(CASE WHEN type = 'diesel' THEN total_purchase ELSE 0 END) AS total_diesel_purchase " +
                         " FROM managment.purchase " +
-                        " WHERE " + dateCondition + " AND user_id = ?) purchase ON 1=1";
+                        " WHERE " + dateCondition + " AND user_id = ?) purchase ON 1=1 " +
+                        
+                        "LEFT JOIN (SELECT SUM(net_total) AS total_oil_purchase FROM managment.oilpurchase " +
+                        " WHERE " + dateCondition + " AND user_id = ?) oil_purchase ON 1=1";
 
         List<DailySalesSummaryDTO> results =
                 jdbcTemplate.query(
                         sql,
                         new Object[]{
                                 userId, userId, userId, userId, userId,
-                                userId, userId, userId, userId, userId
+                                userId, userId, userId, userId, userId, userId
                         },
                         (rs, rowNum) -> {
                             DailySalesSummaryDTO dto = new DailySalesSummaryDTO();
@@ -1527,6 +1543,7 @@ public class PurchaseController {
                             dto.setTotalDieselPurchase(rs.getDouble("total_diesel_purchase"));
                             dto.setXpTotalPetrolPurchase(rs.getDouble("XP_total_petrol_purchase"));
                             dto.setPowerTotalDieselPurchase(rs.getDouble("Power_total_diesel_purchase"));
+                            dto.setTotalOilPurchase(rs.getDouble("total_oil_purchase"));
                             return dto;
                         }
                 );
@@ -1631,6 +1648,11 @@ public class PurchaseController {
     @GetMapping("/jamabaki-year-total")
     public Double getTotalJamaBakiForCurrentYear(@RequestParam String userId) {
         return JamabakiRepository.findJamaBakiDifferenceForCurrentYear(userId);
+    }
+
+    @GetMapping("/oil-purchase-year-total")
+    public Double getTotalOilPurchaseForCurrentYear(@RequestParam String userId) {
+        return oilPurchaseRepository.findTotalOilPurchaseForCurrentYear(userId);
     }
 
     @PostMapping("/Dipstock")
@@ -1874,11 +1896,26 @@ public class PurchaseController {
             dto.setDieselJtcpercentage(convertToDouble(map.get("Diesel_Jtcpercentage")));
             dto.setDieselTotalPurchase(convertToDouble(map.get("Diesel_Total_Purchase")));
             dto.setOilQuantity(convertToDouble(map.get("oil_Quantity")));
-            dto.setOilTotal(convertToDouble(map.get("oil_Total")));
-            dto.setOilVat(convertToDouble(map.get("oil_Vat")));
-            dto.setOilCess(convertToDouble(map.get("oil_Cess")));
-            dto.setOilJtcpercentage(convertToDouble(map.get("oil_Jtcpercentage")));
-            dto.setOilTotalPurchase(convertToDouble(map.get("oil_Total_Purchase")));
+            dto.setOilNetTotal(convertToDouble(map.get("oil_net_total")));
+            dto.setOilGstAmount(convertToDouble(map.get("oil_gst_amount")));
+            dto.setOilCessAmount(convertToDouble(map.get("oil_cess_amount")));
+            dto.setOilGstPercentage(convertToDouble(map.get("oil_gst_percentage")));
+            dto.setOilNetAmount(convertToDouble(map.get("oil_net_amount")));
+            dto.setOilHsn((String) map.get("Oil_Hsn"));
+            dto.setOilMrp(convertToDouble(map.get("Oil_Mrp")));
+            dto.setOilQtyLtrOrKg(convertToDouble(map.get("Oil_Qty_Ltr_Or_Kg")));
+            dto.setOilRate(convertToDouble(map.get("Oil_Rate")));
+            dto.setOilSkuName((String) map.get("Oil_Sku_Name"));
+            dto.setOilSkuNumber((String) map.get("Oil_Sku_Number"));
+            dto.setOilTaxableValue(convertToDouble(map.get("Oil_Taxable_Value")));
+            dto.setOilUnit((String) map.get("Oil_Unit"));
+            dto.setOilVendorName((String) map.get("Oil_Vendor_Name"));
+            dto.setOilCessPercentage(convertToDouble(map.get("Oil_Cess_Percentage")));
+            dto.setOilDiscount(convertToDouble(map.get("Oil_Discount")));
+            dto.setOilId(convertToInteger(map.get("Oil_Id")));
+            dto.setOilType((String) map.get("Oil_Type"));
+            dto.setOilUserId((String) map.get("Oil_User_Id"));
+            dto.setOilDate((String) map.get("Oil_Date"));
             dto.setAmountTotal(convertToDouble(map.get("Amount_Total")));
             dto.setJamaTotal(convertToDouble(map.get("Jama_Total")));
             dto.setBakiTotal(convertToDouble(map.get("Baki_Total")));
@@ -2029,11 +2066,24 @@ public class PurchaseController {
                 + "COALESCE(dp.diesel_jtcpercentage, 0) AS Diesel_Jtcpercentage, "
                 + "COALESCE(dp.diesel_total_purchase, 0) AS Diesel_Total_Purchase, "
                 + "COALESCE(ol.oil_quantity, 0) AS Oil_Quantity, "
-                + "COALESCE(ol.oil_total, 0) AS Oil_Total, "
-                + "COALESCE(ol.oil_vat, 0) AS Oil_Vat, "
-                + "COALESCE(ol.oil_cess, 0) AS Oil_Cess, "
-                + "COALESCE(ol.oil_jtcpercentage, 0) AS Oil_Jtcpercentage, "
-                + "COALESCE(ol.oil_total_purchase, 0) AS Oil_Total_Purchase, "
+                + "COALESCE(ol.oil_net_total, 0) AS Oil_Net_Total, "
+                + "COALESCE(ol.oil_gst_amount, 0) AS Oil_Gst_Amount, "
+                + "COALESCE(ol.oil_cess_amount, 0) AS Oil_Cess_Amount, "
+                + "COALESCE(ol.oil_gst_percentage, 0) AS Oil_Gst_Percentage, "
+                + "COALESCE(ol.oil_net_amount, 0) AS Oil_Net_Amount, "
+                + "COALESCE(ol.hsn, '') AS Oil_Hsn, "
+                + "COALESCE(ol.mrp, 0) AS Oil_Mrp, "
+                + "COALESCE(ol.qty_ltr_or_kg, 0) AS Oil_Qty_Ltr_Or_Kg, "
+                + "COALESCE(ol.rate, 0) AS Oil_Rate, "
+                + "COALESCE(ol.sku_name, '') AS Oil_Sku_Name, "
+                + "COALESCE(ol.sku_number, '') AS Oil_Sku_Number, "
+                + "COALESCE(ol.taxable_value, 0) AS Oil_Taxable_Value, "
+                + "COALESCE(ol.unit, '') AS Oil_Unit, "
+                + "COALESCE(ol.vendor_name, '') AS Oil_Vendor_Name, "
+                + "COALESCE(ol.cess_percentage, 0) AS Oil_Cess_Percentage, "
+                + "COALESCE(ol.discount, 0) AS Oil_Discount, "
+                + "COALESCE(ol.type, '') AS Oil_Type, "
+                + "COALESCE(ol.date, '') AS Oil_Date, "
                 + "COALESCE(t.Amount_Total, 0) AS Amount_Total, "
                 + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
                 + "COALESCE(j.Baki_Total, 0) AS Baki_Total, "
@@ -2158,13 +2208,12 @@ public class PurchaseController {
                 + "d.date = dp.date "
                 + "LEFT JOIN "
                 + "(SELECT "
-                + "date, type, "
-                + "quantity AS oil_quantity, "
-                + "total AS oil_total, "
-                + "vat AS oil_vat, "
-                + "cess AS oil_cess, "
-                + "jtcpercentage AS oil_jtcpercentage, "
-                + "total_purchase AS oil_total_purchase "
+                + "id, quantity AS oil_quantity, `date`, `type`, user_id, "
+                + "gst_percentage AS oil_gst_percentage, hsn, mrp, "
+                + "net_amount AS oil_net_amount, net_total AS oil_net_total, "
+                + "qty_ltr_or_kg, rate, sku_name, sku_number, taxable_value, "
+                + "unit, vendor_name, cess_amount AS oil_cess_amount, cess_percentage, "
+                + "discount, gst_amount AS oil_gst_amount "
                 + "FROM "
                 + "managment.oilpurchase "
                 + "WHERE "

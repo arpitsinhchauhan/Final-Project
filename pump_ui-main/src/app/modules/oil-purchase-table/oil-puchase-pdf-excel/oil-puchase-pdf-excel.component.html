@@ -18,36 +18,60 @@
                             Cancel
                         </button>
                     </div>
-                    <table id="OilPurchaseTable">
-                        <thead>
-                            <tr>
-                                <th>Date</th>
-                                <th>Type</th>
-                                <th>Quantity</th>
-                                <th>Total</th>
-                                <th>VAT</th>
-                                <th>Cess</th>
-                                <th>JTC Percentage</th>
-                                <th>Total Purchase</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr *ngFor="let product of oilProductList">
-                                <td>{{ product.date | date: 'dd-MM-yyyy' }}</td>
-                                <td>{{ product.type }}</td>
-                                <td>{{ product.quantity }}</td>
-                                <td>{{ product.total }}</td>
-                                <td>{{ product.vat }}</td>
-                                <td>{{ product.cess }}</td>
-                                <td>{{ product.jtcpercentage }}</td>
-                                <td>{{ product.total_purchase }}</td>
-                            </tr>
-                            <tr>
-                                <td colspan="7" style="text-align: right;"><strong>Total Purchase:</strong></td>
-                                <td><strong>{{ getTotalPurchase() }}</strong></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <div style="overflow-x: auto;">
+                        <table class="table text-nowrap" id="OilPurchaseTable">
+                            <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Type</th>
+                                    <th>Vendor Name</th>
+                                    <th>SKU Name</th>
+                                    <th>SKU #</th>
+                                    <th>HSN</th>
+                                    <th>MRP</th>
+                                    <th>Qty (Ltr Or Kg)</th>
+                                    <th>Qty</th>
+                                    <th>Unit</th>
+                                    <th>Rate</th>
+                                    <th>Net Total</th>
+                                    <th>Discount</th>
+                                    <th>Taxable Value</th>
+                                    <th>GST %</th>
+                                    <th>GST Amount</th>
+                                    <th>Cess %</th>
+                                    <th>Cess Amount</th>
+                                    <th>Net Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let product of oilProductList">
+                                    <td>{{ product.date | date: 'dd-MM-yyyy' }}</td>
+                                    <td>{{ product.type }}</td>
+                                    <td>{{ product.vendorName }}</td>
+                                    <td>{{ product.skuName }}</td>
+                                    <td>{{ product.skuNumber }}</td>
+                                    <td>{{ product.hsn }}</td>
+                                    <td>{{ product.mrp }}</td>
+                                    <td>{{ product.qtyLtrOrKg }}</td>
+                                    <td>{{ product.quantity }}</td>
+                                    <td>{{ product.unit }}</td>
+                                    <td>{{ product.rate }}</td>
+                                    <td>{{ product.netTotal }}</td>
+                                    <td>{{ product.discount }}</td>
+                                    <td>{{ product.taxableValue }}</td>
+                                    <td>{{ product.gstPercentage }}</td>
+                                    <td>{{ product.gstAmount }}</td>
+                                    <td>{{ product.cessPercentage }}</td>
+                                    <td>{{ product.cessAmount }}</td>
+                                    <td>{{ product.netAmount }}</td>
+                                </tr>
+                                <tr>
+                                    <td colspan="18" style="text-align: right;"><strong>Total Purchase:</strong></td>
+                                    <td><strong>{{ getTotalPurchase() }}</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
                 <div *ngIf="oilProductList.length === 0">
                     No data available.

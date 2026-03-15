@@ -17,7 +17,7 @@ export class ChangePasswordComponent implements OnInit {
   hideOld = true;
   hideNew = true;
   hideConfirm = true;
-  userId = localStorage.getItem('userId');
+  //userId = localStorage.getItem('userId');
 
   constructor(private fb: FormBuilder, @Inject(MAT_DIALOG_DATA) public data: any, public dialogRef: MatDialogRef<ChangePasswordComponent>,
     private http: HttpClient, private user: UserServiceService, private notificationService: NotificationService) {
@@ -52,7 +52,7 @@ export class ChangePasswordComponent implements OnInit {
     }
     const { oldPassword, newPassword } = this.changePasswordForm.value;
 
-    this.user.changePassword({ oldPassword, newPassword }, this.userId).subscribe(
+    this.user.changePassword({ oldPassword, newPassword }, this.users).subscribe(
       (response) => {
         this.notificationService.success('Password changed successfully');
         this.dialogRef.close();

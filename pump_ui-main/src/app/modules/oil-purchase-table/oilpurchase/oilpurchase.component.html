@@ -18,37 +18,58 @@
                     </div>
                 </div>
                 <br />
-                <table class="style">
-                    <tr>
-                        <!-- <th style="width: 16%;">RowId</th> -->
-                        <th>Type</th>
-                        <th>Quantity </th>
-                        <th>Total</th>
-                        <th>Vat</th>
-                        <th>Cess</th>
-                        <th>JTCPERCENTAGE</th>
-                        <th>TotalPurshace</th>
-                    </tr>
-                    <tr *ngFor="let item of row; let i = index">
-                        <td><input type="text" [(ngModel)]="item.type" readonly /></td>
-                        <td><input type="number" [(ngModel)]="item.quantity" class="no-spinner"
-                                [ngClass]="{'invalid-input': !isNumber(item.quantity)}" /></td>
-                        <td><input type="number" [(ngModel)]="item.total" class="no-spinner"
-                                [ngClass]="{'invalid-input': !isNumber(item.total)}" /></td>
-                        <td><input type="number" [(ngModel)]="item.vat" class="no-spinner"
-                                [ngClass]="{'invalid-input': !isNumber(item.vat)}" /></td>
-                        <td><input type="number" [(ngModel)]="item.cess" class="no-spinner"
-                                [ngClass]="{'invalid-input': !isNumber(item.cess)}" /></td>
-                        <td><input type="number" [(ngModel)]="item.jtcpercentage" class="no-spinner"
-                                [ngClass]="{'invalid-input': !isNumber(item.jtcpercentage)}" /></td>
-                        <td><input type="number" [(ngModel)]="item.total_purchase" class="no-spinner"
-                                [ngClass]="{'invalid-input': !isNumber(item.total_purchase)}" /></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2">GrandTotal:</td>
-                        <td><input type="text" [value]="totalPrice()" /></td>
-                    </tr>
-                </table>
+                <div style="overflow-x: auto;">
+                    <table class="style text-nowrap">
+                        <tr>
+                            <th>Type</th>
+                            <th>Vendor Name</th>
+                            <th>SKU Name</th>
+                            <th>SKU #</th>
+                            <th>HSN</th>
+                            <th>MRP</th>
+                            <th>Qty (Ltr Or Kg)</th>
+                            <th>Qty</th>
+                            <th>Unit</th>
+                            <th>Rate</th>
+                            <th>Net Total</th>
+                            <th>Discount</th>
+                            <th>Taxable Value</th>
+                            <th>GST %</th>
+                            <th>GST Amount</th>
+                            <th>Cess %</th>
+                            <th>Cess Amount</th>
+                            <th>Net Amount</th>
+                        </tr>
+                        <tr *ngFor="let item of row; let i = index">
+                            <td><input type="text" [(ngModel)]="item.type" readonly /></td>
+                            <td><input type="text" [(ngModel)]="item.vendorName" /></td>
+                            <td><input type="text" [(ngModel)]="item.skuName" /></td>
+                            <td><input type="text" [(ngModel)]="item.skuNumber" /></td>
+                            <td><input type="text" [(ngModel)]="item.hsn" /></td>
+                            
+                            <td><input type="number" [(ngModel)]="item.mrp" class="no-spinner" [ngClass]="{'invalid-input': !isNumber(item.mrp)}" /></td>
+                            <td><input type="number" [(ngModel)]="item.qtyLtrOrKg" class="no-spinner" [ngClass]="{'invalid-input': !isNumber(item.qtyLtrOrKg)}" /></td>
+                            
+                            <td><input type="number" [(ngModel)]="item.quantity" class="no-spinner" (keyup)="calculateRow(item)" [ngClass]="{'invalid-input': !isNumber(item.quantity)}" /></td>
+                            
+                            <td><input type="text" [(ngModel)]="item.unit" /></td>
+                            
+                            <td><input type="number" [(ngModel)]="item.rate" class="no-spinner" (keyup)="calculateRow(item)" [ngClass]="{'invalid-input': !isNumber(item.rate)}" /></td>
+                            <td><input type="number" [(ngModel)]="item.netTotal" class="no-spinner" readonly /></td>
+                            <td><input type="number" [(ngModel)]="item.discount" class="no-spinner" (keyup)="calculateRow(item)" [ngClass]="{'invalid-input': !isNumber(item.discount)}" /></td>
+                            <td><input type="number" [(ngModel)]="item.taxableValue" class="no-spinner" readonly /></td>
+                            <td><input type="number" [(ngModel)]="item.gstPercentage" class="no-spinner" (keyup)="calculateRow(item)" [ngClass]="{'invalid-input': !isNumber(item.gstPercentage)}" /></td>
+                            <td><input type="number" [(ngModel)]="item.gstAmount" class="no-spinner" readonly /></td>
+                            <td><input type="number" [(ngModel)]="item.cessPercentage" class="no-spinner" (keyup)="calculateRow(item)" [ngClass]="{'invalid-input': !isNumber(item.cessPercentage)}" /></td>
+                            <td><input type="number" [(ngModel)]="item.cessAmount" class="no-spinner" readonly /></td>
+                            <td><input type="number" [(ngModel)]="item.netAmount" class="no-spinner" readonly /></td>
+                        </tr>
+                        <tr>
+                            <td colspan="17" style="text-align: right; padding-right: 10px;"><b>GrandTotal:</b></td>
+                            <td><input type="text" [value]="totalPrice()" readonly /></td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
     </div>

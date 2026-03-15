@@ -27,10 +27,10 @@
                            <input matInput formControlName="username" type="text">
                         </mat-form-field>
                      </div>
-                     <div class="col-md-4">
+                     <div class="col-md-4" *ngIf="!data">
                         <mat-form-field>
                            <mat-label>Password</mat-label>
-                           <input matInput formControlName="password" type="text">
+                           <input matInput formControlName="password" type="password">
                         </mat-form-field>
                      </div>
                      <div class="col-md-4">
@@ -95,6 +95,11 @@
                            </div>
                         </div>
                      </div>
+                     <!-- Change Password (EDIT MODE ONLY) -->
+                     <button mat-raised-button type="button" class="btn btn-danger pull-right" *ngIf="data"
+                        (click)="openChangePassword()">
+                        Change Password
+                     </button>
                   </mat-card-content>
                   <div>
                      <button mat-raised-button type="button" class="btn btn-danger pull-right" *ngIf="!data"

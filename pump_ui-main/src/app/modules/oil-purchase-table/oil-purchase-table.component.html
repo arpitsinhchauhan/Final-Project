@@ -26,61 +26,67 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive">
-                        <table class="table">
-                            <thead class=" text-primary">
-                                <th (click)="sortBy('date')" style="cursor: pointer">
-                                    Date
-                                    <mat-icon *ngIf="sortColumn === 'date'">
-                                        {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
-                                    </mat-icon>
-                                </th>
-
-                                <th>
-                                    Types
-                                </th>
-                                <th>
-                                    Quantity
-                                </th>
-                                <th>
-                                    Total
-                                </th>
-                                <th>
-                                    Vat
-                                </th>
-                                <th>
-                                    Cess
-                                </th>
-                                <th>
-                                    JTCpercentage
-                                </th>
-                                <th>
-                                    TotalPurshace
-                                </th>
-                                <th>
-                                    Delete
-                                </th>
-                            </thead>
-                            <tbody>
-                                <tr
-                                    *ngFor="let items of oilProductList |  paginate: { itemsPerPage: 4, currentPage: currentPage}">
-                                    <td>{{items.date | date: 'dd-MM-yyyy'}}</td>
-                                    <td>{{items.type}}</td>
-                                    <td>{{items.quantity}}</td>
-                                    <td>{{items.total}}</td>
-                                    <td>{{items.vat}}</td>
-                                    <td>{{items.cess}}</td>
-                                    <td>{{items.jtcpercentage}}</td>
-                                    <td>{{items.total_purchase}}</td>
-                                    <td>
-                                        <div>
-                                            <a mat-icon-button (click)="deleteRow(items.id)">
-                                                <mat-icon>delete</mat-icon>
-                                            </a>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        <div style="overflow-x: auto;">
+                            <table class="table text-nowrap">
+                                <thead class="text-primary">
+                                    <th (click)="sortBy('date')" style="cursor: pointer">
+                                        Date
+                                        <mat-icon *ngIf="sortColumn === 'date'">
+                                            {{ sortDirection === 'asc' ? 'arrow_upward' : 'arrow_downward' }}
+                                        </mat-icon>
+                                    </th>
+                                    <th>Type</th>
+                                    <th>Vendor Name</th>
+                                    <th>SKU Name</th>
+                                    <th>SKU #</th>
+                                    <th>HSN</th>
+                                    <th>MRP</th>
+                                    <th>Qty (Ltr Or Kg)</th>
+                                    <th>Qty</th>
+                                    <th>Unit</th>
+                                    <th>Rate</th>
+                                    <th>Net Total</th>
+                                    <th>Discount</th>
+                                    <th>Taxable Value</th>
+                                    <th>GST %</th>
+                                    <th>GST Amount</th>
+                                    <th>Cess %</th>
+                                    <th>Cess Amount</th>
+                                    <th>Net Amount</th>
+                                    <th>Delete</th>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let items of oilProductList | paginate: { itemsPerPage: 4, currentPage: currentPage}">
+                                        <td>{{items.date | date: 'dd-MM-yyyy'}}</td>
+                                        <td>{{items.type}}</td>
+                                        <td>{{items.vendorName}}</td>
+                                        <td>{{items.skuName}}</td>
+                                        <td>{{items.skuNumber}}</td>
+                                        <td>{{items.hsn}}</td>
+                                        <td>{{items.mrp}}</td>
+                                        <td>{{items.qtyLtrOrKg}}</td>
+                                        <td>{{items.quantity}}</td>
+                                        <td>{{items.unit}}</td>
+                                        <td>{{items.rate}}</td>
+                                        <td>{{items.netTotal}}</td>
+                                        <td>{{items.discount}}</td>
+                                        <td>{{items.taxableValue}}</td>
+                                        <td>{{items.gstPercentage}}</td>
+                                        <td>{{items.gstAmount}}</td>
+                                        <td>{{items.cessPercentage}}</td>
+                                        <td>{{items.cessAmount}}</td>
+                                        <td>{{items.netAmount}}</td>
+                                        <td>
+                                            <div>
+                                                <a mat-icon-button (click)="deleteRow(items.id)">
+                                                    <mat-icon>delete</mat-icon>
+                                                </a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                         <div style="margin-left: 74%;">
                             <pagination-controls (pageChange)="currentPage = $event"></pagination-controls>
                         </div>

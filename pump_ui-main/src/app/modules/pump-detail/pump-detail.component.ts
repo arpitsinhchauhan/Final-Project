@@ -38,11 +38,17 @@ export class PumpDetailComponent implements OnInit {
   totalDieselJtcpercentage: number = 0;
   totalDieselTotalPurchase: number = 0;
   totalOilQuantity: number = 0;
-  totalOilTotal: number = 0;
-  totalOilVat: number = 0;
-  totalOilCess: number = 0;
-  totalOilJtcpercentage: number = 0;
-  totalOilTotalPurchase: number = 0;
+  totalOilNetTotal: number = 0;
+  totalOilGstAmount: number = 0;
+  totalOilCessAmount: number = 0;
+  totalOilGstPercentage: number = 0;
+  totalOilNetAmount: number = 0;
+  totalOilMrp: number = 0;
+  totalOilQtyLtrOrKg: number = 0;
+  totalOilRate: number = 0;
+  totalOilTaxableValue: number = 0;
+  totalOilCessPercentage: number = 0;
+  totalOilDiscount: number = 0;
   totalAmountTotal: number = 0;
   totalJamaTotal: number = 0;
   totalBakiTotal: number = 0;
@@ -222,27 +228,51 @@ export class PumpDetailComponent implements OnInit {
       0
     );
     this.totalOilQuantity = this.productList.reduce(
-      (sum, item) => sum + item.oilQuantity,
+      (sum, item) => sum + (item.oilQuantity || 0),
       0
     );
-    this.totalOilTotal = this.productList.reduce(
-      (sum, item) => sum + item.oilTotal,
+    this.totalOilNetTotal = this.productList.reduce(
+      (sum, item) => sum + (item.oilNetTotal || 0),
       0
     );
-    this.totalOilVat = this.productList.reduce(
-      (sum, item) => sum + item.oilVat,
+    this.totalOilGstAmount = this.productList.reduce(
+      (sum, item) => sum + (item.oilGstAmount || 0),
       0
     );
-    this.totalOilCess = this.productList.reduce(
-      (sum, item) => sum + item.oilCess,
+    this.totalOilCessAmount = this.productList.reduce(
+      (sum, item) => sum + (item.oilCessAmount || 0),
       0
     );
-    this.totalOilJtcpercentage = this.productList.reduce(
-      (sum, item) => sum + item.oilJtcpercentage,
+    this.totalOilGstPercentage = this.productList.reduce(
+      (sum, item) => sum + (item.oilGstPercentage || 0),
       0
     );
-    this.totalOilTotalPurchase = this.productList.reduce(
-      (sum, item) => sum + item.oilTotalPurchase,
+    this.totalOilNetAmount = this.productList.reduce(
+      (sum, item) => sum + (item.oilNetAmount || 0),
+      0
+    );
+    this.totalOilMrp = this.productList.reduce(
+      (sum, item) => sum + (item.oilMrp || 0),
+      0
+    );
+    this.totalOilQtyLtrOrKg = this.productList.reduce(
+      (sum, item) => sum + (item.oilQtyLtrOrKg || 0),
+      0
+    );
+    this.totalOilRate = this.productList.reduce(
+      (sum, item) => sum + (item.oilRate || 0),
+      0
+    );
+    this.totalOilTaxableValue = this.productList.reduce(
+      (sum, item) => sum + (item.oilTaxableValue || 0),
+      0
+    );
+    this.totalOilCessPercentage = this.productList.reduce(
+      (sum, item) => sum + (item.oilCessPercentage || 0),
+      0
+    );
+    this.totalOilDiscount = this.productList.reduce(
+      (sum, item) => sum + (item.oilDiscount || 0),
       0
     );
     this.totalAmountTotal = this.productList.reduce(
@@ -362,12 +392,27 @@ export class PumpDetailComponent implements OnInit {
       dieselCess: this.totalDieselCess,
       dieselJtcpercentage: this.totalDieselJtcpercentage,
       dieselTotalPurchase: this.totalDieselTotalPurchase,
+      oilId: "",
       oilQuantity: this.totalOilQuantity,
-      oilTotal: this.totalOilTotal,
-      oilVat: this.totalOilVat,
-      oilCess: this.totalOilCess,
-      oilJtcpercentage: this.totalOilJtcpercentage,
-      oilTotalPurchase: this.totalOilTotalPurchase,
+      oilDate: "",
+      oilType: "",
+      oilUserId: "",
+      oilGstPercentage: this.totalOilGstPercentage,
+      oilHsn: "",
+      oilMrp: this.totalOilMrp,
+      oilNetAmount: this.totalOilNetAmount,
+      oilNetTotal: this.totalOilNetTotal,
+      oilQtyLtrOrKg: this.totalOilQtyLtrOrKg,
+      oilRate: this.totalOilRate,
+      oilSkuName: "",
+      oilSkuNumber: "",
+      oilTaxableValue: this.totalOilTaxableValue,
+      oilUnit: "",
+      oilVendorName: "",
+      oilCessAmount: this.totalOilCessAmount,
+      oilCessPercentage: this.totalOilCessPercentage,
+      oilDiscount: this.totalOilDiscount,
+      oilGstAmount: this.totalOilGstAmount,
       amountTotal: this.totalAmountTotal,
       jamaTotal: this.totalJamaTotal,
       bakiTotal: this.totalBakiTotal,
@@ -392,45 +437,60 @@ export class PumpDetailComponent implements OnInit {
       "petrolTotalPurchase",
       "dieselQuantity", "dieselTotal", "dieselVat", "dieselCess",
       "dieselJtcpercentage", "dieselTotalPurchase",
-      "oilQuantity", "oilTotal", "oilVat", "oilCess",
-      "oilJtcpercentage", "oilTotalPurchase",
+      "oilQuantity", "oilDate", "oilType", "oilGstPercentage",
+      "oilHsn", "oilMrp", "oilNetAmount", "oilNetTotal", "oilQtyLtrOrKg", "oilRate",
+      "oilSkuName", "oilSkuNumber", "oilTaxableValue", "oilUnit", "oilVendorName",
+      "oilCessAmount", "oilCessPercentage", "oilDiscount", "oilGstAmount",
       "amountTotal", "jamaTotal", "bakiTotal", "locl_balance_Total",
       ...this.expenseHeaders
     ];
 
     const headerDisplayMap: any = {
       date: "Date",
-      petrolTotalSum: "Petrol Sale Qty",
-      petrolRate: "Petrol Rate",
-      petrolTotalTotalSell: "Petrol Sale Amount",
-      petrolgatt_Total: "Petrol Gatt",
-      dieselTotalSum: "Diesel Sale Qty",
-      dieselRate: "Diesel Rate",
-      dieselTotalTotalSell: "Diesel Sale Amount",
-      dieselgatt_Total: "Diesel Gatt",
-      oilTotalPrice: "Oil Amount",
-      kharchTotal: "Kharch",
-      petrolQuantity: "Petrol Purchase Qty",
-      petrolTotal: "Petrol Purchase Amount",
-      petrolVat: "Petrol VAT",
-      petrolCess: "Petrol CESS",
-      petrolJtcpercentage: "Petrol JTC %",
-      petrolTotalPurchase: "Petrol Total Purchase",
-      dieselQuantity: "Diesel Purchase Qty",
-      dieselTotal: "Diesel Purchase Amount",
-      dieselVat: "Diesel VAT",
-      dieselCess: "Diesel CESS",
-      dieselJtcpercentage: "Diesel JTC %",
-      dieselTotalPurchase: "Diesel Total Purchase",
-      oilQuantity: "Oil Purchase Qty",
-      oilTotal: "Oil Purchase Amount",
-      oilVat: "Oil VAT",
-      oilCess: "Oil CESS",
-      oilJtcpercentage: "Oil JTC %",
-      oilTotalPurchase: "Oil Total Purchase",
-      amountTotal: "Amount Total",
-      jamaTotal: "Jama",
-      bakiTotal: "Baki",
+      petrolTotalSum: "Petrol Sale LTR",
+      petrolRate: "Petrol Sale Rate",
+      petrolTotalTotalSell: "Petrol Sale Rs",
+      petrolgatt_Total: "Petrol Gatt LTR",
+      dieselTotalSum: "Diesel Sale LTR",
+      dieselRate: "Diesel Sale Rate",
+      dieselTotalTotalSell: "Diesel Sale Rs",
+      dieselgatt_Total: "Diesel Gatt LTR",
+      oilTotalPrice: "Oil Sale Total Rs",
+      kharchTotal: "Indirect Expenses Rs",
+      petrolQuantity: "Petrol Purchase Ltr",
+      petrolTotal: "Petrol Purchase Rs",
+      petrolVat: "Petrol Purchase Vat",
+      petrolCess: "Petrol Purchase Cess",
+      petrolJtcpercentage: "Petrol Purchase JTC",
+      petrolTotalPurchase: "Petrol Purchase Total Rs",
+      dieselQuantity: "Diesel Purchase Ltr",
+      dieselTotal: "Diesel Purchase Rs",
+      dieselVat: "Diesel Purchase Vat",
+      dieselCess: "Diesel Purchase Cess",
+      dieselJtcpercentage: "Diesel Purchase JTC",
+      dieselTotalPurchase: "Diesel Purchase Total Rs",
+      oilQuantity: "Oil Quantity",
+      oilDate: "Oil Date",
+      oilType: "Oil Type",
+      oilGstPercentage: "Oil GST %",
+      oilHsn: "Oil HSN",
+      oilMrp: "Oil MRP",
+      oilNetAmount: "Oil Net Amount",
+      oilNetTotal: "Oil Net Total",
+      oilQtyLtrOrKg: "Oil Qty Ltr/Kg",
+      oilRate: "Oil Rate",
+      oilSkuName: "Oil SKU Name",
+      oilSkuNumber: "Oil SKU Number",
+      oilTaxableValue: "Oil Taxable Value",
+      oilUnit: "Oil Unit",
+      oilVendorName: "Oil Vendor Name",
+      oilCessAmount: "Oil Cess Amount",
+      oilCessPercentage: "Oil Cess %",
+      oilDiscount: "Oil Discount",
+      oilGstAmount: "Oil GST Amount",
+      amountTotal: "ATM Daily Rs",
+      jamaTotal: "Customer Credit Bill",
+      bakiTotal: "Customer Outstanding Bill",
       locl_balance_Total: "Credit Total"
     };
 

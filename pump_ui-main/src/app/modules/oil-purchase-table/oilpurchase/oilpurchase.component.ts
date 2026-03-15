@@ -26,7 +26,24 @@ export class OilpurchaseComponent implements OnInit {
       total_purchase: '',
       jtcpercentage: '',
       date: '',
-      userId: this.userId
+      userId: this.userId,
+      
+      vendorName: '',
+      skuName: '',
+      skuNumber: '',
+      hsn: '',
+      mrp: '',
+      qtyLtrOrKg: '',
+      unit: '',
+      rate: '',
+      netTotal: '',
+      discount: '',
+      taxableValue: '',
+      gstPercentage: '',
+      gstAmount: '',
+      cessPercentage: '',
+      cessAmount: '',
+      netAmount: ''
     }
   ];
 
@@ -64,7 +81,24 @@ export class OilpurchaseComponent implements OnInit {
       total_purchase: '',
       jtcpercentage: '',
       date: this.purchaDipStockseDetails.date || '',
-      userId: this.userId
+      userId: this.userId,
+
+      vendorName: '',
+      skuName: '',
+      skuNumber: '',
+      hsn: '',
+      mrp: '',
+      qtyLtrOrKg: '',
+      unit: '',
+      rate: '',
+      netTotal: '',
+      discount: '',
+      taxableValue: '',
+      gstPercentage: '',
+      gstAmount: '',
+      cessPercentage: '',
+      cessAmount: '',
+      netAmount: ''
     });
   }
 
@@ -75,9 +109,23 @@ export class OilpurchaseComponent implements OnInit {
 
   totalPrice(): number {
     return this.row.reduce(
-      (acc, item) => acc + (Number(item.total_purchase) || 0),
+      (acc, item) => acc + (Number(item.netAmount) || 0),
       0
     );
+  }
+
+  calculateRow(item: any) {
+    const qty = Number(item.quantity) || 0;
+    const rate = Number(item.rate) || 0;
+    const discount = Number(item.discount) || 0;
+    const gstPct = Number(item.gstPercentage) || 0;
+    const cessPct = Number(item.cessPercentage) || 0;
+
+    item.netTotal = qty * rate;
+    item.taxableValue = item.netTotal - discount;
+    item.gstAmount = (item.taxableValue * gstPct) / 100;
+    item.cessAmount = (item.taxableValue * cessPct) / 100;
+    item.netAmount = item.taxableValue + item.gstAmount + item.cessAmount;
   }
 
 
@@ -88,18 +136,31 @@ export class OilpurchaseComponent implements OnInit {
     }
     for (let item of this.row) {
       item.quantity = item.quantity === null || item.quantity === '' ? 0 : Number(item.quantity);
-      item.total = item.total === null || item.total === '' ? 0 : Number(item.total);
-      item.vat = item.vat === null || item.vat === '' ? 0 : Number(item.vat);
-      item.cess = item.cess === null || item.cess === '' ? 0 : Number(item.cess);
-      item.jtcpercentage = item.jtcpercentage === null || item.jtcpercentage === '' ? 0 : Number(item.jtcpercentage);
-      item.total_purchase = item.total_purchase === null || item.total_purchase === '' ? 0 : Number(item.total_purchase);
+      item.mrp = item.mrp === null || item.mrp === '' ? 0 : Number(item.mrp);
+      item.qtyLtrOrKg = item.qtyLtrOrKg === null || item.qtyLtrOrKg === '' ? 0 : Number(item.qtyLtrOrKg);
+      item.rate = item.rate === null || item.rate === '' ? 0 : Number(item.rate);
+      item.netTotal = item.netTotal === null || item.netTotal === '' ? 0 : Number(item.netTotal);
+      item.discount = item.discount === null || item.discount === '' ? 0 : Number(item.discount);
+      item.taxableValue = item.taxableValue === null || item.taxableValue === '' ? 0 : Number(item.taxableValue);
+      item.gstPercentage = item.gstPercentage === null || item.gstPercentage === '' ? 0 : Number(item.gstPercentage);
+      item.gstAmount = item.gstAmount === null || item.gstAmount === '' ? 0 : Number(item.gstAmount);
+      item.cessPercentage = item.cessPercentage === null || item.cessPercentage === '' ? 0 : Number(item.cessPercentage);
+      item.cessAmount = item.cessAmount === null || item.cessAmount === '' ? 0 : Number(item.cessAmount);
+      item.netAmount = item.netAmount === null || item.netAmount === '' ? 0 : Number(item.netAmount);
+
       if (
         isNaN(item.quantity) ||
-        isNaN(item.total) ||
-        isNaN(item.vat) ||
-        isNaN(item.cess) ||
-        isNaN(item.jtcpercentage) ||
-        isNaN(item.total_purchase)
+        isNaN(item.mrp) ||
+        isNaN(item.qtyLtrOrKg) ||
+        isNaN(item.rate) ||
+        isNaN(item.netTotal) ||
+        isNaN(item.discount) ||
+        isNaN(item.taxableValue) ||
+        isNaN(item.gstPercentage) ||
+        isNaN(item.gstAmount) ||
+        isNaN(item.cessPercentage) ||
+        isNaN(item.cessAmount) ||
+        isNaN(item.netAmount)
       ) {
         this.notificationService.failure('All numeric fields must contain valid numbers.');
         return false;
@@ -183,7 +244,23 @@ export class OilpurchaseComponent implements OnInit {
         jtcpercentage: '',
         total_purchase: '',
         date: this.purchaDipStockseDetails.date || '',
-        userId: this.userId
+        userId: this.userId,
+        vendorName: '',
+        skuName: '',
+        skuNumber: '',
+        hsn: '',
+        mrp: '',
+        qtyLtrOrKg: '',
+        unit: '',
+        rate: '',
+        netTotal: '',
+        discount: '',
+        taxableValue: '',
+        gstPercentage: '',
+        gstAmount: '',
+        cessPercentage: '',
+        cessAmount: '',
+        netAmount: ''
       };
 
 

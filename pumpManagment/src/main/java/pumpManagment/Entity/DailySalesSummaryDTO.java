@@ -27,9 +27,16 @@ public class DailySalesSummaryDTO {
     private double powerDieselSellTotal;
     private double xpTotalPetrolPurchase;
     private double powerTotalDieselPurchase;
-
+    private double totalOilPurchase;
 
     // Getters and Setters
+    public double getTotalOilPurchase() {
+        return totalOilPurchase;
+    }
+
+    public void setTotalOilPurchase(double totalOilPurchase) {
+        this.totalOilPurchase = totalOilPurchase;
+    }
     public String getDate() {
         return date;
     }

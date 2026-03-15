@@ -5,7 +5,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import * as d3 from 'd3';
-import { API_CURRENTMOUNTH_TOTAL, API_CURRENTYEAR_TOTAL, API_DAILY_CHART, API_DAILY_TOTAL, API_DIESEL_CURRENTYEAR_DATE, API_JAMABAKI_CURRENTYEAR_DATE, API_PETROL_CURRENTYEAR_DATE, API_POWER_DIESEL_CURRENTYEAR_DATE, API_XP_PETROL_CURRENTYEAR_DATE } from 'app/serviceult';
+import { API_CURRENTMOUNTH_TOTAL, API_CURRENTYEAR_TOTAL, API_DAILY_CHART, API_DAILY_TOTAL, API_DIESEL_CURRENTYEAR_DATE, API_JAMABAKI_CURRENTYEAR_DATE, API_OIL_PURCHASE_CURRENTYEAR_DATE, API_PETROL_CURRENTYEAR_DATE, API_POWER_DIESEL_CURRENTYEAR_DATE, API_XP_PETROL_CURRENTYEAR_DATE } from 'app/serviceult';
 import { ChartType, ChartConfiguration } from 'chart.js';
 import { LoaderService } from 'app/services/loader.service';
 import { NotificationService } from 'app/services/notification.service';
@@ -57,6 +57,7 @@ export class DashboardComponent implements OnInit {
   petrollabel: string;
   xppetrollabel: string;
   powerDiesellabel: string;
+  oilPurchaseLabel: string;
   userId = localStorage.getItem('userId');
   filterType: string = 'today';
   selectedYear = new Date().getFullYear();
@@ -145,6 +146,7 @@ export class DashboardComponent implements OnInit {
     this.getDieselCurrentYearData();
     this.getXpPetrolCurrentYearData();
     this.getPowerDieselCurrentYearData();
+    this.getOilPurchaseCurrentYearData();
     this.getJamaBakiCurrentYearData();
     const currentYear = new Date().getFullYear();
     for (let y = currentYear - 4; y <= currentYear + 1; y++) {
@@ -333,9 +335,9 @@ export class DashboardComponent implements OnInit {
     this.http.get<any>(`${API_DAILY_CHART}`, { params }).subscribe((data) => {
 
       const labels = [
-        'Petrol_Sell', 'XP_Petrol_Sell', 'Power_Diesel_Sell', 'Diesel_Sell',
-        'Oil_Sell', 'Kharch_Total', 'ATM_Total', 'Jama_Total', 'Baki_Total',
-        'Petrol_Purchase', 'Diesel_Purchase', 'XP_Petrol_Purchase', 'Power_Diesel_Purchase'
+        'Petrol Sale', 'XP Petrol Sale', 'Power Diesel Sale', 'Diesel Sale',
+        'Oil Sale', 'Indirect Expenses', 'Credit ATM & Wallet', 'Deposit Bill', 'Customer Outstanding',
+        'Petrol Purchase', 'Diesel Purchase', 'XP Petrol Purchase', 'Power Diesel Purchase', 'Oil Purchase'
       ];
 
       const datasetData = [
@@ -351,19 +353,20 @@ export class DashboardComponent implements OnInit {
         data.totalPetrolPurchase,
         data.totalDieselPurchase,
         data.xpTotalPetrolPurchase,
-        data.powerTotalDieselPurchase
+        data.powerTotalDieselPurchase,
+        data.totalOilPurchase
       ];
 
       const colors = [
         '#1b676f', '#ef7c8f', '#00A36C', '#4f52ec',
         '#EBB403', '#FF9F40', '#C9CBCF', '#00A36C',
-        '#FF6F61', '#8A2BE2', '#FFD700', '#40E0D0', '#DC143C'
+        '#FF6F61', '#8A2BE2', '#FFD700', '#40E0D0', '#DC143C', '#20B2AA'
       ];
 
       // Remove XP/Power if nozzle count 0
       if (this.xp_petrol_nozzle === 0 && this.powe_diesel_nozzle === 0) {
-        const remove = ['XP_Petrol_Sell', 'Power_Diesel_Sell', 'XP_Petrol_Purchase', 'Power_Diesel_Purchase'];
-        remove.forEach(label => {
+        const removeLabels = ['XP Petrol Sale', 'Power Diesel Sale', 'XP Petrol Purchase', 'Power Diesel Purchase'];
+        removeLabels.forEach(label => {
           const idx = labels.indexOf(label);
           if (idx !== -1) {
             labels.splice(idx, 1);
@@ -424,6 +427,13 @@ export class DashboardComponent implements OnInit {
   getPowerDieselCurrentYearData() {
     this.http.get<any>(`${API_POWER_DIESEL_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
       this.powerDiesellabel = data;
+      this.updatePieChart();
+    });
+  }
+
+  getOilPurchaseCurrentYearData() {
+    this.http.get<any>(`${API_OIL_PURCHASE_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
+      this.oilPurchaseLabel = data;
       this.updatePieChart();
     });
   }
@@ -502,6 +512,14 @@ export class DashboardComponent implements OnInit {
       dataPoints.push({
         y: Number(this.powerDiesellabel),
         label: "Power Diesel"
+      });
+    }
+
+    // Oil Purchase
+    if (Number(this.oilPurchaseLabel) > 0) {
+      dataPoints.push({
+        y: Number(this.oilPurchaseLabel),
+        label: "Oil Purchase"
       });
     }
 

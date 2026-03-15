@@ -18,7 +18,7 @@ public interface OilPurchaseRepository extends JpaRepository<Oilpurchase, Intege
 
     Optional<Oilpurchase> findByDateAndTypeAndUserId(String date, String type, String userId);
 
-    @Query(value = "SELECT SUM(total_purchase) " +
+    @Query(value = "SELECT SUM(net_amount) " +
             "FROM Oilpurchase " +
             "WHERE `date` BETWEEN :startDate AND :endDate " +
             "AND user_id = :userId " +
@@ -27,7 +27,7 @@ public interface OilPurchaseRepository extends JpaRepository<Oilpurchase, Intege
                                    @Param("endDate") String endDate,
                                    @Param("userId") String userId);
 
-    @Query(value = "SELECT total_purchase AS last_total_purchase " +
+    @Query(value = "SELECT net_amount AS last_total_purchase " +
                     "FROM Oilpurchase " +
                     "WHERE date BETWEEN :startDate AND :endDate " +
                     "AND user_id = :userId " +
@@ -39,7 +39,7 @@ public interface OilPurchaseRepository extends JpaRepository<Oilpurchase, Intege
             @Param("userId") String userId
     );
 
-    @Query(value = "SELECT total_purchase AS first_total_purchase " +
+    @Query(value = "SELECT net_amount AS first_total_purchase " +
             "FROM Oilpurchase " +
             "WHERE date BETWEEN :startDate AND :endDate " +
             "AND user_id = :userId " +
@@ -50,5 +50,9 @@ public interface OilPurchaseRepository extends JpaRepository<Oilpurchase, Intege
             @Param("endDate") String endDate,
             @Param("userId") String userId
     );
+
+    @Query(value = "SELECT SUM(net_total) FROM managment.oilpurchase " +
+            "WHERE YEAR(date) = YEAR(CURDATE()) AND user_id = ?", nativeQuery = true)
+    Double findTotalOilPurchaseForCurrentYear(String userId);
 
 }
