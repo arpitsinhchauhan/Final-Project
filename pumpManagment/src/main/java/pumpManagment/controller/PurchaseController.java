@@ -76,7 +76,8 @@ import pumpManagment.service.UserService;
 @RequestMapping("/portal/api")
 public class PurchaseController {
 
-    //      private final static Log logger = LogFactory.getLog(PurchaseController.class);
+    // private final static Log logger =
+    // LogFactory.getLog(PurchaseController.class);
     @Autowired
     private AuthenticationManager authenticationManager;
 
@@ -109,7 +110,6 @@ public class PurchaseController {
 
     @Autowired
     private UserService userService;
-
 
     @Autowired
     private kharchrepository kharchrepository;
@@ -207,7 +207,7 @@ public class PurchaseController {
     @Autowired
     private OilPurchaseRepository oilPurchaseRepository;
 
-    //    Login Page
+    // Login Page
     @RequestMapping(value = "/authenticate", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody AuthenticationRequest authenticationRequest)
             throws Exception {
@@ -233,9 +233,9 @@ public class PurchaseController {
         String lastname = user.getLastName();
 
         return ResponseEntity.ok(new AuthenticationResponse(
-                 token, authenticationRequest.getUsername(), role, userId,
-                petrolNozzle, dieselNozzle, xpPetrolNozzle, powerDieselNozzle,FirstName,lastname));
-//      return ResponseEntity.ok(new AuthenticationResponse(token));
+                token, authenticationRequest.getUsername(), role, userId,
+                petrolNozzle, dieselNozzle, xpPetrolNozzle, powerDieselNozzle, FirstName, lastname));
+        // return ResponseEntity.ok(new AuthenticationResponse(token));
     }
 
     @PostMapping("/close-connection")
@@ -286,12 +286,13 @@ public class PurchaseController {
         }
     }
 
-//    @RequestMapping(value = "/nozzleadd", method = RequestMethod.POST)
-//    public ResponseEntity<ApiResponse> addPump(@RequestBody nozzleDetails nozzle) {
-//        nozzleRepository.save(nozzle);
-//        ApiResponse response = new ApiResponse("Nozzle Details Saved Successfully");
-//        return  ResponseEntity.ok(response);
-//    }
+    // @RequestMapping(value = "/nozzleadd", method = RequestMethod.POST)
+    // public ResponseEntity<ApiResponse> addPump(@RequestBody nozzleDetails nozzle)
+    // {
+    // nozzleRepository.save(nozzle);
+    // ApiResponse response = new ApiResponse("Nozzle Details Saved Successfully");
+    // return ResponseEntity.ok(response);
+    // }
     @DeleteMapping("/deleteUser/{id}")
     public ResponseEntity<ApiResponse> deleteUser(@PathVariable Long id) {
         try {
@@ -322,8 +323,7 @@ public class PurchaseController {
 
         for (Purchase expense : expenses) {
             Optional<Purchase> existingEntry = purchaseRepository.findByDateAndTypeAndUserId(
-                    expense.getDate(), expense.getType(), expense.getUserId()
-            );
+                    expense.getDate(), expense.getType(), expense.getUserId());
             if (existingEntry.isPresent()) {
                 Purchase existingExpense = existingEntry.get();
                 existingExpense.setQuantity(expense.getQuantity());
@@ -341,7 +341,6 @@ public class PurchaseController {
         }
         return ResponseEntity.ok(updatedExpenses);
     }
-
 
     @PostMapping("/updatePurchase")
     public ResponseEntity<ApiResponse> updatePurchase(@RequestBody Purchase purchase) {
@@ -374,8 +373,7 @@ public class PurchaseController {
 
         for (Oilpurchase expense : expenses) {
             Optional<Oilpurchase> existingEntry = oilPurchaseRepository.findByDateAndTypeAndUserId(
-                    expense.getDate(), expense.getType(), expense.getUserId()
-            );
+                    expense.getDate(), expense.getType(), expense.getUserId());
             if (existingEntry.isPresent()) {
                 Oilpurchase existingExpense = existingEntry.get();
                 existingExpense.setQuantity(expense.getQuantity());
@@ -406,7 +404,6 @@ public class PurchaseController {
         return ResponseEntity.ok(updatedExpenses);
     }
 
-
     @PostMapping("/updateoilPurchase")
     public ResponseEntity<ApiResponse> updateOilPurchase(@RequestBody Oilpurchase purchase) {
         oilPurchaseRepository.save(purchase);
@@ -425,7 +422,7 @@ public class PurchaseController {
         }
     }
 
-    //Extra PURCHASE SELL
+    // Extra PURCHASE SELL
     @GetMapping(value = "/extraPurchasesList")
     public List<extraPurchases> getAllExtraPayment(@RequestParam String userId) {
         List<extraPurchases> extraPurcha = extraPurchaseRepository.findByUserId(userId);
@@ -437,7 +434,8 @@ public class PurchaseController {
         List<extraPurchases> updatedExpenses = new ArrayList<>();
 
         for (extraPurchases expense : expenses) {
-            Optional<extraPurchases> existingEntry = extraPurchaseRepository.findByDateAndExtraType(expense.getDate(), expense.getExtraType());
+            Optional<extraPurchases> existingEntry = extraPurchaseRepository.findByDateAndExtraType(expense.getDate(),
+                    expense.getExtraType());
 
             if (existingEntry.isPresent()) {
                 extraPurchases existingExpense = existingEntry.get();
@@ -481,44 +479,47 @@ public class PurchaseController {
         }
     }
 
-    //PETROL SELL
+    // PETROL SELL
     @GetMapping(value = "/petrolSellList")
     public List<PetrolSell> getAllPetrolSell(@RequestParam String userId) {
         List<PetrolSell> petrol = petrolSellRepository.findByUserId(userId);
         return petrol;
     }
 
-    //   @PostMapping("/addPetrolsell")
-//public ResponseEntity<List<PetrolSell>> updatePetrolsell(@RequestBody List<PetrolSell> petrolSellList) {
-//    List<PetrolSell> updatedPetrolSells = new ArrayList<>();
-//
-//    for (PetrolSell petrolSell : petrolSellList) {
-//        // Check if the entry with the same date and pump exists
-//        Optional<PetrolSell> existingEntry = petrolSellRepository.findByDateAndPump(petrolSell.getDate(), petrolSell.getPump());
-//
-//        if (existingEntry.isPresent()) {
-//            // Update existing entry if needed
-//            PetrolSell existingPetrolSell = existingEntry.get();
-//            existingPetrolSell.setUserId(petrolSell.getUserId());
-//            existingPetrolSell.setClose_meter(petrolSell.getClose_meter());
-//            existingPetrolSell.setOpen_meter(petrolSell.getOpen_meter());
-//            existingPetrolSell.setTotal(petrolSell.getTotal());
-//            existingPetrolSell.setTesting(petrolSell.getTesting());
-//            existingPetrolSell.setPetrol_ltr(petrolSell.getPetrol_ltr());
-//            existingPetrolSell.setRate(petrolSell.getRate());
-//            existingPetrolSell.setTotal_sell(petrolSell.getTotal_sell());
-//
-//            PetrolSell updatedPetrolSell = petrolSellRepository.save(existingPetrolSell);
-//            updatedPetrolSells.add(updatedPetrolSell);
-//        } else {
-//            // Save new entry if it doesn't exist
-//            PetrolSell newPetrolSell = petrolSellRepository.save(petrolSell);
-//            updatedPetrolSells.add(newPetrolSell);
-//        }
-//    }
-//
-//    return ResponseEntity.ok(updatedPetrolSells);
-//}
+    // @PostMapping("/addPetrolsell")
+    // public ResponseEntity<List<PetrolSell>> updatePetrolsell(@RequestBody
+    // List<PetrolSell> petrolSellList) {
+    // List<PetrolSell> updatedPetrolSells = new ArrayList<>();
+    //
+    // for (PetrolSell petrolSell : petrolSellList) {
+    // // Check if the entry with the same date and pump exists
+    // Optional<PetrolSell> existingEntry =
+    // petrolSellRepository.findByDateAndPump(petrolSell.getDate(),
+    // petrolSell.getPump());
+    //
+    // if (existingEntry.isPresent()) {
+    // // Update existing entry if needed
+    // PetrolSell existingPetrolSell = existingEntry.get();
+    // existingPetrolSell.setUserId(petrolSell.getUserId());
+    // existingPetrolSell.setClose_meter(petrolSell.getClose_meter());
+    // existingPetrolSell.setOpen_meter(petrolSell.getOpen_meter());
+    // existingPetrolSell.setTotal(petrolSell.getTotal());
+    // existingPetrolSell.setTesting(petrolSell.getTesting());
+    // existingPetrolSell.setPetrol_ltr(petrolSell.getPetrol_ltr());
+    // existingPetrolSell.setRate(petrolSell.getRate());
+    // existingPetrolSell.setTotal_sell(petrolSell.getTotal_sell());
+    //
+    // PetrolSell updatedPetrolSell = petrolSellRepository.save(existingPetrolSell);
+    // updatedPetrolSells.add(updatedPetrolSell);
+    // } else {
+    // // Save new entry if it doesn't exist
+    // PetrolSell newPetrolSell = petrolSellRepository.save(petrolSell);
+    // updatedPetrolSells.add(newPetrolSell);
+    // }
+    // }
+    //
+    // return ResponseEntity.ok(updatedPetrolSells);
+    // }
     @PostMapping("/addPetrolsell")
     public ResponseEntity<List<PetrolSell>> addPetrolSell(@RequestBody PetrolSell request) {
         List<PetrolSell> updatedPetrolSells = new ArrayList<>();
@@ -529,7 +530,8 @@ public class PurchaseController {
             petrolSell.setDate(request.getDate());
 
             // Check for existing entry by date and pump
-            Optional<PetrolSell> existingEntry = petrolSellRepository.findByDateAndPump(petrolSell.getDate(), petrolSell.getPump());
+            Optional<PetrolSell> existingEntry = petrolSellRepository.findByDateAndPump(petrolSell.getDate(),
+                    petrolSell.getPump());
 
             if (existingEntry.isPresent()) {
                 PetrolSell existingPetrolSell = existingEntry.get();
@@ -572,17 +574,17 @@ public class PurchaseController {
         }
     }
 
-    //    DIESEL_SELL
+    // DIESEL_SELL
     @GetMapping(value = "/dieselSellList")
     public List<Dieselsell> getAllDieselSell(@RequestParam String userId) {
         List<Dieselsell> Diesel = dieselSellRepository.findByUserId(userId);
         return Diesel;
     }
-//    @PostMapping("/addDieselSell")
-//    public Dieselsell SetDieselSell(@RequestBody Dieselsell add) {
-//        dieselSellRepository.save(add);
-//        return add;
-//    }
+    // @PostMapping("/addDieselSell")
+    // public Dieselsell SetDieselSell(@RequestBody Dieselsell add) {
+    // dieselSellRepository.save(add);
+    // return add;
+    // }
 
     @PostMapping("/addDieselSell")
     public ResponseEntity<List<Dieselsell>> addDieselSell(@RequestBody Dieselsell request) {
@@ -594,7 +596,8 @@ public class PurchaseController {
             dieselsell.setDate(request.getDate());
 
             // Check for existing entry by date and pump
-            Optional<Dieselsell> existingEntry = dieselSellRepository.findByDateAndPump(dieselsell.getDate(), dieselsell.getPump());
+            Optional<Dieselsell> existingEntry = dieselSellRepository.findByDateAndPump(dieselsell.getDate(),
+                    dieselsell.getPump());
 
             if (existingEntry.isPresent()) {
                 // Update existing entry
@@ -638,7 +641,7 @@ public class PurchaseController {
         }
     }
 
-    //xpPetrol
+    // xpPetrol
     @GetMapping(value = "/XPPetrolsellList")
     public List<xpPetrol> getAllXPPetrol(@RequestParam String userId) {
         List<xpPetrol> xpPetrol = xpPetorlRepository.findByUserId(userId);
@@ -655,7 +658,8 @@ public class PurchaseController {
             xpPetrol.setDate(xp.getDate());
 
             // Check for existing entry by date and pump
-            Optional<xpPetrol> existingEntry = xpPetorlRepository.findByDateAndPump(xpPetrol.getDate(), xpPetrol.getPump());
+            Optional<xpPetrol> existingEntry = xpPetorlRepository.findByDateAndPump(xpPetrol.getDate(),
+                    xpPetrol.getPump());
 
             if (existingEntry.isPresent()) {
                 xpPetrol existingPetrolSell = existingEntry.get();
@@ -698,7 +702,7 @@ public class PurchaseController {
         }
     }
 
-    //PowerDiesel
+    // PowerDiesel
     @GetMapping(value = "/powerDieselList")
     public List<powerDiesel> getAllPowerDiesel(@RequestParam String userId) {
         List<powerDiesel> powerDiesel = powerDieselRepository.findByUserId(userId);
@@ -715,7 +719,8 @@ public class PurchaseController {
             powerDiesel.setDate(pw.getDate());
 
             // Check for existing entry by date and pump
-            Optional<powerDiesel> existingEntry = powerDieselRepository.findByDateAndPump(powerDiesel.getDate(), powerDiesel.getPump());
+            Optional<powerDiesel> existingEntry = powerDieselRepository.findByDateAndPump(powerDiesel.getDate(),
+                    powerDiesel.getPump());
 
             if (existingEntry.isPresent()) {
                 powerDiesel existingPowerDiesel = existingEntry.get();
@@ -758,10 +763,10 @@ public class PurchaseController {
         }
     }
 
-    //    OILSELL
+    // OILSELL
     @GetMapping(value = "/oilSellList")
     public List<OilSell> getAllOilSell(@RequestParam String userId) {
-//        List<OilSell> oil = oilSellRepository.findAll();
+        // List<OilSell> oil = oilSellRepository.findAll();
         List<OilSell> oil = oilSellRepository.findByUserId(userId);
         return oil;
     }
@@ -790,7 +795,7 @@ public class PurchaseController {
         }
     }
 
-    //    PETROL/DIESEL DIP
+    // PETROL/DIESEL DIP
     @GetMapping(value = "/dipPDStockList")
     public List<DipStock> getAllDipstock(@RequestParam String userId) {
         List<DipStock> dip = dipStockRepository.findByUserId(userId);
@@ -839,7 +844,7 @@ public class PurchaseController {
         }
     }
 
-    //   Extra PETROL/DIESEL DIP
+    // Extra PETROL/DIESEL DIP
     @GetMapping("/extradip/{id}")
     public Double getExtradipById(@PathVariable("id") Integer id) {
         // Fetch volume by id using the repository method
@@ -895,7 +900,7 @@ public class PurchaseController {
         }
     }
 
-    //KHARCH SELL
+    // KHARCH SELL
     @GetMapping(value = "/kharchSellList")
     public List<kharch> getAllkharch(@RequestParam String userId) {
         List<kharch> oil = kharchrepository.findByUserId(userId);
@@ -924,7 +929,7 @@ public class PurchaseController {
         }
     }
 
-    //ATM SELL
+    // ATM SELL
     @GetMapping(value = "/atmSellList")
     public List<transaction> getalltransaction(@RequestParam String userId) {
         List<transaction> transaction = transactionRepository.findByUserId(userId);
@@ -938,9 +943,8 @@ public class PurchaseController {
 
         for (transaction expense : expenses) {
             // Check if record already exists for this user & date & name
-            Optional<transaction> existing =
-                    transactionRepository.findByUserIdAndDateAndName(
-                            expense.getUserId(), date, expense.getName());
+            Optional<transaction> existing = transactionRepository.findByUserIdAndDateAndName(
+                    expense.getUserId(), date, expense.getName());
 
             if (existing.isPresent()) {
                 transaction existingTxn = existing.get();
@@ -965,7 +969,7 @@ public class PurchaseController {
         }
     }
 
-    //JAMA&BAKI SELL
+    // JAMA&BAKI SELL
     @GetMapping(value = "/jamaBakiList")
     public List<jamabaki> getJamaBakilist(@RequestParam String userId) {
         List<jamabaki> jamabaki = JamabakiRepository.findByUserId(userId);
@@ -1011,19 +1015,24 @@ public class PurchaseController {
     }
 
     // Show Report
-//    @GetMapping(value = "/bill", produces = MediaType.APPLICATION_PDF_VALUE)
-//    public ResponseEntity<byte[]> getBill(@RequestParam("date")
-//            @DateTimeFormat(pattern = "yyyy-MM-dd") String date) throws IOException, JRException, java.text.ParseException {
-//        Pageable limit = PageRequest.of(0, 4);
-//        List<Object[]> data = purchaseRepository.getDataForDate(date); // Fetch data based on the provided date
-//
-//        List<Object[]> puchaseData = purchaseRepository.getPurchaseDataOnDate(date);
-//        List<Object[]> oilData = oilSellRepository.getoilDataOnDate(date);
-//        byte[] reportBytes = generateReport(data, puchaseData, oilData, date); // Pass fetched data to the generateReport method
-//        return ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(reportBytes);
-//    }
+    // @GetMapping(value = "/bill", produces = MediaType.APPLICATION_PDF_VALUE)
+    // public ResponseEntity<byte[]> getBill(@RequestParam("date")
+    // @DateTimeFormat(pattern = "yyyy-MM-dd") String date) throws IOException,
+    // JRException, java.text.ParseException {
+    // Pageable limit = PageRequest.of(0, 4);
+    // List<Object[]> data = purchaseRepository.getDataForDate(date); // Fetch data
+    // based on the provided date
+    //
+    // List<Object[]> puchaseData = purchaseRepository.getPurchaseDataOnDate(date);
+    // List<Object[]> oilData = oilSellRepository.getoilDataOnDate(date);
+    // byte[] reportBytes = generateReport(data, puchaseData, oilData, date); //
+    // Pass fetched data to the generateReport method
+    // return
+    // ResponseEntity.ok().contentType(MediaType.APPLICATION_PDF).body(reportBytes);
+    // }
     @GetMapping(value = "/report", produces = MediaType.APPLICATION_PDF_VALUE)
-    public ResponseEntity<byte[]> getReport(@RequestParam String date, @RequestParam String time, @RequestParam String userId)
+    public ResponseEntity<byte[]> getReport(@RequestParam String date, @RequestParam String time,
+            @RequestParam String userId)
             throws IOException, JRException, java.text.ParseException {
         Long userIdLong = Long.valueOf(userId);
         String name = userRepository.getUserDataForDate(userIdLong);
@@ -1046,7 +1055,8 @@ public class PurchaseController {
     private byte[] generateReport(String name, String date, String time, String userId,
             List<Object[]> petrol, List<Object[]> diesel, List<Object[]> data,
             List<Object[]> purchaseData, List<Object[]> oilData, List<Object[]> dip,
-            List<Object[]> transaction, List<Object[]> jamabaki) throws IOException, JRException, java.text.ParseException {
+            List<Object[]> transaction, List<Object[]> jamabaki)
+            throws IOException, JRException, java.text.ParseException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 
         JasperReport jasperReport = (JasperReport) JRLoader.loadObjectFromFile("D:/report3.jasper");
@@ -1055,11 +1065,11 @@ public class PurchaseController {
         parameters.put("REPORTDATE", date);
         parameters.put("TIME", time);
 
-        //RATE
+        // RATE
         parameters.put("PPRATE", petrol.get(0)[4]);
         parameters.put("DDRATE", diesel.get(0)[4]);
 
-        //PETROL
+        // PETROL
         double totalRsSum = 0.0;
         double totalLtrSum = 0.0;
         int start = 0;
@@ -1083,7 +1093,7 @@ public class PurchaseController {
         }
 
         start = 2; // Adjust start index
-        end = 3;   // Adjust end index
+        end = 3; // Adjust end index
 
         List<String> multiList = new ArrayList<>();
         for (int i = start; i <= end && i < petrol.size(); i++) {
@@ -1149,9 +1159,9 @@ public class PurchaseController {
                 dieseltotalRsSum += Double.parseDouble((String) diesel.get(i)[7]);
             }
         }
-//        parameters.put("DTOTALLTR", dieseltotalLtrSum);
-//        parameters.put("DTOTAL", dieseltotalRsSum);
-//        parameters.put("MultiListData",String.valueOf(multiListdiesel));
+        // parameters.put("DTOTALLTR", dieseltotalLtrSum);
+        // parameters.put("DTOTAL", dieseltotalRsSum);
+        // parameters.put("MultiListData",String.valueOf(multiListdiesel));
 
         parameters.put("DTOTALLTR", String.valueOf(dieseltotalLtrSum));
         parameters.put("DTOTAL", String.valueOf(dieseltotalRsSum));
@@ -1169,22 +1179,25 @@ public class PurchaseController {
         parameters.put("ATM_WALLET", String.valueOf(safeSum(sumATM)));
         parameters.put("INDIRECT_EXPENSES", String.valueOf(safeSum(sumKharch)));
         parameters.put("BILL_JAMA_RS", String.valueOf(safeSum(sumDatajama)));
-        parameters.put("P_PURCHASE_LTR", purchaseData.size() > 0 && purchaseData.get(0) != null ? String.valueOf(purchaseData.get(0)) : "0");
-        parameters.put("D_PURCHASE_LTR", purchaseData.size() > 1 && purchaseData.get(1) != null ? String.valueOf(purchaseData.get(1)) : "0");
-//        parameters.put("BILL_BAKI_RS", sumDatabaki);
-//        parameters.put("TOTAL_FULE_RS", totalfule);
-//        parameters.put("LUBE_OIL_RS", sumoilSell);
-//        parameters.put("ATM_WALLET", sumATM);
-//        parameters.put("INDIRECT_EXPENSES", sumKharch);
-//        parameters.put("BILL_JAMA_RS", sumDatajama);
-//        parameters.put("P_PURCHASE_LTR", purchaseData.get(0));
-//        parameters.put("D_PURCHASE_LTR", purchaseData.get(1));
-//        parameters.put("P_PURCHASE_LTR", purchaseData.size() > 0 && purchaseData.get(0) != null ? purchaseData.get(0) : 0);
-//        parameters.put("D_PURCHASE_LTR", purchaseData.size() > 1 && purchaseData.get(1) != null ? purchaseData.get(1) : 0);
+        parameters.put("P_PURCHASE_LTR",
+                purchaseData.size() > 0 && purchaseData.get(0) != null ? String.valueOf(purchaseData.get(0)) : "0");
+        parameters.put("D_PURCHASE_LTR",
+                purchaseData.size() > 1 && purchaseData.get(1) != null ? String.valueOf(purchaseData.get(1)) : "0");
+        // parameters.put("BILL_BAKI_RS", sumDatabaki);
+        // parameters.put("TOTAL_FULE_RS", totalfule);
+        // parameters.put("LUBE_OIL_RS", sumoilSell);
+        // parameters.put("ATM_WALLET", sumATM);
+        // parameters.put("INDIRECT_EXPENSES", sumKharch);
+        // parameters.put("BILL_JAMA_RS", sumDatajama);
+        // parameters.put("P_PURCHASE_LTR", purchaseData.get(0));
+        // parameters.put("D_PURCHASE_LTR", purchaseData.get(1));
+        // parameters.put("P_PURCHASE_LTR", purchaseData.size() > 0 &&
+        // purchaseData.get(0) != null ? purchaseData.get(0) : 0);
+        // parameters.put("D_PURCHASE_LTR", purchaseData.size() > 1 &&
+        // purchaseData.get(1) != null ? purchaseData.get(1) : 0);
 
         double totalSum = 0.0;
-        double finalTotal
-                = safeSum(sumDatajama)
+        double finalTotal = safeSum(sumDatajama)
                 + safeSum(sumoilSell)
                 + totalfule
                 - safeSum(sumATM)
@@ -1201,18 +1214,24 @@ public class PurchaseController {
             dailyTotal.setUserId(userId);
             DailytotalRepository.save(dailyTotal);
         }
-        // parameters.put("DIESEL_UGADTOSTOCK", dataForOneDayAgodiesel.get(0).getDieselopenstock());
+        // parameters.put("DIESEL_UGADTOSTOCK",
+        // dataForOneDayAgodiesel.get(0).getDieselopenstock());
         List<Dailystock> dataForOneDayAgo = dailyskockRepository.findDataForOneDayAgo(date, userId);
         List<dailydieselstock> dataForOneDayAgodiesel = dailydieselstockRepository.findDataForOneDayAgo(date, userId);
         parameters.put("PETROL_UGADTOSTOCK", String.valueOf(dataForOneDayAgo.get(0).getOpenstock()));
         parameters.put("DIESEL_UGADTOSTOCK", String.valueOf(dataForOneDayAgodiesel.get(0).getDieselopenstock()));
-        parameters.put("P_PURCHASE_LTR", (purchaseData.size() > 0 && purchaseData.get(0) != null) ? String.valueOf(purchaseData.get(0)) : "0");
-        parameters.put("D_PURCHASE_LTR", (purchaseData.size() > 1 && purchaseData.get(1) != null) ? String.valueOf(purchaseData.get(1)) : "0");
-        parameters.put("PETROL_PURCHASELTR", (purchaseData.size() > 0 && purchaseData.get(0) != null) ? String.valueOf(purchaseData.get(0)) : "0");
-        parameters.put("DIESEL_PURCHASELTR", (purchaseData.size() > 1 && purchaseData.get(1) != null) ? String.valueOf(purchaseData.get(1)) : "0");
+        parameters.put("P_PURCHASE_LTR",
+                (purchaseData.size() > 0 && purchaseData.get(0) != null) ? String.valueOf(purchaseData.get(0)) : "0");
+        parameters.put("D_PURCHASE_LTR",
+                (purchaseData.size() > 1 && purchaseData.get(1) != null) ? String.valueOf(purchaseData.get(1)) : "0");
+        parameters.put("PETROL_PURCHASELTR",
+                (purchaseData.size() > 0 && purchaseData.get(0) != null) ? String.valueOf(purchaseData.get(0)) : "0");
+        parameters.put("DIESEL_PURCHASELTR",
+                (purchaseData.size() > 1 && purchaseData.get(1) != null) ? String.valueOf(purchaseData.get(1)) : "0");
 
-//        Object petrolPurchaseData = purchaseData.get(0);  // Directly get the object
-//        Object petrolPurchaseData = !purchaseData.isEmpty() && purchaseData.get(0) != null ? purchaseData.get(0) : 0;
+        // Object petrolPurchaseData = purchaseData.get(0); // Directly get the object
+        // Object petrolPurchaseData = !purchaseData.isEmpty() && purchaseData.get(0) !=
+        // null ? purchaseData.get(0) : 0;
         Object petrolPurchaseData;
         try {
             petrolPurchaseData = (purchaseData.get(0) != null) ? purchaseData.get(0) : 0;
@@ -1235,7 +1254,7 @@ public class PurchaseController {
         double petrolOpenStock = dataForOneDayAgo.get(0).getOpenstock();
         double petrolSum = petrolOpenStock + petrolPurchase;
 
-//      Object dieselPurchaseData = purchaseData.get(1);
+        // Object dieselPurchaseData = purchaseData.get(1);
         Object dieselPurchaseData = (purchaseData.size() > 0 && purchaseData.get(0) != null) ? purchaseData.get(1) : 0;
 
         double dieselPurchase = 0.0;
@@ -1265,10 +1284,10 @@ public class PurchaseController {
         //
         parameters.put("DIESEL_DIP", dip.get(0)[0]);
         parameters.put("PETRO_DIP", dip.get(0)[1]);
-//        parameters.put("DIP_PETROL_LTR",);
-//        parameters.put("DIP_DIESEL_LTR",);
-//        parameters.put("PETRO_PLUS_MIN",);
-//        parameters.put("DIP_DIESEL_LTR",);
+        // parameters.put("DIP_PETROL_LTR",);
+        // parameters.put("DIP_DIESEL_LTR",);
+        // parameters.put("PETRO_PLUS_MIN",);
+        // parameters.put("DIP_DIESEL_LTR",);
         if (dailyskockRepository.countByDate(date, userId) == 0) {
             dailyskockRepository.insertDailyStock(date, minP, userId);
         } else {
@@ -1314,9 +1333,9 @@ public class PurchaseController {
             prop.load(input);
 
             filterData.append(prop.getProperty("docs.file_path"));
-            //File pdf = new File(filterData + fileName);
+            // File pdf = new File(filterData + fileName);
 
-//            Path path = Paths.get(filterData.toString() + fileName);
+            // Path path = Paths.get(filterData.toString() + fileName);
             byte[] pdf = Files.readAllBytes(Paths.get("C:\\Users\\Dell\\Downloads\\"));
 
             if (Objects.isNull(pdf)) {
@@ -1325,9 +1344,9 @@ public class PurchaseController {
             return pdf;
 
         } catch (IOException ex) {
-//            logger.error("authenticateUser0>>>>>>>>", ex);
+            // logger.error("authenticateUser0>>>>>>>>", ex);
         } catch (Exception ex) {
-//            logger.error("authenticateUser1>>>>>>>>", ex);
+            // logger.error("authenticateUser1>>>>>>>>", ex);
         }
         return null;
     }
@@ -1339,8 +1358,8 @@ public class PurchaseController {
         return add;
     }
 
-    //Employee Deatils
-    //Img share in angular
+    // Employee Deatils
+    // Img share in angular
     @PostMapping("/addEmployees")
     public Employee createEmployee(@RequestParam("name") String name,
             @RequestParam("accountNumber") String accountNumber,
@@ -1399,7 +1418,7 @@ public class PurchaseController {
         return JamabakiRepository.findByDateBetweenAndNameLikeAndUserId(startDate, endDate, name, userId);
     }
 
-    //DASHBOARD
+    // DASHBOARD
     @GetMapping("/dateTodateTotal")
     public ResponseEntity<List<dailytotal>> getEntriesWithinDateRange(
             @RequestParam("startDate") String startDate,
@@ -1463,167 +1482,183 @@ public class PurchaseController {
                 dateCondition = "date = CURDATE()";
         }
 
-        String sql =
-                "SELECT " +
-                        "COALESCE(p.PetrolSell_Total, 0) AS PetrolSell_Total, " +
-                        "COALESCE(xp.xppetrol, 0) AS XP_PetrolSell_Total, " +
-                        "COALESCE(po.powerdiesel, 0) AS Power_DieselSell_Total, " +
-                        "COALESCE(d.DieselSell_Total, 0) AS DieselSell_Total, " +
-                        "COALESCE(o.OilSell_Total, 0) AS OilSell_Total, " +
-                        "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, " +
-                        "COALESCE(t.Atm_total, 0) AS Atm_total, " +
-                        "COALESCE(j.Jama_Total, 0) AS Jama_Total, " +
-                        "COALESCE(j.baki_Total, 0) AS baki_Total, " +
-                        "COALESCE(purchase.total_petrol_purchase, 0) AS total_petrol_purchase, " +
-                        "COALESCE(purchase.total_diesel_purchase, 0) AS total_diesel_purchase, " +
-                        "COALESCE(extra.XP_total_petrol_purchase, 0) AS XP_total_petrol_purchase, " +
-                        "COALESCE(extra.Power_total_diesel_purchase, 0) AS Power_total_diesel_purchase, " +
-                        "COALESCE(oil_purchase.total_oil_purchase, 0) AS total_oil_purchase " +
+        String sql = "SELECT " +
+                "COALESCE(p.PetrolSell_Total, 0) AS PetrolSell_Total, " +
+                "COALESCE(xp.xppetrol, 0) AS XP_PetrolSell_Total, " +
+                "COALESCE(po.powerdiesel, 0) AS Power_DieselSell_Total, " +
+                "COALESCE(d.DieselSell_Total, 0) AS DieselSell_Total, " +
+                "COALESCE(o.OilSell_Total, 0) AS OilSell_Total, " +
+                "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, " +
+                "COALESCE(t.Atm_total, 0) AS Atm_total, " +
+                "COALESCE(j.Jama_Total, 0) AS Jama_Total, " +
+                "COALESCE(j.baki_Total, 0) AS baki_Total, " +
+                "COALESCE(purchase.total_petrol_purchase, 0) AS total_petrol_purchase, " +
+                "COALESCE(purchase.total_diesel_purchase, 0) AS total_diesel_purchase, " +
+                "COALESCE(extra.XP_total_petrol_purchase, 0) AS XP_total_petrol_purchase, " +
+                "COALESCE(extra.Power_total_diesel_purchase, 0) AS Power_total_diesel_purchase, " +
+                "COALESCE(oil_purchase.total_oil_purchase, 0) AS total_oil_purchase " +
 
-                        "FROM " +
-                        "(SELECT SUM(total_sell) AS PetrolSell_Total FROM managment.petrolsell " +
-                        " WHERE " + dateCondition + " AND user_id = ?) p " +
+                "FROM " +
+                "(SELECT SUM(total_sell) AS PetrolSell_Total FROM petrolsell " +
+                " WHERE " + dateCondition + " AND user_id = ?) p " +
 
-                        "LEFT JOIN (SELECT SUM(total_sell) AS xppetrol FROM managment.xppetrol " +
-                        " WHERE " + dateCondition + " AND user_id = ?) xp ON 1=1 " +
+                "LEFT JOIN (SELECT SUM(total_sell) AS xppetrol FROM xppetrol " +
+                " WHERE " + dateCondition + " AND user_id = ?) xp ON 1=1 " +
 
-                        "LEFT JOIN (SELECT SUM(total_sell) AS powerdiesel FROM managment.powerdiesel " +
-                        " WHERE " + dateCondition + " AND user_id = ?) po ON 1=1 " +
+                "LEFT JOIN (SELECT SUM(total_sell) AS powerdiesel FROM powerdiesel " +
+                " WHERE " + dateCondition + " AND user_id = ?) po ON 1=1 " +
 
-                        "LEFT JOIN (SELECT SUM(total_sell) AS DieselSell_Total FROM managment.dieselsell " +
-                        " WHERE " + dateCondition + " AND user_id = ?) d ON 1=1 " +
+                "LEFT JOIN (SELECT SUM(total_sell) AS DieselSell_Total FROM dieselsell " +
+                " WHERE " + dateCondition + " AND user_id = ?) d ON 1=1 " +
 
-                        "LEFT JOIN (SELECT SUM(price) AS OilSell_Total FROM managment.oilsell " +
-                        " WHERE " + dateCondition + " AND user_id = ?) o ON 1=1 " +
+                "LEFT JOIN (SELECT SUM(price) AS OilSell_Total FROM oilsell " +
+                " WHERE " + dateCondition + " AND user_id = ?) o ON 1=1 " +
 
-                        "LEFT JOIN (SELECT SUM(price) AS Kharch_Total FROM managment.kharch " +
-                        " WHERE " + dateCondition + " AND user_id = ?) k ON 1=1 " +
+                "LEFT JOIN (SELECT SUM(price) AS Kharch_Total FROM kharch " +
+                " WHERE " + dateCondition + " AND user_id = ?) k ON 1=1 " +
 
-                        "LEFT JOIN (SELECT SUM(amount) AS Atm_total FROM managment.transaction " +
-                        " WHERE " + dateCondition + " AND user_id = ?) t ON 1=1 " +
+                "LEFT JOIN (SELECT SUM(amount) AS Atm_total FROM transaction " +
+                " WHERE " + dateCondition + " AND user_id = ?) t ON 1=1 " +
 
-                        "LEFT JOIN (SELECT SUM(jama) AS Jama_Total, SUM(baki) AS baki_Total " +
-                        " FROM managment.jamabakireport " +
-                        " WHERE " + dateCondition + " AND user_id = ?) j ON 1=1 " +
+                "LEFT JOIN (SELECT SUM(jama) AS Jama_Total, SUM(baki) AS baki_Total " +
+                " FROM jamabakireport " +
+                " WHERE " + dateCondition + " AND user_id = ?) j ON 1=1 " +
 
-                        "LEFT JOIN (SELECT " +
-                        " SUM(CASE WHEN extra_type = 'XP Petrol' THEN extra_total_purchase ELSE 0 END) AS XP_total_petrol_purchase, " +
-                        " SUM(CASE WHEN extra_type = 'Power Diesel' THEN extra_total_purchase ELSE 0 END) AS Power_total_diesel_purchase " +
-                        " FROM managment.extrapurchases " +
-                        " WHERE " + dateCondition + " AND user_id = ?) extra ON 1=1 " +
+                "LEFT JOIN (SELECT " +
+                " SUM(CASE WHEN extra_type = 'XP Petrol' THEN extra_total_purchase ELSE 0 END) AS XP_total_petrol_purchase, "
+                +
+                " SUM(CASE WHEN extra_type = 'Power Diesel' THEN extra_total_purchase ELSE 0 END) AS Power_total_diesel_purchase "
+                +
+                " FROM extrapurchases " +
+                " WHERE " + dateCondition + " AND user_id = ?) extra ON 1=1 " +
 
-                        "LEFT JOIN (SELECT " +
-                        " SUM(CASE WHEN type = 'petrol' THEN total_purchase ELSE 0 END) AS total_petrol_purchase, " +
-                        " SUM(CASE WHEN type = 'diesel' THEN total_purchase ELSE 0 END) AS total_diesel_purchase " +
-                        " FROM managment.purchase " +
-                        " WHERE " + dateCondition + " AND user_id = ?) purchase ON 1=1 " +
-                        
-                        "LEFT JOIN (SELECT SUM(net_total) AS total_oil_purchase FROM managment.oilpurchase " +
-                        " WHERE " + dateCondition + " AND user_id = ?) oil_purchase ON 1=1";
+                "LEFT JOIN (SELECT " +
+                " SUM(CASE WHEN type = 'petrol' THEN total_purchase ELSE 0 END) AS total_petrol_purchase, " +
+                " SUM(CASE WHEN type = 'diesel' THEN total_purchase ELSE 0 END) AS total_diesel_purchase " +
+                " FROM purchase " +
+                " WHERE " + dateCondition + " AND user_id = ?) purchase ON 1=1 " +
 
-        List<DailySalesSummaryDTO> results =
-                jdbcTemplate.query(
-                        sql,
-                        new Object[]{
-                                userId, userId, userId, userId, userId,
-                                userId, userId, userId, userId, userId, userId
-                        },
-                        (rs, rowNum) -> {
-                            DailySalesSummaryDTO dto = new DailySalesSummaryDTO();
-                            dto.setPetrolSellTotal(rs.getDouble("PetrolSell_Total"));
-                            dto.setXpPetrolSellTotal(rs.getDouble("XP_PetrolSell_Total"));
-                            dto.setPowerDieselSellTotal(rs.getDouble("Power_DieselSell_Total"));
-                            dto.setDieselSellTotal(rs.getDouble("DieselSell_Total"));
-                            dto.setOilSellTotal(rs.getDouble("OilSell_Total"));
-                            dto.setKharchTotal(rs.getDouble("Kharch_Total"));
-                            dto.setAtmTotal(rs.getDouble("Atm_total"));
-                            dto.setJamaTotal(rs.getDouble("Jama_Total"));
-                            dto.setBakiTotal(rs.getDouble("baki_Total"));
-                            dto.setTotalPetrolPurchase(rs.getDouble("total_petrol_purchase"));
-                            dto.setTotalDieselPurchase(rs.getDouble("total_diesel_purchase"));
-                            dto.setXpTotalPetrolPurchase(rs.getDouble("XP_total_petrol_purchase"));
-                            dto.setPowerTotalDieselPurchase(rs.getDouble("Power_total_diesel_purchase"));
-                            dto.setTotalOilPurchase(rs.getDouble("total_oil_purchase"));
-                            return dto;
-                        }
-                );
+                "LEFT JOIN (SELECT SUM(net_total) AS total_oil_purchase FROM oilpurchase " +
+                " WHERE " + dateCondition + " AND user_id = ?) oil_purchase ON 1=1";
+
+        List<DailySalesSummaryDTO> results = jdbcTemplate.query(
+                sql,
+                new Object[] {
+                        userId, userId, userId, userId, userId,
+                        userId, userId, userId, userId, userId, userId
+                },
+                (rs, rowNum) -> {
+                    DailySalesSummaryDTO dto = new DailySalesSummaryDTO();
+                    dto.setPetrolSellTotal(rs.getDouble("PetrolSell_Total"));
+                    dto.setXpPetrolSellTotal(rs.getDouble("XP_PetrolSell_Total"));
+                    dto.setPowerDieselSellTotal(rs.getDouble("Power_DieselSell_Total"));
+                    dto.setDieselSellTotal(rs.getDouble("DieselSell_Total"));
+                    dto.setOilSellTotal(rs.getDouble("OilSell_Total"));
+                    dto.setKharchTotal(rs.getDouble("Kharch_Total"));
+                    dto.setAtmTotal(rs.getDouble("Atm_total"));
+                    dto.setJamaTotal(rs.getDouble("Jama_Total"));
+                    dto.setBakiTotal(rs.getDouble("baki_Total"));
+                    dto.setTotalPetrolPurchase(rs.getDouble("total_petrol_purchase"));
+                    dto.setTotalDieselPurchase(rs.getDouble("total_diesel_purchase"));
+                    dto.setXpTotalPetrolPurchase(rs.getDouble("XP_total_petrol_purchase"));
+                    dto.setPowerTotalDieselPurchase(rs.getDouble("Power_total_diesel_purchase"));
+                    dto.setTotalOilPurchase(rs.getDouble("total_oil_purchase"));
+                    return dto;
+                });
 
         return results.isEmpty() ? null : results.get(0);
     }
 
-
-//    @GetMapping("/dailyChart")
-//    public DailySalesSummaryDTO getSalesReport(@RequestParam String userId, @RequestParam String filter,) {
-//        String dateCondition = "";
-//        switch (filter.toLowerCase()) {
-//            case "today":
-//                dateCondition = "date = CURDATE()";
-//                break;
-//            case "month":
-//                dateCondition = "MONTH(date) = MONTH(CURDATE()) AND YEAR(date) = YEAR(CURDATE())";
-//                break;
-//            case "year":
-//                dateCondition = "YEAR(date) = YEAR(CURDATE())";
-//                break;
-//            default:
-//                dateCondition = "date = CURDATE()"; // fallback
-//        }
-//
-//        String sql = "SELECT "
-//                + "COALESCE(p.PetrolSell_Total, 0) AS PetrolSell_Total, "
-//                + "COALESCE(xp.xppetrol, 0) AS XP_PetrolSell_Total, "
-//                + "COALESCE(po.powerdiesel, 0) AS Power_DieselSell_Total, "
-//                + "COALESCE(d.DieselSell_Total, 0) AS DieselSell_Total, "
-//                + "COALESCE(o.OilSell_Total, 0) AS OilSell_Total, "
-//                + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
-//                + "COALESCE(t.Atm_total, 0) AS Atm_total, "
-//                + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
-//                + "COALESCE(j.baki_Total, 0) AS baki_Total, "
-//                + "COALESCE(purchase.total_petrol_purchase, 0) AS total_petrol_purchase, "
-//                + "COALESCE(purchase.total_diesel_purchase, 0) AS total_diesel_purchase, "
-//                + "COALESCE(extra.XP_total_petrol_purchase, 0) AS XP_total_petrol_purchase, "
-//                + "COALESCE(extra.Power_total_diesel_purchase, 0) AS Power_total_diesel_purchase "
-//                + "FROM "
-//                + "(SELECT SUM(total_sell) AS PetrolSell_Total FROM managment.petrolsell WHERE " + dateCondition + " AND user_id = ?) p "
-//                + "LEFT JOIN (SELECT SUM(total_sell) AS xppetrol FROM managment.xppetrol WHERE " + dateCondition + " AND user_id = ?) xp ON 1=1 "
-//                + "LEFT JOIN (SELECT SUM(total_sell) AS powerdiesel FROM managment.powerdiesel WHERE " + dateCondition + " AND user_id = ?) po ON 1=1 "
-//                + "LEFT JOIN (SELECT SUM(total_sell) AS DieselSell_Total FROM managment.dieselsell WHERE " + dateCondition + " AND user_id = ?) d ON 1=1 "
-//                + "LEFT JOIN (SELECT SUM(price) AS OilSell_Total FROM managment.oilsell WHERE " + dateCondition + " AND user_id = ?) o ON 1=1 "
-//                + "LEFT JOIN (SELECT SUM(price) AS Kharch_Total FROM managment.kharch WHERE " + dateCondition + " AND user_id = ?) k ON 1=1 "
-//                + "LEFT JOIN (SELECT SUM(amount) AS Atm_total FROM managment.transaction WHERE " + dateCondition + " AND user_id = ?) t ON 1=1 "
-//                + "LEFT JOIN (SELECT SUM(jama) AS Jama_Total, SUM(baki) AS baki_Total FROM managment.jamabakireport WHERE " + dateCondition + " AND user_id = ?) j ON 1=1 "
-//                + "LEFT JOIN (SELECT "
-//                + "SUM(CASE WHEN extra_type = 'XP Petrol' THEN extra_total_purchase ELSE 0 END) AS XP_total_petrol_purchase, "
-//                + "SUM(CASE WHEN extra_type = 'Power Diesel' THEN extra_total_purchase ELSE 0 END) AS Power_total_diesel_purchase "
-//                + "FROM managment.extrapurchases WHERE " + dateCondition + " AND user_id = ?) extra ON 1=1 "
-//                + "LEFT JOIN (SELECT "
-//                + "SUM(CASE WHEN type = 'petrol' THEN total_purchase ELSE 0 END) AS total_petrol_purchase, "
-//                + "SUM(CASE WHEN type = 'diesel' THEN total_purchase ELSE 0 END) AS total_diesel_purchase "
-//                + "FROM managment.purchase WHERE " + dateCondition + " AND user_id = ?) purchase ON 1=1";
-//
-//        List<DailySalesSummaryDTO> results = jdbcTemplate.query(sql,
-//                new Object[]{userId, userId, userId, userId, userId, userId, userId, userId, userId, userId},
-//                (rs, rowNum) -> {
-//                    DailySalesSummaryDTO dto = new DailySalesSummaryDTO();
-////                    dto.setDate(rs.getDate("date").toString());
-//                    dto.setPetrolSellTotal(rs.getDouble("PetrolSell_Total"));
-//                    dto.setXpPetrolSellTotal(rs.getDouble("XP_PetrolSell_Total"));
-//                    dto.setPowerDieselSellTotal(rs.getDouble("Power_DieselSell_Total"));
-//                    dto.setDieselSellTotal(rs.getDouble("DieselSell_Total"));
-//                    dto.setOilSellTotal(rs.getDouble("OilSell_Total"));
-//                    dto.setKharchTotal(rs.getDouble("Kharch_Total"));
-//                    dto.setAtmTotal(rs.getDouble("Atm_total"));
-//                    dto.setJamaTotal(rs.getDouble("Jama_Total"));
-//                    dto.setBakiTotal(rs.getDouble("baki_Total"));
-//                    dto.setTotalPetrolPurchase(rs.getDouble("total_petrol_purchase"));
-//                    dto.setTotalDieselPurchase(rs.getDouble("total_diesel_purchase"));
-//                    dto.setXpTotalPetrolPurchase(rs.getDouble("XP_total_petrol_purchase"));
-//                    dto.setPowerTotalDieselPurchase(rs.getDouble("Power_total_diesel_purchase"));
-//                    return dto;
-//                });
-//
-//        return results.isEmpty() ? null : results.get(0);
-//    }
+    // @GetMapping("/dailyChart")
+    // public DailySalesSummaryDTO getSalesReport(@RequestParam String userId,
+    // @RequestParam String filter,) {
+    // String dateCondition = "";
+    // switch (filter.toLowerCase()) {
+    // case "today":
+    // dateCondition = "date = CURDATE()";
+    // break;
+    // case "month":
+    // dateCondition = "MONTH(date) = MONTH(CURDATE()) AND YEAR(date) =
+    // YEAR(CURDATE())";
+    // break;
+    // case "year":
+    // dateCondition = "YEAR(date) = YEAR(CURDATE())";
+    // break;
+    // default:
+    // dateCondition = "date = CURDATE()"; // fallback
+    // }
+    //
+    // String sql = "SELECT "
+    // + "COALESCE(p.PetrolSell_Total, 0) AS PetrolSell_Total, "
+    // + "COALESCE(xp.xppetrol, 0) AS XP_PetrolSell_Total, "
+    // + "COALESCE(po.powerdiesel, 0) AS Power_DieselSell_Total, "
+    // + "COALESCE(d.DieselSell_Total, 0) AS DieselSell_Total, "
+    // + "COALESCE(o.OilSell_Total, 0) AS OilSell_Total, "
+    // + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
+    // + "COALESCE(t.Atm_total, 0) AS Atm_total, "
+    // + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
+    // + "COALESCE(j.baki_Total, 0) AS baki_Total, "
+    // + "COALESCE(purchase.total_petrol_purchase, 0) AS total_petrol_purchase, "
+    // + "COALESCE(purchase.total_diesel_purchase, 0) AS total_diesel_purchase, "
+    // + "COALESCE(extra.XP_total_petrol_purchase, 0) AS XP_total_petrol_purchase, "
+    // + "COALESCE(extra.Power_total_diesel_purchase, 0) AS
+    // Power_total_diesel_purchase "
+    // + "FROM "
+    // + "(SELECT SUM(total_sell) AS PetrolSell_Total FROM petrolsell WHERE " +
+    // dateCondition + " AND user_id = ?) p "
+    // + "LEFT JOIN (SELECT SUM(total_sell) AS xppetrol FROM xppetrol WHERE " +
+    // dateCondition + " AND user_id = ?) xp ON 1=1 "
+    // + "LEFT JOIN (SELECT SUM(total_sell) AS powerdiesel FROM powerdiesel WHERE "
+    // + dateCondition + " AND user_id = ?) po ON 1=1 "
+    // + "LEFT JOIN (SELECT SUM(total_sell) AS DieselSell_Total FROM dieselsell
+    // WHERE " + dateCondition + " AND user_id = ?) d ON 1=1 "
+    // + "LEFT JOIN (SELECT SUM(price) AS OilSell_Total FROM oilsell WHERE " +
+    // dateCondition + " AND user_id = ?) o ON 1=1 "
+    // + "LEFT JOIN (SELECT SUM(price) AS Kharch_Total FROM kharch WHERE " +
+    // dateCondition + " AND user_id = ?) k ON 1=1 "
+    // + "LEFT JOIN (SELECT SUM(amount) AS Atm_total FROM transaction WHERE " +
+    // dateCondition + " AND user_id = ?) t ON 1=1 "
+    // + "LEFT JOIN (SELECT SUM(jama) AS Jama_Total, SUM(baki) AS baki_Total FROM
+    // jamabakireport WHERE " + dateCondition + " AND user_id = ?) j ON 1=1 "
+    // + "LEFT JOIN (SELECT "
+    // + "SUM(CASE WHEN extra_type = 'XP Petrol' THEN extra_total_purchase ELSE 0
+    // END) AS XP_total_petrol_purchase, "
+    // + "SUM(CASE WHEN extra_type = 'Power Diesel' THEN extra_total_purchase ELSE 0
+    // END) AS Power_total_diesel_purchase "
+    // + "FROM extrapurchases WHERE " + dateCondition + " AND user_id = ?) extra ON
+    // 1=1 "
+    // + "LEFT JOIN (SELECT "
+    // + "SUM(CASE WHEN type = 'petrol' THEN total_purchase ELSE 0 END) AS
+    // total_petrol_purchase, "
+    // + "SUM(CASE WHEN type = 'diesel' THEN total_purchase ELSE 0 END) AS
+    // total_diesel_purchase "
+    // + "FROM purchase WHERE " + dateCondition + " AND user_id = ?) purchase ON
+    // 1=1";
+    //
+    // List<DailySalesSummaryDTO> results = jdbcTemplate.query(sql,
+    // new Object[]{userId, userId, userId, userId, userId, userId, userId, userId,
+    // userId, userId},
+    // (rs, rowNum) -> {
+    // DailySalesSummaryDTO dto = new DailySalesSummaryDTO();
+    //// dto.setDate(rs.getDate("date").toString());
+    // dto.setPetrolSellTotal(rs.getDouble("PetrolSell_Total"));
+    // dto.setXpPetrolSellTotal(rs.getDouble("XP_PetrolSell_Total"));
+    // dto.setPowerDieselSellTotal(rs.getDouble("Power_DieselSell_Total"));
+    // dto.setDieselSellTotal(rs.getDouble("DieselSell_Total"));
+    // dto.setOilSellTotal(rs.getDouble("OilSell_Total"));
+    // dto.setKharchTotal(rs.getDouble("Kharch_Total"));
+    // dto.setAtmTotal(rs.getDouble("Atm_total"));
+    // dto.setJamaTotal(rs.getDouble("Jama_Total"));
+    // dto.setBakiTotal(rs.getDouble("baki_Total"));
+    // dto.setTotalPetrolPurchase(rs.getDouble("total_petrol_purchase"));
+    // dto.setTotalDieselPurchase(rs.getDouble("total_diesel_purchase"));
+    // dto.setXpTotalPetrolPurchase(rs.getDouble("XP_total_petrol_purchase"));
+    // dto.setPowerTotalDieselPurchase(rs.getDouble("Power_total_diesel_purchase"));
+    // return dto;
+    // });
+    //
+    // return results.isEmpty() ? null : results.get(0);
+    // }
 
     @GetMapping("/petrol-year-total")
     public Double getTotalPetrolLtrForCurrentYear(@RequestParam String userId) {
@@ -1668,34 +1703,37 @@ public class PurchaseController {
         }
     }
 
-    //    @GetMapping("/dataForDate")
-//    public List<Object[]> getDataForDate(@RequestParam("date")
-//            @DateTimeFormat(pattern = "yyyy-MM-dd") String date) {
-//        return purchaseRepository.getDataForDate(date);
-//    }
-//    @PostMapping("/kharch")
-//    public kharch Setkharch(@RequestBody kharch add) {
-//        kharchrepository.save(add);
-//        return add;
-//    }
-//    @PostMapping("/kharch")
-//    public List<kharch> setKharch(@RequestBody Map<String, Object> requestBody) {
-//        List<Map<String, Object>> expenses = (List<Map<String, Object>>) requestBody.get("expenses");
-//        List<kharch> savedList = new ArrayList<>();
-//
-//        for (Map<String, Object> expense : expenses) {
-//            kharch kharch = new kharch();
-//            kharch.setDate((String) requestBody.get("date")); // Assuming Date type for date property
-//            kharch.setNotes((String) expense.get("notes"));
-//            kharch.setPrice((String) expense.get("price")); // Assuming Double type for price property
-//
-//            kharch savedKharch = kharchrepository.save(kharch);
-//            savedList.add(savedKharch);
-//        }
-//
-//        return savedList;
-//    }
-    //Add Customer
+    // @GetMapping("/dataForDate")
+    // public List<Object[]> getDataForDate(@RequestParam("date")
+    // @DateTimeFormat(pattern = "yyyy-MM-dd") String date) {
+    // return purchaseRepository.getDataForDate(date);
+    // }
+    // @PostMapping("/kharch")
+    // public kharch Setkharch(@RequestBody kharch add) {
+    // kharchrepository.save(add);
+    // return add;
+    // }
+    // @PostMapping("/kharch")
+    // public List<kharch> setKharch(@RequestBody Map<String, Object> requestBody) {
+    // List<Map<String, Object>> expenses = (List<Map<String, Object>>)
+    // requestBody.get("expenses");
+    // List<kharch> savedList = new ArrayList<>();
+    //
+    // for (Map<String, Object> expense : expenses) {
+    // kharch kharch = new kharch();
+    // kharch.setDate((String) requestBody.get("date")); // Assuming Date type for
+    // date property
+    // kharch.setNotes((String) expense.get("notes"));
+    // kharch.setPrice((String) expense.get("price")); // Assuming Double type for
+    // price property
+    //
+    // kharch savedKharch = kharchrepository.save(kharch);
+    // savedList.add(savedKharch);
+    // }
+    //
+    // return savedList;
+    // }
+    // Add Customer
     @PostMapping("/addCustomer")
     public ResponseEntity<?> setCustomer(@RequestBody customer add) {
         // Check if customer with same name and userId already exists
@@ -1766,12 +1804,12 @@ public class PurchaseController {
 
     @GetMapping("/findersenderrecevier")
     public List<jamabaki> getTransactions(@RequestParam String name) {
-//        return JamabakiRepository.findBySenderOrReceiver(name, name);
+        // return JamabakiRepository.findBySenderOrReceiver(name, name);
         return null;
 
     }
 
-    // Petrol/Diesel  Dip
+    // Petrol/Diesel Dip
     @GetMapping("/practicedip/{id}")
     public Double getPracticedipById(@PathVariable("id") Integer id) {
         // Fetch volume by id using the repository method
@@ -1829,7 +1867,7 @@ public class PurchaseController {
         }
     }
 
-    //Daily Report
+    // Daily Report
     @GetMapping("/aggregated-data-alldata")
     public List<AggregatedDataDTO> getAggregatedData(
             @RequestParam String startDate,
@@ -1845,7 +1883,7 @@ public class PurchaseController {
                 && parseIntSafe(userData.getPowe_diesel_nozzle()) > 0;
         List<Map<String, Object>> myobj = queryThis(startDate, endDate, userId);
 
-        List<Object[]> expensesList = kharchrepository.getExpenseSummary(startDate,endDate, userId);
+        List<Object[]> expensesList = kharchrepository.getExpenseSummary(startDate, endDate, userId);
 
         SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
         List<AggregatedDataDTO> result = new ArrayList<>();
@@ -1858,7 +1896,8 @@ public class PurchaseController {
                     dto.setDate(sdf.format((Date) dateObj));
                 } else {
                     try {
-                        // Try parsing if it's a string from DB (e.g., yyyy-MM-dd or yyyy-MM-dd HH:mm:ss)
+                        // Try parsing if it's a string from DB (e.g., yyyy-MM-dd or yyyy-MM-dd
+                        // HH:mm:ss)
                         Date parsed = new SimpleDateFormat("yyyy-MM-dd").parse(dateObj.toString());
                         dto.setDate(sdf.format(parsed));
                     } catch (ParseException e) {
@@ -1868,15 +1907,15 @@ public class PurchaseController {
             }
 
             dto.setPetrolTotalSum(convertToDouble(map.get("petrol_total_sum")));
-//            dto.setPetrolTotalTesting(convertToDouble(map.get("petrol_total_testing")));
-//            dto.setPetrolLtr(convertToDouble(map.get("petrol_ltr")));
+            // dto.setPetrolTotalTesting(convertToDouble(map.get("petrol_total_testing")));
+            // dto.setPetrolLtr(convertToDouble(map.get("petrol_ltr")));
             dto.setPetrolRate(convertToDouble(map.get("petrol_rate")));
             dto.setPetrolTotalTotalSell(convertToDouble(map.get("petrol_total_total_sell")));
             dto.setPetrolgatt_Total(convertToDouble(map.get("petrolgatt_Total")));
 
             dto.setDieselTotalSum(convertToDouble(map.get("diesel_total_sum")));
-//            dto.setDieselTotalTesting(convertToDouble(map.get("diesel_total_testing")));
-//            dto.setDieselLtr(convertToDouble(map.get("diesel_ltr")));
+            // dto.setDieselTotalTesting(convertToDouble(map.get("diesel_total_testing")));
+            // dto.setDieselLtr(convertToDouble(map.get("diesel_ltr")));
             dto.setDieselRate(convertToDouble(map.get("diesel_rate")));
             dto.setDieselTotalTotalSell(convertToDouble(map.get("diesel_total_total_sell")));
             dto.setDieselgatt_Total(convertToDouble(map.get("dieselgatt_Total")));
@@ -1920,12 +1959,12 @@ public class PurchaseController {
             dto.setJamaTotal(convertToDouble(map.get("Jama_Total")));
             dto.setBakiTotal(convertToDouble(map.get("Baki_Total")));
             dto.setLocl_balance_Total(convertToDouble(map.get("locl_balance_Total")));
-//            dto.setUser_id((String) map.get("user_id"));
+            // dto.setUser_id((String) map.get("user_id"));
             if (includeXpPetrol) {
-//                dto.setXppetrolLtr(convertToDouble(map.get("xppetrol_ltr")));
+                // dto.setXppetrolLtr(convertToDouble(map.get("xppetrol_ltr")));
                 dto.setXppetrolTotalSum(convertToDouble(map.get("xppetrol_total_sum")));
                 dto.setXppetrolRate(convertToDouble(map.get("xppetrol_rate")));
-//                dto.setXppetrolTotalTesting(convertToDouble(map.get("xppetrol_total_testing")));
+                // dto.setXppetrolTotalTesting(convertToDouble(map.get("xppetrol_total_testing")));
                 dto.setXppetrolTotalSell(convertToDouble(map.get("xppetrol_total_sell")));
                 dto.setXppetrolgatt_Total(convertToDouble(map.get("xppetrolgatt_Total")));
 
@@ -1939,14 +1978,14 @@ public class PurchaseController {
             }
 
             if (includePowerDiesel) {
-//                dto.setPowerdieselLtr(convertToDouble(map.get("powerdiesel_ltr")));
+                // dto.setPowerdieselLtr(convertToDouble(map.get("powerdiesel_ltr")));
                 dto.setPowerdieselTotalSum(convertToDouble(map.get("powerdiesel_total_sum")));
                 dto.setPowerdieselRate(convertToDouble(map.get("powerdiesel_rate")));
-//                dto.setPowerdieselTotalTesting(convertToDouble(map.get("powerdiesel_total_testing")));
+                // dto.setPowerdieselTotalTesting(convertToDouble(map.get("powerdiesel_total_testing")));
                 dto.setPowerdieselTotalSell(convertToDouble(map.get("powerdiesel_total_sell")));
                 dto.setPowerdieselTotalSell(convertToDouble(map.get("powerdiesel_total_sell")));
                 dto.setPower_dieselgatt_Total(convertToDouble(map.get("power_dieselgatt_Total")));
-// Power Diesel Purchase fields
+                // Power Diesel Purchase fields
                 dto.setPowerdieselQuantity(convertToDouble(map.get("powerdiesel_quantity")));
                 dto.setPowerdieselTotal(convertToDouble(map.get("powerdiesel_total")));
                 dto.setPowerdieselVat(convertToDouble(map.get("powerdiesel_vat")));
@@ -1977,14 +2016,11 @@ public class PurchaseController {
                             })
                             .map(obj -> {
                                 Map<String, Object> map2 = new HashMap<>();
-                                map2.put("expenses", obj[1]);      // obj[1] = expenses
-                                map2.put("total_price", obj[2]);  // obj[2] = total_price
+                                map2.put("expenses", obj[1]); // obj[1] = expenses
+                                map2.put("total_price", obj[2]); // obj[2] = total_price
                                 return map2;
                             })
-                            .collect(Collectors.toList())
-            );
-
-
+                            .collect(Collectors.toList()));
 
             result.add(dto);
         }
@@ -2087,14 +2123,14 @@ public class PurchaseController {
                 + "COALESCE(t.Amount_Total, 0) AS Amount_Total, "
                 + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
                 + "COALESCE(j.Baki_Total, 0) AS Baki_Total, "
-                //Xp
+                // Xp
                 + "COALESCE(xpp.xppetrol_quantity, 0) AS xppetrol_quantity, "
                 + "COALESCE(xpp.xppetrol_total, 0) AS xppetrol_total, "
                 + "COALESCE(xpp.xppetrol_cess, 0) AS xppetrol_cess, "
                 + "COALESCE(xpp.xppetrol_jtcpercentage, 0) AS xppetrol_jtcpercentage, "
                 + "COALESCE(xpp.xppetrol_total_purchase, 0) AS xppetrol_total_purchase, "
                 + "COALESCE(xpp.xppetrol_vat, 0) AS xppetrol_vat, "
-                //Power
+                // Power
                 + "COALESCE(pdp.powerdiesel_quantity, 0) AS powerdiesel_quantity, "
                 + "COALESCE(pdp.powerdiesel_total, 0) AS powerdiesel_total, "
                 + "COALESCE(pdp.powerdiesel_cess, 0) AS powerdiesel_cess, "
@@ -2112,7 +2148,7 @@ public class PurchaseController {
                 + "rate, "
                 + "SUM(total_sell) AS total_total_sell "
                 + "FROM "
-                + "managment.petrolsell "
+                + "petrolsell "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2129,7 +2165,7 @@ public class PurchaseController {
                 + "rate, "
                 + "SUM(total_sell) AS total_total_sell "
                 + "FROM "
-                + "managment.dieselsell "
+                + "dieselsell "
                 + "WHERE "
                 + "date BETWEEN  '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2142,7 +2178,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(price) AS total_price "
                 + "FROM "
-                + "managment.OilSell "
+                + "OilSell "
                 + "WHERE "
                 + "date BETWEEN  '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2155,7 +2191,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(price) AS Kharch_Total "
                 + "FROM "
-                + "managment.kharch "
+                + "kharch "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2173,7 +2209,7 @@ public class PurchaseController {
                 + "jtcpercentage AS petrol_jtcpercentage, "
                 + "total_purchase AS petrol_total_purchase "
                 + "FROM "
-                + "managment.purchase "
+                + "purchase "
                 + "WHERE "
                 + "type = 'petrol' AND user_id = '" + userId + "') pp " // Filter by userId
                 + "ON "
@@ -2183,7 +2219,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(amount) AS Amount_Total "
                 + "FROM "
-                + "managment.transaction "
+                + "transaction "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2201,7 +2237,7 @@ public class PurchaseController {
                 + "jtcpercentage AS diesel_jtcpercentage, "
                 + "total_purchase AS diesel_total_purchase "
                 + "FROM "
-                + "managment.purchase "
+                + "purchase "
                 + "WHERE "
                 + "type = 'diesel'  AND user_id = '" + userId + "') dp " // Filter by userId
                 + "ON "
@@ -2215,7 +2251,7 @@ public class PurchaseController {
                 + "unit, vendor_name, cess_amount AS oil_cess_amount, cess_percentage, "
                 + "discount, gst_amount AS oil_gst_amount "
                 + "FROM "
-                + "managment.oilpurchase "
+                + "oilpurchase "
                 + "WHERE "
                 + "type = 'Oil' AND user_id = '" + userId + "') ol " // Filter by userId
                 + "ON "
@@ -2228,7 +2264,7 @@ public class PurchaseController {
                 + "extra_total AS xppetrol_total, "
                 + "extra_total_purchase AS xppetrol_total_purchase, "
                 + "extra_vat AS xppetrol_vat "
-                + "FROM managment.extrapurchases "
+                + "FROM extrapurchases "
                 + "WHERE extra_type = 'XP Petrol' "
                 + "AND user_id = '" + userId + "' "
                 + "AND date BETWEEN '" + startDate + "' AND '" + endDate + "'"
@@ -2241,7 +2277,7 @@ public class PurchaseController {
                 + "extra_total AS powerdiesel_total, "
                 + "extra_total_purchase AS powerdiesel_total_purchase, "
                 + "extra_vat AS powerdiesel_vat "
-                + "FROM managment.extrapurchases "
+                + "FROM extrapurchases "
                 + "WHERE extra_type = 'Power Diesel' "
                 + "AND user_id = '" + userId + "' "
                 + "AND date BETWEEN '" + startDate + "' AND '" + endDate + "'"
@@ -2252,7 +2288,7 @@ public class PurchaseController {
                 + "SUM(jama) AS Jama_Total, "
                 + "SUM(baki) AS Baki_Total "
                 + "FROM "
-                + "managment.jamabakireport "
+                + "jamabakireport "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2268,7 +2304,7 @@ public class PurchaseController {
                 + "SUM(total) AS total_sum, "
                 + "SUM(total_sell) AS total_sell, "
                 + "rate "
-                + "FROM managment.xppetrol "
+                + "FROM xppetrol "
                 + "WHERE date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' "
                 + "GROUP BY date) xp ON p.date = xp.date "
@@ -2281,7 +2317,7 @@ public class PurchaseController {
                 + "SUM(total) AS total_sum, "
                 + "SUM(total_sell) AS total_sell, "
                 + "rate "
-                + "FROM managment.powerdiesel "
+                + "FROM powerdiesel "
                 + "WHERE date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' "
                 + "GROUP BY date) pd ON p.date = pd.date "
@@ -2291,7 +2327,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(petrolgatt) AS petrolgatt_Total "
                 + "FROM "
-                + "managment.petrolgatt "
+                + "petrolgatt "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2305,7 +2341,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(dieselgatt) AS dieselgatt_Total "
                 + "FROM "
-                + "managment.dieselgatt "
+                + "dieselgatt "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2319,7 +2355,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(xppetrolgatt) AS xppetrolgatt_Total "
                 + "FROM "
-                + "managment.xppetrolgatt "
+                + "xppetrolgatt "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2333,7 +2369,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(power_dieselgatt) AS power_dieselgatt_Total "
                 + "FROM "
-                + "managment.powerdieselgatt "
+                + "powerdieselgatt "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2346,7 +2382,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(balance) AS locl_balance_Total "
                 + "FROM "
-                + "managment.loclcredit "
+                + "loclcredit "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' "
@@ -2355,13 +2391,13 @@ public class PurchaseController {
 
                 + "LEFT JOIN (SELECT "
                 + "date, "
-                + "SUM(price) AS Kharch_Total "   // ✅ Removed `expenses` from SELECT
+                + "SUM(price) AS Kharch_Total " // ✅ Removed `expenses` from SELECT
                 + "FROM "
-                + "managment.kharch "
+                + "kharch "
                 + "WHERE "
                 + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' "
-                + "GROUP BY date) ep "           // ✅ Removed `expenses` from GROUP BY
+                + "GROUP BY date) ep " // ✅ Removed `expenses` from GROUP BY
                 + "ON p.date = ep.date "
 
                 + "ORDER BY "
@@ -2370,326 +2406,328 @@ public class PurchaseController {
         return jdbcTemplate.queryForList(sql);
     }
 
-    //    private List<Map<String, Object>> queryThis(String startDate, String endDate, String userId) {
-//        String sql = "SELECT "
-//                + "p.date, "
-//                + "COALESCE(p.total_close_meter, 0) AS petrol_total_close_meter, "
-//                + "COALESCE(p.total_open_meter, 0) AS petrol_total_open_meter, "
-//                + "COALESCE(p.total_sum, 0) AS petrol_total_sum, "
-//                + "COALESCE(p.total_testing, 0) AS petrol_total_testing, "
-//                + "COALESCE(p.petrol_ltr, 0) AS petrol_ltr, "
-//                + "COALESCE(p.rate, 0) AS petrol_rate, "
-//                + "COALESCE(p.total_total_sell, 0) AS petrol_total_total_sell, "
-//                + "COALESCE(d.total_close_meter, 0) AS diesel_total_close_meter, "
-//                + "COALESCE(d.total_open_meter, 0) AS diesel_total_open_meter, "
-//                + "COALESCE(d.total_sum, 0) AS diesel_total_sum, "
-//                + "COALESCE(d.total_testing, 0) AS diesel_total_testing, "
-//                + "COALESCE(d.diesel_ltr, 0) AS diesel_ltr, "
-//                + "COALESCE(d.rate, 0) AS diesel_rate, "
-//                + "COALESCE(d.total_total_sell, 0) AS diesel_total_total_sell, "
-//                + "COALESCE(o.total_price, 0) AS oil_total_price, "
-//                + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
-//                + "COALESCE(pp.type, 0) AS PType, "
-//                + "COALESCE(pp.petrol_quantity, 0) AS Petrol_Quantity, "
-//                + "COALESCE(pp.petrol_total, 0) AS Petrol_Total, "
-//                + "COALESCE(pp.petrol_vat, 0) AS Petrol_Vat, "
-//                + "COALESCE(pp.petrol_cess, 0) AS Petrol_Cess, "
-//                + "COALESCE(pp.petrol_jtcpercentage, 0) AS Petrol_Jtcpercentage, "
-//                + "COALESCE(pp.petrol_total_purchase, 0) AS Petrol_Total_Purchase, "
-//                + "COALESCE(dp.type, 0) AS DType, "
-//                + "COALESCE(dp.diesel_quantity, 0) AS Diesel_Quantity, "
-//                + "COALESCE(dp.diesel_total, 0) AS Diesel_Total, "
-//                + "COALESCE(dp.diesel_vat, 0) AS Diesel_Vat, "
-//                + "COALESCE(dp.diesel_cess, 0) AS Diesel_Cess, "
-//                + "COALESCE(dp.diesel_jtcpercentage, 0) AS Diesel_Jtcpercentage, "
-//                + "COALESCE(dp.diesel_total_purchase, 0) AS Diesel_Total_Purchase, "
-//                + "COALESCE(t.Amount_Total, 0) AS Amount_Total, "
-//                + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
-//                + "COALESCE(j.Baki_Total, 0) AS Baki_Total "
-//                + "FROM "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(close_meter) AS total_close_meter, "
-//                + "SUM(open_meter) AS total_open_meter, "
-//                + "SUM(total) AS total_sum, "
-//                + "SUM(testing) AS total_testing, "
-//                + "SUM(petrol_ltr) AS petrol_ltr, "
-//                + "rate, "
-//                + "SUM(total_sell) AS total_total_sell "
-//                + "FROM "
-//                + "managment.petrolsell "
-//                + "WHERE "
-//                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date, rate) p "
-//                + "JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(close_meter) AS total_close_meter, "
-//                + "SUM(open_meter) AS total_open_meter, "
-//                + "SUM(total) AS total_sum, "
-//                + "SUM(testing) AS total_testing, "
-//                + "SUM(diesel_ltr) AS diesel_ltr, "
-//                + "rate, "
-//                + "SUM(total_sell) AS total_total_sell "
-//                + "FROM "
-//                + "managment.dieselsell "
-//                + "WHERE "
-//                + "date BETWEEN  '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date, rate) d "
-//                + "ON "
-//                + "p.date = d.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(price) AS total_price "
-//                + "FROM "
-//                + "managment.OilSell "
-//                + "WHERE "
-//                + "date BETWEEN  '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date) o "
-//                + "ON "
-//                + "p.date = o.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(price) AS Kharch_Total "
-//                + "FROM "
-//                + "managment.kharch "
-//                + "WHERE "
-//                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date) k "
-//                + "ON "
-//                + "p.date = k.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, type, "
-//                + "quantity AS petrol_quantity, "
-//                + "total AS petrol_total, "
-//                + "vat AS petrol_vat, "
-//                + "cess AS petrol_cess, "
-//                + "jtcpercentage AS petrol_jtcpercentage, "
-//                + "total_purchase AS petrol_total_purchase "
-//                + "FROM "
-//                + "managment.purchase "
-//                + "WHERE "
-//                + "type = 'petrol' AND user_id = '" + userId + "') pp " // Filter by userId
-//                + "ON "
-//                + "p.date = pp.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(amount) AS Amount_Total "
-//                + "FROM "
-//                + "managment.transaction "
-//                + "WHERE "
-//                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date) t "
-//                + "ON "
-//                + "p.date = t.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, type, "
-//                + "quantity AS diesel_quantity, "
-//                + "total AS diesel_total, "
-//                + "vat AS diesel_vat, "
-//                + "cess AS diesel_cess, "
-//                + "jtcpercentage AS diesel_jtcpercentage, "
-//                + "total_purchase AS diesel_total_purchase "
-//                + "FROM "
-//                + "managment.purchase "
-//                + "WHERE "
-//                + "type = 'diesel' AND user_id = '" + userId + "') dp " // Filter by userId
-//                + "ON "
-//                + "d.date = dp.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(jama) AS Jama_Total, "
-//                + "SUM(baki) AS Baki_Total "
-//                + "FROM "
-//                + "managment.jamabakireport "
-//                + "WHERE "
-//                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date) j "
-//                + "ON "
-//                + " p.date = j.date "
-//                + "ORDER BY "
-//                + "p.date;";
-//
-//        return jdbcTemplate.queryForList(sql);
-//    }
-//    private List<Map<String, Object>> queryThis(String startDate, String endDate, String userId) {
-//        String sql = "SELECT "
-//                + "p.date, "
-//                + "COALESCE(p.total_close_meter, 0) AS petrol_total_close_meter, "
-//                + "COALESCE(p.total_open_meter, 0) AS petrol_total_open_meter, "
-//                + "COALESCE(p.total_sum, 0) AS petrol_total_sum, "
-//                + "COALESCE(p.total_testing, 0) AS petrol_total_testing, "
-//                + "COALESCE(p.petrol_ltr, 0) AS petrol_ltr, "
-//                + "COALESCE(p.rate, 0) AS petrol_rate, "
-//                + "COALESCE(p.total_total_sell, 0) AS petrol_total_total_sell, "
-//                + "COALESCE(d.total_close_meter, 0) AS diesel_total_close_meter, "
-//                + "COALESCE(d.total_open_meter, 0) AS diesel_total_open_meter, "
-//                + "COALESCE(d.total_sum, 0) AS diesel_total_sum, "
-//                + "COALESCE(d.total_testing, 0) AS diesel_total_testing, "
-//                + "COALESCE(d.diesel_ltr, 0) AS diesel_ltr, "
-//                + "COALESCE(d.rate, 0) AS diesel_rate, "
-//                + "COALESCE(d.total_total_sell, 0) AS diesel_total_total_sell, "
-//                + "COALESCE(o.total_price, 0) AS oil_total_price, "
-//                + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
-//                + "COALESCE(pp.type, 0) AS PType, "
-//                + "COALESCE(pp.petrol_quantity, 0) AS Petrol_Quantity, "
-//                + "COALESCE(pp.petrol_total, 0) AS Petrol_Total, "
-//                + "COALESCE(pp.petrol_vat, 0) AS Petrol_Vat, "
-//                + "COALESCE(pp.petrol_cess, 0) AS Petrol_Cess, "
-//                + "COALESCE(pp.petrol_jtcpercentage, 0) AS Petrol_Jtcpercentage, "
-//                + "COALESCE(pp.petrol_total_purchase, 0) AS Petrol_Total_Purchase, "
-//                + "COALESCE(dp.type, 0) AS DType, "
-//                + "COALESCE(dp.diesel_quantity, 0) AS Diesel_Quantity, "
-//                + "COALESCE(dp.diesel_total, 0) AS Diesel_Total, "
-//                + "COALESCE(dp.diesel_vat, 0) AS Diesel_Vat, "
-//                + "COALESCE(dp.diesel_cess, 0) AS Diesel_Cess, "
-//                + "COALESCE(dp.diesel_jtcpercentage, 0) AS Diesel_Jtcpercentage, "
-//                + "COALESCE(dp.diesel_total_purchase, 0) AS Diesel_Total_Purchase, "
-//                + "COALESCE(t.Amount_Total, 0) AS Amount_Total, "
-//                + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
-//                + "COALESCE(j.Baki_Total, 0) AS Baki_Total "
-//                + "FROM "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(close_meter) AS total_close_meter, "
-//                + "SUM(open_meter) AS total_open_meter, "
-//                + "SUM(total) AS total_sum, "
-//                + "SUM(testing) AS total_testing, "
-//                + "SUM(petrol_ltr) AS petrol_ltr, "
-//                + "rate, "
-//                + "SUM(total_sell) AS total_total_sell "
-//                + "FROM "
-//                + "managment.petrolsell "
-//                + "WHERE "
-//                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date, rate) p "
-//                + "JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(close_meter) AS total_close_meter, "
-//                + "SUM(open_meter) AS total_open_meter, "
-//                + "SUM(total) AS total_sum, "
-//                + "SUM(testing) AS total_testing, "
-//                + "SUM(diesel_ltr) AS diesel_ltr, "
-//                + "rate, "
-//                + "SUM(total_sell) AS total_total_sell "
-//                + "FROM "
-//                + "managment.dieselsell "
-//                + "WHERE "
-//                + "date BETWEEN  '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date, rate) d "
-//                + "ON "
-//                + "p.date = d.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(price) AS total_price "
-//                + "FROM "
-//                + "managment.OilSell "
-//                + "WHERE "
-//                + "date BETWEEN  '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date) o "
-//                + "ON "
-//                + "p.date = o.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(price) AS Kharch_Total "
-//                + "FROM "
-//                + "managment.kharch "
-//                + "WHERE "
-//                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date) k "
-//                + "ON "
-//                + "p.date = k.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, type, "
-//                + "quantity AS petrol_quantity, "
-//                + "total AS petrol_total, "
-//                + "vat AS petrol_vat, "
-//                + "cess AS petrol_cess, "
-//                + "jtcpercentage AS petrol_jtcpercentage, "
-//                + "total_purchase AS petrol_total_purchase "
-//                + "FROM "
-//                + "managment.purchase "
-//                + "WHERE "
-//                + "type = 'petrol' AND user_id = '" + userId + "') pp " // Filter by userId
-//                + "ON "
-//                + "p.date = pp.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(amount) AS Amount_Total "
-//                + "FROM "
-//                + "managment.transaction "
-//                + "WHERE "
-//                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date) t "
-//                + "ON "
-//                + "p.date = t.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, type, "
-//                + "quantity AS diesel_quantity, "
-//                + "total AS diesel_total, "
-//                + "vat AS diesel_vat, "
-//                + "cess AS diesel_cess, "
-//                + "jtcpercentage AS diesel_jtcpercentage, "
-//                + "total_purchase AS diesel_total_purchase "
-//                + "FROM "
-//                + "managment.purchase "
-//                + "WHERE "
-//                + "type = 'diesel'  AND user_id = '" + userId + "') dp " // Filter by userId
-//                + "ON "
-//                + "d.date = dp.date "
-//                + "LEFT JOIN "
-//                + "(SELECT "
-//                + "date, "
-//                + "SUM(jama) AS Jama_Total, "
-//                + "SUM(baki) AS Baki_Total "
-//                + "FROM "
-//                + "managment.jamabakireport "
-//                + "WHERE "
-//                + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
-//                + "AND user_id = '" + userId + "' " // Filter by userId
-//                + "GROUP BY "
-//                + "date) j "
-//                + "ON "
-//                + " p.date = j.date "
-//                + "ORDER BY "
-//                + "p.date;";
-//
-//        return jdbcTemplate.queryForList(sql);
-//    }
+    // private List<Map<String, Object>> queryThis(String startDate, String endDate,
+    // String userId) {
+    // String sql = "SELECT "
+    // + "p.date, "
+    // + "COALESCE(p.total_close_meter, 0) AS petrol_total_close_meter, "
+    // + "COALESCE(p.total_open_meter, 0) AS petrol_total_open_meter, "
+    // + "COALESCE(p.total_sum, 0) AS petrol_total_sum, "
+    // + "COALESCE(p.total_testing, 0) AS petrol_total_testing, "
+    // + "COALESCE(p.petrol_ltr, 0) AS petrol_ltr, "
+    // + "COALESCE(p.rate, 0) AS petrol_rate, "
+    // + "COALESCE(p.total_total_sell, 0) AS petrol_total_total_sell, "
+    // + "COALESCE(d.total_close_meter, 0) AS diesel_total_close_meter, "
+    // + "COALESCE(d.total_open_meter, 0) AS diesel_total_open_meter, "
+    // + "COALESCE(d.total_sum, 0) AS diesel_total_sum, "
+    // + "COALESCE(d.total_testing, 0) AS diesel_total_testing, "
+    // + "COALESCE(d.diesel_ltr, 0) AS diesel_ltr, "
+    // + "COALESCE(d.rate, 0) AS diesel_rate, "
+    // + "COALESCE(d.total_total_sell, 0) AS diesel_total_total_sell, "
+    // + "COALESCE(o.total_price, 0) AS oil_total_price, "
+    // + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
+    // + "COALESCE(pp.type, 0) AS PType, "
+    // + "COALESCE(pp.petrol_quantity, 0) AS Petrol_Quantity, "
+    // + "COALESCE(pp.petrol_total, 0) AS Petrol_Total, "
+    // + "COALESCE(pp.petrol_vat, 0) AS Petrol_Vat, "
+    // + "COALESCE(pp.petrol_cess, 0) AS Petrol_Cess, "
+    // + "COALESCE(pp.petrol_jtcpercentage, 0) AS Petrol_Jtcpercentage, "
+    // + "COALESCE(pp.petrol_total_purchase, 0) AS Petrol_Total_Purchase, "
+    // + "COALESCE(dp.type, 0) AS DType, "
+    // + "COALESCE(dp.diesel_quantity, 0) AS Diesel_Quantity, "
+    // + "COALESCE(dp.diesel_total, 0) AS Diesel_Total, "
+    // + "COALESCE(dp.diesel_vat, 0) AS Diesel_Vat, "
+    // + "COALESCE(dp.diesel_cess, 0) AS Diesel_Cess, "
+    // + "COALESCE(dp.diesel_jtcpercentage, 0) AS Diesel_Jtcpercentage, "
+    // + "COALESCE(dp.diesel_total_purchase, 0) AS Diesel_Total_Purchase, "
+    // + "COALESCE(t.Amount_Total, 0) AS Amount_Total, "
+    // + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
+    // + "COALESCE(j.Baki_Total, 0) AS Baki_Total "
+    // + "FROM "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(close_meter) AS total_close_meter, "
+    // + "SUM(open_meter) AS total_open_meter, "
+    // + "SUM(total) AS total_sum, "
+    // + "SUM(testing) AS total_testing, "
+    // + "SUM(petrol_ltr) AS petrol_ltr, "
+    // + "rate, "
+    // + "SUM(total_sell) AS total_total_sell "
+    // + "FROM "
+    // + "petrolsell "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date, rate) p "
+    // + "JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(close_meter) AS total_close_meter, "
+    // + "SUM(open_meter) AS total_open_meter, "
+    // + "SUM(total) AS total_sum, "
+    // + "SUM(testing) AS total_testing, "
+    // + "SUM(diesel_ltr) AS diesel_ltr, "
+    // + "rate, "
+    // + "SUM(total_sell) AS total_total_sell "
+    // + "FROM "
+    // + "dieselsell "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date, rate) d "
+    // + "ON "
+    // + "p.date = d.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(price) AS total_price "
+    // + "FROM "
+    // + "OilSell "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date) o "
+    // + "ON "
+    // + "p.date = o.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(price) AS Kharch_Total "
+    // + "FROM "
+    // + "kharch "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date) k "
+    // + "ON "
+    // + "p.date = k.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, type, "
+    // + "quantity AS petrol_quantity, "
+    // + "total AS petrol_total, "
+    // + "vat AS petrol_vat, "
+    // + "cess AS petrol_cess, "
+    // + "jtcpercentage AS petrol_jtcpercentage, "
+    // + "total_purchase AS petrol_total_purchase "
+    // + "FROM "
+    // + "purchase "
+    // + "WHERE "
+    // + "type = 'petrol' AND user_id = '" + userId + "') pp " // Filter by userId
+    // + "ON "
+    // + "p.date = pp.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(amount) AS Amount_Total "
+    // + "FROM "
+    // + "transaction "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date) t "
+    // + "ON "
+    // + "p.date = t.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, type, "
+    // + "quantity AS diesel_quantity, "
+    // + "total AS diesel_total, "
+    // + "vat AS diesel_vat, "
+    // + "cess AS diesel_cess, "
+    // + "jtcpercentage AS diesel_jtcpercentage, "
+    // + "total_purchase AS diesel_total_purchase "
+    // + "FROM "
+    // + "purchase "
+    // + "WHERE "
+    // + "type = 'diesel' AND user_id = '" + userId + "') dp " // Filter by userId
+    // + "ON "
+    // + "d.date = dp.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(jama) AS Jama_Total, "
+    // + "SUM(baki) AS Baki_Total "
+    // + "FROM "
+    // + "jamabakireport "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date) j "
+    // + "ON "
+    // + " p.date = j.date "
+    // + "ORDER BY "
+    // + "p.date;";
+    //
+    // return jdbcTemplate.queryForList(sql);
+    // }
+    // private List<Map<String, Object>> queryThis(String startDate, String endDate,
+    // String userId) {
+    // String sql = "SELECT "
+    // + "p.date, "
+    // + "COALESCE(p.total_close_meter, 0) AS petrol_total_close_meter, "
+    // + "COALESCE(p.total_open_meter, 0) AS petrol_total_open_meter, "
+    // + "COALESCE(p.total_sum, 0) AS petrol_total_sum, "
+    // + "COALESCE(p.total_testing, 0) AS petrol_total_testing, "
+    // + "COALESCE(p.petrol_ltr, 0) AS petrol_ltr, "
+    // + "COALESCE(p.rate, 0) AS petrol_rate, "
+    // + "COALESCE(p.total_total_sell, 0) AS petrol_total_total_sell, "
+    // + "COALESCE(d.total_close_meter, 0) AS diesel_total_close_meter, "
+    // + "COALESCE(d.total_open_meter, 0) AS diesel_total_open_meter, "
+    // + "COALESCE(d.total_sum, 0) AS diesel_total_sum, "
+    // + "COALESCE(d.total_testing, 0) AS diesel_total_testing, "
+    // + "COALESCE(d.diesel_ltr, 0) AS diesel_ltr, "
+    // + "COALESCE(d.rate, 0) AS diesel_rate, "
+    // + "COALESCE(d.total_total_sell, 0) AS diesel_total_total_sell, "
+    // + "COALESCE(o.total_price, 0) AS oil_total_price, "
+    // + "COALESCE(k.Kharch_Total, 0) AS Kharch_Total, "
+    // + "COALESCE(pp.type, 0) AS PType, "
+    // + "COALESCE(pp.petrol_quantity, 0) AS Petrol_Quantity, "
+    // + "COALESCE(pp.petrol_total, 0) AS Petrol_Total, "
+    // + "COALESCE(pp.petrol_vat, 0) AS Petrol_Vat, "
+    // + "COALESCE(pp.petrol_cess, 0) AS Petrol_Cess, "
+    // + "COALESCE(pp.petrol_jtcpercentage, 0) AS Petrol_Jtcpercentage, "
+    // + "COALESCE(pp.petrol_total_purchase, 0) AS Petrol_Total_Purchase, "
+    // + "COALESCE(dp.type, 0) AS DType, "
+    // + "COALESCE(dp.diesel_quantity, 0) AS Diesel_Quantity, "
+    // + "COALESCE(dp.diesel_total, 0) AS Diesel_Total, "
+    // + "COALESCE(dp.diesel_vat, 0) AS Diesel_Vat, "
+    // + "COALESCE(dp.diesel_cess, 0) AS Diesel_Cess, "
+    // + "COALESCE(dp.diesel_jtcpercentage, 0) AS Diesel_Jtcpercentage, "
+    // + "COALESCE(dp.diesel_total_purchase, 0) AS Diesel_Total_Purchase, "
+    // + "COALESCE(t.Amount_Total, 0) AS Amount_Total, "
+    // + "COALESCE(j.Jama_Total, 0) AS Jama_Total, "
+    // + "COALESCE(j.Baki_Total, 0) AS Baki_Total "
+    // + "FROM "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(close_meter) AS total_close_meter, "
+    // + "SUM(open_meter) AS total_open_meter, "
+    // + "SUM(total) AS total_sum, "
+    // + "SUM(testing) AS total_testing, "
+    // + "SUM(petrol_ltr) AS petrol_ltr, "
+    // + "rate, "
+    // + "SUM(total_sell) AS total_total_sell "
+    // + "FROM "
+    // + "petrolsell "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date, rate) p "
+    // + "JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(close_meter) AS total_close_meter, "
+    // + "SUM(open_meter) AS total_open_meter, "
+    // + "SUM(total) AS total_sum, "
+    // + "SUM(testing) AS total_testing, "
+    // + "SUM(diesel_ltr) AS diesel_ltr, "
+    // + "rate, "
+    // + "SUM(total_sell) AS total_total_sell "
+    // + "FROM "
+    // + "dieselsell "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date, rate) d "
+    // + "ON "
+    // + "p.date = d.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(price) AS total_price "
+    // + "FROM "
+    // + "OilSell "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date) o "
+    // + "ON "
+    // + "p.date = o.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(price) AS Kharch_Total "
+    // + "FROM "
+    // + "kharch "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date) k "
+    // + "ON "
+    // + "p.date = k.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, type, "
+    // + "quantity AS petrol_quantity, "
+    // + "total AS petrol_total, "
+    // + "vat AS petrol_vat, "
+    // + "cess AS petrol_cess, "
+    // + "jtcpercentage AS petrol_jtcpercentage, "
+    // + "total_purchase AS petrol_total_purchase "
+    // + "FROM "
+    // + "purchase "
+    // + "WHERE "
+    // + "type = 'petrol' AND user_id = '" + userId + "') pp " // Filter by userId
+    // + "ON "
+    // + "p.date = pp.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(amount) AS Amount_Total "
+    // + "FROM "
+    // + "transaction "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date) t "
+    // + "ON "
+    // + "p.date = t.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, type, "
+    // + "quantity AS diesel_quantity, "
+    // + "total AS diesel_total, "
+    // + "vat AS diesel_vat, "
+    // + "cess AS diesel_cess, "
+    // + "jtcpercentage AS diesel_jtcpercentage, "
+    // + "total_purchase AS diesel_total_purchase "
+    // + "FROM "
+    // + "purchase "
+    // + "WHERE "
+    // + "type = 'diesel' AND user_id = '" + userId + "') dp " // Filter by userId
+    // + "ON "
+    // + "d.date = dp.date "
+    // + "LEFT JOIN "
+    // + "(SELECT "
+    // + "date, "
+    // + "SUM(jama) AS Jama_Total, "
+    // + "SUM(baki) AS Baki_Total "
+    // + "FROM "
+    // + "jamabakireport "
+    // + "WHERE "
+    // + "date BETWEEN '" + startDate + "' AND '" + endDate + "' "
+    // + "AND user_id = '" + userId + "' " // Filter by userId
+    // + "GROUP BY "
+    // + "date) j "
+    // + "ON "
+    // + " p.date = j.date "
+    // + "ORDER BY "
+    // + "p.date;";
+    //
+    // return jdbcTemplate.queryForList(sql);
+    // }
     @GetMapping(value = "/userList")
     public List<DAOUser> getAllUser() {
         List<DAOUser> userlist = userRepository.findAll();
@@ -2777,56 +2815,59 @@ public class PurchaseController {
         return extraDip;
     }
 
-    //    @PostMapping("/saveFuelReport")
-//    public ResponseEntity<String> saveFuelData(@RequestBody Map<String, Object> payload) {
-//        List<Map<String, Object>> petrolData = (List<Map<String, Object>>) payload.get("petrolInputData");
-//        List<Map<String, Object>> dieselData = (List<Map<String, Object>>) payload.get("dieselInputData");
-//
-//        try {
-//            // Save Petrol Data
-//            List<PetrolSell> petrolEntities = petrolData.stream()
-//                    .map(data -> {
-//                        PetrolSell petrol = new PetrolSell();
-//                        petrol.setDate((String) data.get("date"));
-//                        petrol.setUserId((String) data.get("user_id"));
-//                        petrol.setPump((String) data.get("pump"));
-//                        petrol.setOpen_meter((String) data.get("open_meter"));
-//                        petrol.setClose_meter((String) data.get("close_meter"));
-//                        petrol.setTesting((String) data.get("testing"));
-//                        petrol.setRate((String) data.get("rate"));
-//                        petrol.setTotal((String) data.get("total"));
-//                        petrol.setTotal_sell((String) data.get("total_sell"));
-//                        petrol.setPetrol_ltr((String) data.get("petrol_ltr"));
-//                        return petrol;
-//                    })
-//                    .collect(Collectors.toList());
-//            petrolSellRepository.saveAll(petrolEntities);
-//
-//            // Save Diesel Data
-//            List<Dieselsell> dieselEntities = dieselData.stream()
-//                    .map(data -> {
-//                        Dieselsell diesel = new Dieselsell();
-//                        diesel.setDate((String) data.get("date"));
-//                        diesel.setUserId((String) data.get("user_id"));
-//                        diesel.setPump((String) data.get("pump"));
-//                        diesel.setOpen_meter((String) data.get("open_meter"));
-//                        diesel.setClose_meter((String) data.get("close_meter"));
-//                        diesel.setTesting((String) data.get("testing"));
-//                        diesel.setRate((String) data.get("rate"));
-//                        diesel.setTotal((String) data.get("total"));
-//                        diesel.setTotal_sell((String) data.get("total_sell"));
-//                        diesel.setDiesel_ltr((String) data.get("diesel_ltr"));
-//                        return diesel;
-//                    })
-//                    .collect(Collectors.toList());
-//            dieselSellRepository.saveAll(dieselEntities);
-//
-//            return ResponseEntity.ok("Data saved successfully!");
-//        } catch (Exception e) {
-//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body("Failed to save fuel data: " + e.getMessage());
-//        }
-//    }
+    // @PostMapping("/saveFuelReport")
+    // public ResponseEntity<String> saveFuelData(@RequestBody Map<String, Object>
+    // payload) {
+    // List<Map<String, Object>> petrolData = (List<Map<String, Object>>)
+    // payload.get("petrolInputData");
+    // List<Map<String, Object>> dieselData = (List<Map<String, Object>>)
+    // payload.get("dieselInputData");
+    //
+    // try {
+    // // Save Petrol Data
+    // List<PetrolSell> petrolEntities = petrolData.stream()
+    // .map(data -> {
+    // PetrolSell petrol = new PetrolSell();
+    // petrol.setDate((String) data.get("date"));
+    // petrol.setUserId((String) data.get("user_id"));
+    // petrol.setPump((String) data.get("pump"));
+    // petrol.setOpen_meter((String) data.get("open_meter"));
+    // petrol.setClose_meter((String) data.get("close_meter"));
+    // petrol.setTesting((String) data.get("testing"));
+    // petrol.setRate((String) data.get("rate"));
+    // petrol.setTotal((String) data.get("total"));
+    // petrol.setTotal_sell((String) data.get("total_sell"));
+    // petrol.setPetrol_ltr((String) data.get("petrol_ltr"));
+    // return petrol;
+    // })
+    // .collect(Collectors.toList());
+    // petrolSellRepository.saveAll(petrolEntities);
+    //
+    // // Save Diesel Data
+    // List<Dieselsell> dieselEntities = dieselData.stream()
+    // .map(data -> {
+    // Dieselsell diesel = new Dieselsell();
+    // diesel.setDate((String) data.get("date"));
+    // diesel.setUserId((String) data.get("user_id"));
+    // diesel.setPump((String) data.get("pump"));
+    // diesel.setOpen_meter((String) data.get("open_meter"));
+    // diesel.setClose_meter((String) data.get("close_meter"));
+    // diesel.setTesting((String) data.get("testing"));
+    // diesel.setRate((String) data.get("rate"));
+    // diesel.setTotal((String) data.get("total"));
+    // diesel.setTotal_sell((String) data.get("total_sell"));
+    // diesel.setDiesel_ltr((String) data.get("diesel_ltr"));
+    // return diesel;
+    // })
+    // .collect(Collectors.toList());
+    // dieselSellRepository.saveAll(dieselEntities);
+    //
+    // return ResponseEntity.ok("Data saved successfully!");
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body("Failed to save fuel data: " + e.getMessage());
+    // }
+    // }
     @PostMapping("/saveFuelReport")
     public ResponseEntity<ApiResponse> saveFuelData(@RequestBody Map<String, Object> payload) {
         List<Map<String, Object>> petrolData = (List<Map<String, Object>>) payload.get("petrolInputData");
@@ -2844,7 +2885,8 @@ public class PurchaseController {
                         String date = (String) data.get("date");
                         String userId = (String) data.get("user_id");
                         String pump = (String) data.get("pump");
-                        Optional<PetrolSell> existingPetrol = petrolSellRepository.findByDateAndPumpAndUserId(date, pump, userId);
+                        Optional<PetrolSell> existingPetrol = petrolSellRepository.findByDateAndPumpAndUserId(date,
+                                pump, userId);
 
                         PetrolSell petrol;
                         if (existingPetrol.isPresent()) {
@@ -2883,7 +2925,8 @@ public class PurchaseController {
                         String pump = (String) data.get("pump");
 
                         // 🔍 Check if data already exists for date and pump
-                        Optional<Dieselsell> existingDiesel = dieselSellRepository.findByDateAndPumpAndUserId(date, pump, userId);
+                        Optional<Dieselsell> existingDiesel = dieselSellRepository.findByDateAndPumpAndUserId(date,
+                                pump, userId);
 
                         Dieselsell diesel;
                         if (existingDiesel.isPresent()) {
@@ -2940,7 +2983,8 @@ public class PurchaseController {
                         String date = (String) data.get("date");
                         String userId = (String) data.get("user_id");
                         String pump = (String) data.get("pump");
-                        Optional<xpPetrol> existingPetrol = xpPetorlRepository.findByDateAndPumpAndUserId(date, pump, userId);
+                        Optional<xpPetrol> existingPetrol = xpPetorlRepository.findByDateAndPumpAndUserId(date, pump,
+                                userId);
 
                         xpPetrol xp;
                         if (existingPetrol.isPresent()) {
@@ -2979,7 +3023,8 @@ public class PurchaseController {
                         String pump = (String) data.get("pump");
 
                         // 🔍 Check if data already exists for date and pump
-                        Optional<powerDiesel> existingDiesel = powerDieselRepository.findByDateAndPumpAndUserId(date, pump, userId);
+                        Optional<powerDiesel> existingDiesel = powerDieselRepository.findByDateAndPumpAndUserId(date,
+                                pump, userId);
 
                         powerDiesel power;
                         if (existingDiesel.isPresent()) {
@@ -3019,7 +3064,7 @@ public class PurchaseController {
         }
     }
 
-    //PETROL SELL
+    // PETROL SELL
     @GetMapping(value = "/petrolList")
     public List<PetrolSell> getPetrolSell(@RequestParam String date, @RequestParam String userId) {
         List<PetrolSell> petrol = petrolSellRepository.findByDateAndUserId(date, userId);
@@ -3092,8 +3137,6 @@ public class PurchaseController {
             return ResponseEntity.ok(new ApiResponse("Diesel stock updated successfully."));
         }
     }
-
-
 
     @PostMapping(value = "/totalXPPetrolStock")
     public ResponseEntity<ApiResponse> saveOrUpdateTotalXPPetrolStock(@RequestBody XPPetrolStockRequest xprequest) {
@@ -3190,7 +3233,8 @@ public class PurchaseController {
                             throw new IllegalArgumentException("Invalid denomination: " + denomination.getValue());
                     }
                 } else {
-                    throw new IllegalArgumentException("❌ Total amount does not match value * count for " + denomination.getValue());
+                    throw new IllegalArgumentException(
+                            "❌ Total amount does not match value * count for " + denomination.getValue());
                 }
             }
 
@@ -3278,7 +3322,8 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> savePetrolStock(@RequestBody Dailystock stock) {
         try {
             // Check if a record already exists for the given date and userId
-            Optional<Dailystock> existingStockOpt = dailyskockRepository.findByDateAndUserId(stock.getDate(), stock.getUserId());
+            Optional<Dailystock> existingStockOpt = dailyskockRepository.findByDateAndUserId(stock.getDate(),
+                    stock.getUserId());
 
             if (existingStockOpt.isPresent()) {
                 // Update existing record
@@ -3303,7 +3348,8 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> saveDieselStock(@RequestBody dailydieselstock stock) {
         try {
             // Check if a record already exists for the given date and userId
-            Optional<dailydieselstock> existingStockOpt = dailydieselstockRepository.findByDateAndUserId(stock.getDate(), stock.getUserId());
+            Optional<dailydieselstock> existingStockOpt = dailydieselstockRepository
+                    .findByDateAndUserId(stock.getDate(), stock.getUserId());
 
             if (existingStockOpt.isPresent()) {
                 // Update existing record
@@ -3376,7 +3422,8 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> saveXPPetrolStock(@RequestBody xpdailystock xpdailystock) {
         try {
             // Check if a record already exists for the given date and userId
-            Optional<xpdailystock> existingStockOpt = xpdailystockRepository.findByDateAndUserId(xpdailystock.getDate(), xpdailystock.getUserId());
+            Optional<xpdailystock> existingStockOpt = xpdailystockRepository.findByDateAndUserId(xpdailystock.getDate(),
+                    xpdailystock.getUserId());
 
             if (existingStockOpt.isPresent()) {
                 // Update existing record
@@ -3401,7 +3448,8 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> savePOwerDieselStock(@RequestBody powerdieseldailystock stock) {
         try {
             // Check if a record already exists for the given date and userId
-            Optional<powerdieseldailystock> existingStockOpt = powerdieseldailystockRepository.findByDateAndUserId(stock.getDate(), stock.getUserId());
+            Optional<powerdieseldailystock> existingStockOpt = powerdieseldailystockRepository
+                    .findByDateAndUserId(stock.getDate(), stock.getUserId());
 
             if (existingStockOpt.isPresent()) {
                 // Update existing record
@@ -3427,7 +3475,7 @@ public class PurchaseController {
         List<Double> Petrolgatt = petrolgattRepository.findOpenstockByDateAndUserId(date, userId);
 
         Map<String, Object> response = new HashMap<>();
-//        Double gatt = gattList.isEmpty() ? null : gattList.get(0);
+        // Double gatt = gattList.isEmpty() ? null : gattList.get(0);
         Double petrolgatt = Petrolgatt.isEmpty() ? null : Double.valueOf(Petrolgatt.get(0));
         response.put("petrolgatt", petrolgatt);
         return response;
@@ -3437,7 +3485,8 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> saveGatt(@RequestBody Petrolgatt petrolgatt) {
         try {
             // Check if a record already exists for the given date and userId
-            Optional<Petrolgatt> existingGattOpt = petrolgattRepository.findByDateAndUserId(petrolgatt.getDate(), petrolgatt.getUserId());
+            Optional<Petrolgatt> existingGattOpt = petrolgattRepository.findByDateAndUserId(petrolgatt.getDate(),
+                    petrolgatt.getUserId());
 
             if (existingGattOpt.isPresent()) {
                 // Update existing record
@@ -3461,7 +3510,7 @@ public class PurchaseController {
         List<Double> dieselgatt = dieselgattRepository.findOpenstockByDateAndUserId(date, userId);
 
         Map<String, Object> response = new HashMap<>();
-//        Double gatt = gattList.isEmpty() ? null : gattList.get(0);
+        // Double gatt = gattList.isEmpty() ? null : gattList.get(0);
         Double dieselgat = dieselgatt.isEmpty() ? null : Double.valueOf(dieselgatt.get(0));
         response.put("dieselgatt", dieselgat);
         return response;
@@ -3471,7 +3520,8 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> saveDieselGatt(@RequestBody Dieselgatt dieselgatt) {
         try {
             // Check if a record already exists for the given date and userId
-            Optional<Dieselgatt> existingGattOpt = dieselgattRepository.findByDateAndUserId(dieselgatt.getDate(), dieselgatt.getUserId());
+            Optional<Dieselgatt> existingGattOpt = dieselgattRepository.findByDateAndUserId(dieselgatt.getDate(),
+                    dieselgatt.getUserId());
 
             if (existingGattOpt.isPresent()) {
                 // Update existing record
@@ -3495,7 +3545,7 @@ public class PurchaseController {
         List<Double> xpPetrolgatt = xpPetrolgattRepository.findOpenstockByDateAndUserId(date, userId);
 
         Map<String, Object> response = new HashMap<>();
-//        Double gatt = gattList.isEmpty() ? null : gattList.get(0);
+        // Double gatt = gattList.isEmpty() ? null : gattList.get(0);
         Double XpPetrol = xpPetrolgatt.isEmpty() ? null : Double.valueOf(xpPetrolgatt.get(0));
         response.put("xpPetrolgatt", XpPetrol);
         return response;
@@ -3505,7 +3555,8 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> saveXpPetrolGatt(@RequestBody XpPetrolgatt xpPetrolgatt) {
         try {
             // Check if a record already exists for the given date and userId
-            Optional<XpPetrolgatt> existingGattOpt = xpPetrolgattRepository.findByDateAndUserId(xpPetrolgatt.getDate(), xpPetrolgatt.getUserId());
+            Optional<XpPetrolgatt> existingGattOpt = xpPetrolgattRepository.findByDateAndUserId(xpPetrolgatt.getDate(),
+                    xpPetrolgatt.getUserId());
 
             if (existingGattOpt.isPresent()) {
                 // Update existing record
@@ -3529,7 +3580,7 @@ public class PurchaseController {
         List<Double> powerDieselgatt = powerDieselgattRepository.findOpenstockByDateAndUserId(date, userId);
 
         Map<String, Object> response = new HashMap<>();
-//        Double gatt = gattList.isEmpty() ? null : gattList.get(0);
+        // Double gatt = gattList.isEmpty() ? null : gattList.get(0);
         Double powerDiesel = powerDieselgatt.isEmpty() ? null : Double.valueOf(powerDieselgatt.get(0));
         response.put("powerDieselgatt", powerDiesel);
         return response;
@@ -3539,7 +3590,8 @@ public class PurchaseController {
     public ResponseEntity<ApiResponse> savePowerDieselGatt(@RequestBody PowerDieselgatt powerDieselgatt) {
         try {
             // Check if a record already exists for the given date and userId
-            Optional<PowerDieselgatt> existingGattOpt = powerDieselgattRepository.findByDateAndUserId(powerDieselgatt.getDate(), powerDieselgatt.getUserId());
+            Optional<PowerDieselgatt> existingGattOpt = powerDieselgattRepository
+                    .findByDateAndUserId(powerDieselgatt.getDate(), powerDieselgatt.getUserId());
 
             if (existingGattOpt.isPresent()) {
                 // Update existing record
@@ -3593,7 +3645,8 @@ public class PurchaseController {
     @PostMapping("/changePassword")
     public ResponseEntity<String> changePassword(@RequestBody ChangePasswordRequest request) {
         try {
-            userService.changePasswordByUserId(Long.valueOf(request.getUserId()), request.getOldPassword(), request.getNewPassword());
+            userService.changePasswordByUserId(Long.valueOf(request.getUserId()), request.getOldPassword(),
+                    request.getNewPassword());
             return ResponseEntity.ok("Password changed successfully.");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Failed to change password: " + e.getMessage());
@@ -3622,33 +3675,36 @@ public class PurchaseController {
         return loclcredit;
     }
 
-//    @PostMapping("/loclDetailsAddEdit")
-//    public ResponseEntity<ApiResponse> loclDetailsAddEdit(@RequestBody List<loclcredit> loclcreditList) {
-//        try {
-//            for (loclcredit lc : loclcreditList) {
-//
-//                Optional<loclcredit> loclcreditOpt =loclcreditRepository.findByDateAndUserId(lc.getDate(), lc.getUserId() );
-//
-//                if (loclcreditOpt.isPresent()) {
-//                    loclcredit existing = loclcreditOpt.get();
-//                    existing.setCredit(lc.getCredit());
-//                    existing.setBalance(lc.getBalance());
-//                    existing.setRemark(lc.getRemark());
-//                    existing.setUserId(lc.getUserId());
-//                    existing.setDate(lc.getDate());
-//                    loclcreditRepository.save(existing);
-//                } else {
-//                    loclcreditRepository.save(lc);
-//                }
-//            }
-//            return ResponseEntity.ok(
-//                    new ApiResponse(true, "LOCL Details Added/Updated Successfully", loclcreditList)
-//            );
-//        } catch (Exception e) {
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-//                    .body(new ApiResponse("Error occurred: " + e.getMessage()));
-//        }
-//    }
+    // @PostMapping("/loclDetailsAddEdit")
+    // public ResponseEntity<ApiResponse> loclDetailsAddEdit(@RequestBody
+    // List<loclcredit> loclcreditList) {
+    // try {
+    // for (loclcredit lc : loclcreditList) {
+    //
+    // Optional<loclcredit> loclcreditOpt
+    // =loclcreditRepository.findByDateAndUserId(lc.getDate(), lc.getUserId() );
+    //
+    // if (loclcreditOpt.isPresent()) {
+    // loclcredit existing = loclcreditOpt.get();
+    // existing.setCredit(lc.getCredit());
+    // existing.setBalance(lc.getBalance());
+    // existing.setRemark(lc.getRemark());
+    // existing.setUserId(lc.getUserId());
+    // existing.setDate(lc.getDate());
+    // loclcreditRepository.save(existing);
+    // } else {
+    // loclcreditRepository.save(lc);
+    // }
+    // }
+    // return ResponseEntity.ok(
+    // new ApiResponse(true, "LOCL Details Added/Updated Successfully",
+    // loclcreditList)
+    // );
+    // } catch (Exception e) {
+    // return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+    // .body(new ApiResponse("Error occurred: " + e.getMessage()));
+    // }
+    // }
 
     @PostMapping("/loclDetailsAddEdit")
     public ResponseEntity<ApiResponse> loclDetailsAddEdit(
@@ -3666,14 +3722,12 @@ public class PurchaseController {
             return ResponseEntity.ok(
                     new ApiResponse(true,
                             "LOCL Details Added/Updated Successfully",
-                            loclcreditList)
-            );
+                            loclcreditList));
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(new ApiResponse("Error occurred: " + e.getMessage()));
         }
     }
-
 
     @DeleteMapping("/deleteloclDetails/{id}")
     public ResponseEntity<ApiResponse> deleteloclDetails(@PathVariable Integer id) {
@@ -3702,17 +3756,16 @@ public class PurchaseController {
             @RequestParam String startDate,
             @RequestParam String endDate,
             @RequestParam String userId) {
-        List<Object[]> list=JamabakiRepository.findReportByDateRangeExcludeZeroBaki(startDate, endDate, userId);
+        List<Object[]> list = JamabakiRepository.findReportByDateRangeExcludeZeroBaki(startDate, endDate, userId);
         return list;
     }
-
 
     @GetMapping("/totalloclCreditDetails")
     public List<Object[]> gettotalloclCreditDetails(
             @RequestParam String startDate,
             @RequestParam String endDate,
             @RequestParam String userId) {
-        List<Object[]> list=loclcreditRepository.findReportBycredit(startDate, endDate, userId);
+        List<Object[]> list = loclcreditRepository.findReportBycredit(startDate, endDate, userId);
         return list;
     }
 

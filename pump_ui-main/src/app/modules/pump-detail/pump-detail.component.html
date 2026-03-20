@@ -34,7 +34,6 @@
                      <th>Diesel Jtcpercentage</th>
                      <th>Diesel Total Purchase</th>
                      <th>Oil Quantity</th>
-                     <th>Oil Date</th>
                      <th>Oil Type</th>
                      <th>Oil GST %</th>
                      <th>Oil HSN</th>
@@ -79,6 +78,7 @@
                      <th *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">Power Diesel CESS</th>
                      <th *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">Power Diesel JTC%</th>
                      <th *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">Power Diesel Total Purchase</th>
+                     <th>Total Value</th>
                   </tr>
                   <tr *ngFor="let item of productList">
                      <td>{{ item.date }}</td>
@@ -105,7 +105,6 @@
                      <td>{{ item.dieselJtcpercentage }}</td>
                      <td>{{ item.dieselTotalPurchase }}</td>
                      <td>{{ item.oilQuantity }}</td>
-                     <td>{{ item.oilDate }}</td>
                      <td>{{ item.oilType }}</td>
                      <td>{{ item.oilGstPercentage }}</td>
                      <td>{{ item.oilHsn }}</td>
@@ -152,6 +151,7 @@
                      <td *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">{{ item.powerdieselCess }}</td>
                      <td *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">{{ item.powerdieselJtcpercentage }}</td>
                      <td *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">{{ item.powerdieselTotalPurchase }}</td>
+                     <td>{{ item.totalValue }}</td>
                   </tr>
                   <tr>
                      <td></td>
@@ -177,10 +177,7 @@
                      <td>{{ totalDieselCess }}</td>
                      <td>{{ totalDieselJtcpercentage }}</td>
                      <td>{{ totalDieselTotalPurchase }}</td>
-                     <td></td>
                      <td>{{ totalOilQuantity }}</td>
-                     <td></td>
-                     <td></td>
                      <td></td>
                      <td>{{ totalOilGstPercentage }}</td>
                      <td></td>
@@ -226,6 +223,7 @@
                      <td *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">{{ totalPowerDieselCess }}</td>
                      <td *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">{{ totalPowerDieselJtcpercentage }}</td>
                      <td *ngIf="xp_petrol_nozzle > 0 || powe_diesel_nozzle > 0">{{ totalPowerDieselTotalPurchase }}</td>
+                     <td>{{ totalTotalValue }}</td>
                   </tr>
                </table>
             </div>

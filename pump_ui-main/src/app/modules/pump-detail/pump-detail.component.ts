@@ -72,6 +72,7 @@ export class PumpDetailComponent implements OnInit {
   totalPowerDieselCess: number = 0;
   totalPowerDieselJtcpercentage: number = 0;
   totalPowerDieselTotalPurchase: number = 0;
+  totalTotalValue: number = 0;
   xp_petrol_nozzle: number;
   powe_diesel_nozzle: number;
   loclDetailsTotal: number = 0;
@@ -114,10 +115,14 @@ export class PumpDetailComponent implements OnInit {
           this.expenseHeaders = this.getUniqueExpenseHeaders(data);
 
           // add expenseMap for quick lookup
-          this.productList = data.map(item => ({
-            ...item,
-            expenseMap: this.buildExpenseMap(item.expensesList)
-          }));
+          this.productList = data.map(item => {
+            const totalVal = (item.petrolTotalTotalSell || 0) + (item.dieselTotalTotalSell || 0) + (item.xppetrolTotalSell || 0) + (item.powerdieselTotalSell || 0) + (item.oilTotalPrice || 0);
+            return {
+              ...item,
+              expenseMap: this.buildExpenseMap(item.expensesList),
+              totalValue: totalVal
+            };
+          });
 
           this.calculateTotals();
         },
@@ -357,6 +362,10 @@ export class PumpDetailComponent implements OnInit {
       (sum, item) => sum + item.locl_balance_Total,
       0
     );
+    this.totalTotalValue = this.productList.reduce(
+      (sum, item) => sum + (item.totalValue || 0),
+      0
+    );
   }
 
   exportToExcel(): void {
@@ -394,7 +403,6 @@ export class PumpDetailComponent implements OnInit {
       dieselTotalPurchase: this.totalDieselTotalPurchase,
       oilId: "",
       oilQuantity: this.totalOilQuantity,
-      oilDate: "",
       oilType: "",
       oilUserId: "",
       oilGstPercentage: this.totalOilGstPercentage,
@@ -416,7 +424,8 @@ export class PumpDetailComponent implements OnInit {
       amountTotal: this.totalAmountTotal,
       jamaTotal: this.totalJamaTotal,
       bakiTotal: this.totalBakiTotal,
-      locl_balance_Total: this.totalloclTotal
+      locl_balance_Total: this.totalloclTotal,
+      totalValue: this.totalTotalValue
     };
 
     this.expenseHeaders.forEach(header => {
@@ -437,11 +446,11 @@ export class PumpDetailComponent implements OnInit {
       "petrolTotalPurchase",
       "dieselQuantity", "dieselTotal", "dieselVat", "dieselCess",
       "dieselJtcpercentage", "dieselTotalPurchase",
-      "oilQuantity", "oilDate", "oilType", "oilGstPercentage",
+      "oilQuantity", "oilType", "oilGstPercentage",
       "oilHsn", "oilMrp", "oilNetAmount", "oilNetTotal", "oilQtyLtrOrKg", "oilRate",
       "oilSkuName", "oilSkuNumber", "oilTaxableValue", "oilUnit", "oilVendorName",
       "oilCessAmount", "oilCessPercentage", "oilDiscount", "oilGstAmount",
-      "amountTotal", "jamaTotal", "bakiTotal", "locl_balance_Total",
+      "amountTotal", "jamaTotal", "bakiTotal", "locl_balance_Total", "totalValue",
       ...this.expenseHeaders
     ];
 
@@ -470,7 +479,6 @@ export class PumpDetailComponent implements OnInit {
       dieselJtcpercentage: "Diesel Purchase JTC",
       dieselTotalPurchase: "Diesel Purchase Total Rs",
       oilQuantity: "Oil Quantity",
-      oilDate: "Oil Date",
       oilType: "Oil Type",
       oilGstPercentage: "Oil GST %",
       oilHsn: "Oil HSN",
@@ -491,7 +499,8 @@ export class PumpDetailComponent implements OnInit {
       amountTotal: "ATM Daily Rs",
       jamaTotal: "Customer Credit Bill",
       bakiTotal: "Customer Outstanding Bill",
-      locl_balance_Total: "Credit Total"
+      locl_balance_Total: "Credit Total",
+      totalValue: "Total Value"
     };
 
     this.expenseHeaders.forEach(h => headerDisplayMap[h] = h);

@@ -82,4 +82,5 @@ export interface AggregatedDataDTO {
   power_dieselgatt: number;
 
   locl_balance_Total: number;
+  totalValue?: number;
 }
