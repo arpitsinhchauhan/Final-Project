@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import * as Chartist from 'chartist';
 import { DailyTotal } from '../../models/DailyTotal';
 import { HttpClient, HttpParams } from '@angular/common/http';
@@ -53,11 +55,11 @@ export class DashboardComponent implements OnInit {
   jamabakilabel: string;
   diesel: number;
   diesellabel: string;
-  petrol: number;
-  petrollabel: string;
-  xppetrollabel: string;
-  powerDiesellabel: string;
-  oilPurchaseLabel: string;
+  petrol: number = 0;
+  petrollabel: string = '0';
+  xppetrollabel: string = '0';
+  powerDiesellabel: string = '0';
+  oilPurchaseLabel: string = '0';
   userId = localStorage.getItem('userId');
   filterType: string = 'today';
   selectedYear = new Date().getFullYear();
@@ -134,20 +136,66 @@ export class DashboardComponent implements OnInit {
 
 
   ngOnInit() {
+    this.userId = localStorage.getItem('userId');
     this.loaderService.display(false);
     this.getUserName();
-    this.getUserPump();
-    this.userId = localStorage.getItem('userId');
     this.getDailytotal();
     this.getCurrentmonthtotal();
     this.getCurrentyear();
     this.getPiechartValue();
-    this.getPetrolCurrentYearData();
-    this.getDieselCurrentYearData();
-    this.getXpPetrolCurrentYearData();
-    this.getPowerDieselCurrentYearData();
-    this.getOilPurchaseCurrentYearData();
-    this.getJamaBakiCurrentYearData();
+    this.updatePieChart(); // Initial render with 0s
+
+    // Consolidate pie chart data fetching with error handling for each call
+    const errorHandler = (name: string) => catchError(err => {
+      console.error(`Error fetching ${name}`, err);
+      return of(0);
+    });
+
+    forkJoin({
+      petrol: this.http.get<any>(`${API_PETROL_CURRENTYEAR_DATE}?userId=${this.userId}`).pipe(errorHandler('petrol')),
+      diesel: this.http.get<any>(`${API_DIESEL_CURRENTYEAR_DATE}?userId=${this.userId}`).pipe(errorHandler('diesel')),
+      xpPetrol: this.http.get<any>(`${API_XP_PETROL_CURRENTYEAR_DATE}?userId=${this.userId}`).pipe(errorHandler('xpPetrol')),
+      powerDiesel: this.http.get<any>(`${API_POWER_DIESEL_CURRENTYEAR_DATE}?userId=${this.userId}`).pipe(errorHandler('powerDiesel')),
+      oilPurchase: this.http.get<any>(`${API_OIL_PURCHASE_CURRENTYEAR_DATE}?userId=${this.userId}`).pipe(errorHandler('oilPurchase')),
+      jamaBaki: this.http.get<any>(`${API_JAMABAKI_CURRENTYEAR_DATE}?userId=${this.userId}`).pipe(errorHandler('jamaBaki')),
+      pumpData: this.use.getUserPump(this.userId).pipe(catchError(err => {
+        console.error('Error fetching pumpData', err);
+        return of({ success: false });
+      }))
+    }).subscribe({
+      next: (results: any) => {
+        console.log('Dashboard data fetched successfully:', results);
+        // Petrol
+        this.petrollabel = results.petrol || 0;
+        this.petrol = Math.round(((Number(results.petrol) || 0) / this.total) * 100);
+
+        // Diesel
+        this.diesellabel = results.diesel || 0;
+        this.diesel = Math.round(((Number(results.diesel) || 0) / this.total) * 100);
+
+        // XP/Power/Oil
+        this.xppetrollabel = results.xpPetrol || 0;
+        this.powerDiesellabel = results.powerDiesel || 0;
+        this.oilPurchaseLabel = results.oilPurchase || 0;
+
+        // Jama Baki
+        this.jamabakilabel = results.jamaBaki || 0;
+        this.jamabaki = Math.round(((Number(results.jamaBaki) || 0) / this.baki) * 100);
+
+        // Pump Data
+        if (results.pumpData && results.pumpData.success && results.pumpData.data) {
+          const data = results.pumpData.data;
+          this.showPetrolPumpsCount = data.petrol_nozzle;
+          this.showDieselPumpsCount = data.diesel_nozzle;
+          this.showXpPetrolCount = data.xp_petrol_nozzle;
+          this.showPowerDieselCount = data.powe_diesel_nozzle;
+        }
+
+        this.updatePieChart();
+      },
+      error: (err) => console.error('Critical error in Dashboard data fetching', err)
+    });
+
     const currentYear = new Date().getFullYear();
     for (let y = currentYear - 4; y <= currentYear + 1; y++) {
       this.yearList.push(y);
@@ -156,9 +204,7 @@ export class DashboardComponent implements OnInit {
   }
 
   onFilterChange() {
-    if (this.filterType !== 'fy') {
-      this.getPiechartValue();
-    }
+    this.getPiechartValue();
   }
 
   getUserName() {
@@ -394,82 +440,7 @@ export class DashboardComponent implements OnInit {
 
 
 
-  getPetrolCurrentYearData() {
-    this.http.get<any>(`${API_PETROL_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
-      const percentage = (data / this.total) * 100;
-      this.petrol = Math.round(percentage);
-      // this.petrollabel = `Petrol_ltr: ${data}`;
-      this.petrollabel = data;
-      this.updatePieChart();
-    });
-  }
-
-  getDieselCurrentYearData() {
-    this.http.get<any>(`${API_DIESEL_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
-      (data);
-      // this.diesel = data;
-      const percentage = (data / this.total) * 100;
-      this.diesel = Math.round(percentage);
-      // this.diesellabel = `Diesel_Ltr: ${data}`;
-      this.diesellabel = data;
-      this.updatePieChart();
-    });
-  }
-
-  getXpPetrolCurrentYearData() {
-    this.http.get<any>(`${API_XP_PETROL_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
-      this.xppetrollabel = data;
-      this.updatePieChart();
-    });
-  }
-
-
-  getPowerDieselCurrentYearData() {
-    this.http.get<any>(`${API_POWER_DIESEL_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
-      this.powerDiesellabel = data;
-      this.updatePieChart();
-    });
-  }
-
-  getOilPurchaseCurrentYearData() {
-    this.http.get<any>(`${API_OIL_PURCHASE_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
-      this.oilPurchaseLabel = data;
-      this.updatePieChart();
-    });
-  }
-
-  getJamaBakiCurrentYearData() {
-    this.http.get<any>(`${API_JAMABAKI_CURRENTYEAR_DATE}?userId=${this.userId}`).subscribe((data) => {
-      (data);
-      // this.jamabaki = data;
-      const percentage = (data / this.baki) * 100;
-      this.jamabaki = Math.round(percentage);
-      // this.jamabakilabel = `Total Baki: ${data}`;
-      this.jamabakilabel = data;
-      this.updatePieChart();
-    });
-  }
-
-  getUserPump() {
-    this.use.getUserPump(this.userId).subscribe(
-      response => {
-        if (response && response.success && response.data) {
-          const data = response.data;
-
-          this.showPetrolPumpsCount = data.petrol_nozzle;
-          this.showDieselPumpsCount = data.diesel_nozzle;
-          this.showXpPetrolCount = data.xp_petrol_nozzle;
-          this.showPowerDieselCount = data.powe_diesel_nozzle;
-          // If you want total count
-          const totalPumpCount = this.showPetrolPumpsCount + this.showDieselPumpsCount + this.showXpPetrolCount + this.showPowerDieselCount;
-          this.updatePieChart();
-        }
-      },
-      error => {
-        console.error("Error fetching pump data", error);
-      }
-    );
-  }
+  // Individual data fetchers removed as they are now handled by forkJoin in ngOnInit
 
   // updatePieChart() {
   //   this.chartOptions2 = {

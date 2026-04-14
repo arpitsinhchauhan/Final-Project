@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { forkJoin, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { UserServiceService } from 'app/services/user-service.service';
 import { OilReportComponent } from '../maps/oil-report/oil-report.component';
@@ -1263,73 +1265,65 @@ export class MainPanelComponent implements OnInit {
         total: p.ltr !== null ? String(p.ltr) : ''
       }));
 
-    this.use.savefuleData(petrolInputData, dieselInputData).subscribe({
-      next: res => {
-        if (res.message.includes('successfully')) {
-          this.notificationService.success("✅" + res.message);
-        } else if (res.message.includes('already')) {
-          this.notificationService.failure("⚠️" + res.message);
-        }
-      }
-    });
-    this.use.saveXpPowerData(XppetrolInputData, powerDieselInputData).subscribe({
-      next: res => {
-        if (res.message.includes('successfully')) {
-          this.notificationService.success("✅" + res.message);
-        } else if (res.message.includes('already')) {
-          this.notificationService.failure("⚠️" + res.message);
-        }
-      }
-    });
-
     const originalDate = new Date(this.reportDate);
     const nextDay = new Date(originalDate);
     nextDay.setDate(originalDate.getDate() + 1);
     const oneformattedDate = this.use.getFormattedDate(nextDay);
 
-    this.use.savePetrolStockData(this.userId, oneformattedDate, this.TotalPetrolRemaining).subscribe({
-      next: res => {
-        if (res.message.includes('successfully')) {
-          this.notificationService.success("✅" + res.message);
-        } else if (res.message.includes('already')) {
-          this.notificationService.failure("⚠️" + res.message);
-        }
+    const formatted = this.use.getFormattedDate(this.reportDate);
+    const payload = {
+      date: formatted,
+      note: this.note,
+      totalCaseCase: this.totalCaseCase,
+      denominations: [
+        { value: 'twothousand', total: this.twothousand, count: this.multipliers.twothousand || 0 },
+        { value: 'fivehundred', total: this.fivehundred, count: this.multipliers.fivehundred || 0 },
+        { value: 'twohundred', total: this.twohundred, count: this.multipliers.twohundred || 0 },
+        { value: 'onehundred', total: this.onehundred, count: this.multipliers.onehundred || 0 },
+        { value: 'fifty', total: this.fifty, count: this.multipliers.fifty || 0 },
+        { value: 'twenty', total: this.twenty, count: this.multipliers.twenty || 0 },
+        { value: 'ten', total: this.ten, count: this.multipliers.ten || 0 }
+      ],
+      userId: this.userId
+    };
+
+    const operations = [
+      this.use.savefuleData(petrolInputData, dieselInputData),
+      this.use.saveXpPowerData(XppetrolInputData, powerDieselInputData),
+      this.use.savePetrolStockData(this.userId, oneformattedDate, this.TotalPetrolRemaining),
+      this.use.saveDieselStockData(this.userId, oneformattedDate, this.TotalDieselRemaining),
+      this.use.saveXPPetrolStockData(this.userId, oneformattedDate, this.TotalXPPetrolRemaining),
+      this.use.savePowerDieselStockData(this.userId, oneformattedDate, this.TotalPowerDieselRemaining),
+      this.use.saveTotalCase(this.userId, formattedDate, this.totalCase),
+      this.use.saveMoneyDetails(payload)
+    ];
+
+    forkJoin(operations.map(op =>
+      op.pipe(
+        catchError(err => {
+          this.notificationService.failure("❌ Error: " + (err.message || "Failed to save data"));
+          return of({ error: true, message: err.message });
+        })
+      )
+    )).subscribe(results => {
+      const issues = results.filter(res => {
+        if (!res) return false;
+        if (res.error) return true;
+        if (res.message && res.message.includes('already')) return true;
+        return false;
+      });
+
+      if (issues.length === 0) {
+        this.notificationService.success("✅ All details added successfully");
+      } else {
+        // Errors are already shown by catchError or we can show them here for 'already' cases
+        issues.forEach(res => {
+          if (res.message && res.message.includes('already')) {
+            this.notificationService.failure("⚠️ " + res.message);
+          }
+        });
       }
     });
-
-    this.use.saveDieselStockData(this.userId, oneformattedDate, this.TotalDieselRemaining).subscribe({
-      next: res => {
-        if (res.message.includes('successfully')) {
-          this.notificationService.success("✅" + res.message);
-        } else if (res.message.includes('already')) {
-          this.notificationService.failure("⚠️" + res.message);
-        }
-      }
-    });
-
-    this.use.saveXPPetrolStockData(this.userId, oneformattedDate, this.TotalXPPetrolRemaining).subscribe({
-      next: res => {
-        if (res.message.includes('successfully')) {
-          this.notificationService.success("✅" + res.message);
-        } else if (res.message.includes('already')) {
-          this.notificationService.failure("⚠️" + res.message);
-        }
-      }
-    });
-
-    this.use.savePowerDieselStockData(this.userId, oneformattedDate, this.TotalPowerDieselRemaining).subscribe({
-      next: res => {
-        if (res.message.includes('successfully')) {
-          this.notificationService.success("✅" + res.message);
-        } else if (res.message.includes('already')) {
-          this.notificationService.failure("⚠️" + res.message);
-        }
-      }
-    });
-
-
-    this.saveTotalCase();
-    this.sendData();
   }
   printReport() {
     const originalTitle = document.title;
@@ -1341,15 +1335,7 @@ export class MainPanelComponent implements OnInit {
 
   saveTotalCase() {
     const formattedDate = this.use.getFormattedDate(this.reportDate);
-    this.use.saveTotalCase(this.userId, formattedDate, this.totalCase).subscribe({
-      next: res => {
-        if (res.message.includes('successfully')) {
-          this.notificationService.success("✅   " + res.message);
-        } else if (res.message.includes('already')) {
-          this.notificationService.failure("⚠️" + res.message);
-        }
-      }
-    });
+    return this.use.saveTotalCase(this.userId, formattedDate, this.totalCase);
   }
 
 
@@ -1391,15 +1377,7 @@ export class MainPanelComponent implements OnInit {
       userId: this.userId
     };
     console.log("Sending Payload: ", payload);
-    this.use.saveMoneyDetails(payload).subscribe({
-      next: res => {
-        if (res.message.includes('successfully')) {
-          this.notificationService.success("✅" + res.message);
-        } else if (res.message.includes('already')) {
-          this.notificationService.failure("⚠️" + res.message);
-        }
-      }
-    });
+    return this.use.saveMoneyDetails(payload);
   }
   downloadPDF() {
     const frontContent = document.getElementById('printable-content') as HTMLElement;
