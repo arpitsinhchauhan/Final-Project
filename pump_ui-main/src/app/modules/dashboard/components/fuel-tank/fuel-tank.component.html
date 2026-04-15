@@ -1,0 +1,34 @@
+<div class="tank-container shadow-sm p-3">
+    <div class="tank-label mb-2 d-flex justify-content-between align-items-center">
+        <span class="label-text">{{ label }}</span>
+        <span class="status-badge" [style.background-color]="liquidColor">
+            {{ percentage | number:'1.0-0' }}%
+        </span>
+    </div>
+
+    <div class="tank-outer" [style.border-color]="borderColor">
+        <!-- Neck of the tank -->
+        <div class="tank-neck" [style.background-color]="borderColor"></div>
+
+        <!-- Main body -->
+        <div class="tank-body">
+            <!-- Liquid -->
+            <div class="liquid" [style.width.%]="percentage" [style.background-color]="liquidColor"
+                [class.low-stock]="percentage < 20">
+            </div>
+
+            <!-- Reflections/Glass effect -->
+            <div class="tank-reflection"></div>
+
+            <!-- Value overlay -->
+            <div class="tank-values">
+                <div class="current">{{ currentStock | number }}</div>
+                <div class="divider"></div>
+                <div class="capacity">{{ capacity | number }} L</div>
+            </div>
+        </div>
+
+        <!-- Side gauge -->
+        <div class="side-gauge" [style.border-color]="borderColor"></div>
+    </div>
+</div>
