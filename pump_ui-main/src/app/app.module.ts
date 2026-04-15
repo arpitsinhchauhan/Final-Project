@@ -99,6 +99,8 @@ import { LoclDetailsComponent } from './user-profile/locl-details/locl-details.c
 import { OilPurchaseTableComponent } from './modules/oil-purchase-table/oil-purchase-table.component';
 import { OilpurchaseComponent } from './modules/oil-purchase-table/oilpurchase/oilpurchase.component';
 import { OilPuchasePdfExcelComponent } from './modules/oil-purchase-table/oil-puchase-pdf-excel/oil-puchase-pdf-excel.component';
+import { FuelTankComponent } from './modules/dashboard/components/fuel-tank/fuel-tank.component';
+import { NozzleCardComponent } from './modules/dashboard/components/nozzle-card/nozzle-card.component';
 
 
 @NgModule({
@@ -214,7 +216,9 @@ import { OilPuchasePdfExcelComponent } from './modules/oil-purchase-table/oil-pu
     LoclDetailsComponent,
     OilpurchaseComponent,
     OilPurchaseTableComponent,
-    OilPuchasePdfExcelComponent
+    OilPuchasePdfExcelComponent,
+    FuelTankComponent,
+    NozzleCardComponent
     // KharchComponent,
     // JamaBakiComponent,
     // CustomPdfViewerComponent,

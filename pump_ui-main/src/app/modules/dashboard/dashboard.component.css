@@ -123,3 +123,7 @@ mat-select {
 ::ng-deep .mat-button-toggle:hover {
   color: #fff;
 }
+
+.financial-year-select {
+  width: 150px;
+}

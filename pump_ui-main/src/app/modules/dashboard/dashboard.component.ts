@@ -7,7 +7,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import * as d3 from 'd3';
-import { API_CURRENTMOUNTH_TOTAL, API_CURRENTYEAR_TOTAL, API_DAILY_CHART, API_DAILY_TOTAL, API_DIESEL_CURRENTYEAR_DATE, API_JAMABAKI_CURRENTYEAR_DATE, API_OIL_PURCHASE_CURRENTYEAR_DATE, API_PETROL_CURRENTYEAR_DATE, API_POWER_DIESEL_CURRENTYEAR_DATE, API_XP_PETROL_CURRENTYEAR_DATE } from 'app/serviceult';
+import { API_CURRENTMOUNTH_TOTAL, API_CURRENTYEAR_TOTAL, API_DAILY_CHART, API_DAILY_TOTAL, API_DIESEL, API_DIESEL_CURRENTYEAR_DATE, API_JAMABAKI_CURRENTYEAR_DATE, API_OIL_PURCHASE_CURRENTYEAR_DATE, API_PETROL_CURRENTYEAR_DATE, API_POWER_DIESEL, API_POWER_DIESEL_CURRENTYEAR_DATE, API_Petrol, API_XP_PETROL_CURRENTYEAR_DATE, API_XP_Petrol } from 'app/serviceult';
 import { ChartType, ChartConfiguration } from 'chart.js';
 import { LoaderService } from 'app/services/loader.service';
 import { NotificationService } from 'app/services/notification.service';
@@ -66,6 +66,57 @@ export class DashboardComponent implements OnInit {
   yearList: number[] = [];
   xp_petrol_nozzle: number;
   powe_diesel_nozzle: number;
+
+  petrolCurrentStock: number = 0;
+  dieselCurrentStock: number = 0;
+  xpPetrolCurrentStock: number = 0;
+  powerDieselCurrentStock: number = 0;
+
+  petrolCapacity: number = 20000;
+  dieselCapacity: number = 20000;
+  xpPetrolCapacity: number = 10000;
+  powerDieselCapacity: number = 10000;
+
+  nozzleSalesData: any[] = [];
+  nozzleFilterType: string = 'today';
+  nozzleSelectedYear: number = new Date().getFullYear();
+
+  financialFilterType: string = 'today';
+  financialSelectedYear = new Date().getFullYear();
+  public financialChartData: ChartConfiguration['data'] = {
+    labels: ['Income', 'Expense', 'Profit'],
+    datasets: [
+      {
+        data: [0, 0, 0],
+        backgroundColor: ['#28a745', '#dc3545', '#007bff'],
+        hoverBackgroundColor: ['#218838', '#c82333', '#0069d9'],
+        borderRadius: 8,
+        barThickness: 40
+      }
+    ]
+  };
+
+  public financialChartOptions: ChartConfiguration['options'] = {
+    responsive: true,
+    scales: {
+      y: {
+        beginAtZero: true,
+        ticks: {
+          callback: function (value) {
+            return '₹' + value.toLocaleString();
+          }
+        }
+      }
+    },
+    plugins: {
+      legend: { display: false },
+      tooltip: {
+        callbacks: {
+          label: (context) => '₹' + context.raw.toLocaleString()
+        }
+      }
+    }
+  };
 
   chartOptions2: any;
 
@@ -143,6 +194,7 @@ export class DashboardComponent implements OnInit {
     this.getCurrentmonthtotal();
     this.getCurrentyear();
     this.getPiechartValue();
+    this.getFinancialData();
     this.updatePieChart(); // Initial render with 0s
 
     // Consolidate pie chart data fetching with error handling for each call
@@ -161,10 +213,28 @@ export class DashboardComponent implements OnInit {
       pumpData: this.use.getUserPump(this.userId).pipe(catchError(err => {
         console.error('Error fetching pumpData', err);
         return of({ success: false });
-      }))
+      })),
+      petrolStock: this.use.getPetrolStock(this.use.getFormattedDate(new Date()), this.userId).pipe(errorHandler('petrolStock')),
+      dieselStock: this.use.getDieselStock(this.use.getFormattedDate(new Date()), this.userId).pipe(errorHandler('dieselStock')),
+      xpPetrolStock: this.use.getXpPetrolStock(this.use.getFormattedDate(new Date()), this.userId).pipe(errorHandler('xpPetrolStock')),
+      powerDieselStock: this.use.getPowerDieselStock(this.use.getFormattedDate(new Date()), this.userId).pipe(errorHandler('powerDieselStock')),
+      // Nozzle sales lists
+      petrolSales: this.use.getPetrolList(this.use.getFormattedDate(new Date()), this.userId).pipe(errorHandler('petrolSales')),
+      dieselSales: this.use.getDieselList(this.use.getFormattedDate(new Date()), this.userId).pipe(errorHandler('dieselSales')),
+      xpPetrolSales: this.use.getXPPetrolList(this.use.getFormattedDate(new Date()), this.userId).pipe(errorHandler('xpPetrolSales')),
+      powerDieselSales: this.use.getpowerDiesel(this.use.getFormattedDate(new Date()), this.userId).pipe(errorHandler('powerDieselSales'))
     }).subscribe({
       next: (results: any) => {
         console.log('Dashboard data fetched successfully:', results);
+
+        this.processNozzleData(results);
+
+        // Stock Levels
+        this.petrolCurrentStock = results.petrolStock?.petrolRemaining || 0;
+        this.dieselCurrentStock = results.dieselStock?.dieselRemaining || 0;
+        this.xpPetrolCurrentStock = results.xpPetrolStock?.xppetrolRemaining || 0;
+        this.powerDieselCurrentStock = results.powerDieselStock?.powerdieselRemaining || 0;
+
         // Petrol
         this.petrollabel = results.petrol || 0;
         this.petrol = Math.round(((Number(results.petrol) || 0) / this.total) * 100);
@@ -200,7 +270,104 @@ export class DashboardComponent implements OnInit {
     for (let y = currentYear - 4; y <= currentYear + 1; y++) {
       this.yearList.push(y);
     }
+  }
 
+  onNozzleFilterChange() {
+    this.getNozzleData();
+  }
+
+  getNozzleData() {
+    let startDate: string;
+    let endDate: string;
+    const now = new Date();
+
+    if (this.nozzleFilterType === 'today') {
+      startDate = endDate = this.use.getFormattedDate(now);
+    } else if (this.nozzleFilterType === 'month') {
+      const firstDay = new Date(now.getFullYear(), now.getMonth(), 1);
+      startDate = this.use.getFormattedDate(firstDay);
+      endDate = this.use.getFormattedDate(now);
+    } else if (this.nozzleFilterType === 'year') {
+      const firstDay = new Date(now.getFullYear(), 0, 1);
+      startDate = this.use.getFormattedDate(firstDay);
+      endDate = this.use.getFormattedDate(now);
+    } else if (this.nozzleFilterType === 'fy') {
+      startDate = `${this.nozzleSelectedYear}-04-01`;
+      endDate = `${this.nozzleSelectedYear + 1}-03-31`;
+    }
+
+    const getRangeList = (url: string) => {
+      let params = new HttpParams().set('userId', this.userId);
+      if (this.nozzleFilterType === 'today') {
+        params = params.set('date', startDate);
+      } else {
+        params = params.set('startDate', startDate).set('endDate', endDate);
+      }
+      return this.http.get<any[]>(url, { params }).pipe(catchError(() => of([])));
+    };
+
+    forkJoin({
+      petrolSales: getRangeList(API_Petrol),
+      dieselSales: getRangeList(API_DIESEL),
+      xpPetrolSales: getRangeList(API_XP_Petrol),
+      powerDieselSales: getRangeList(API_POWER_DIESEL),
+      pumpData: this.use.getUserPump(this.userId).pipe(catchError(() => of({})))
+    }).subscribe((results: any) => {
+      this.processNozzleData(results);
+    });
+  }
+
+  processNozzleData(results: any) {
+    const nozzleSalesMap = new Map<string, any>();
+
+    const addSkeleton = (count: number, fuelType: string, prefix: string) => {
+      for (let i = 1; i <= (count || 0); i++) {
+        const name = `${prefix} ${i}`;
+        // Use a standardized key for the map: "pump-name|fuel-type"
+        const key = `${name.toLowerCase().trim()}|${fuelType.toLowerCase()}`;
+        nozzleSalesMap.set(key, {
+          nozzleName: name,
+          fuelType: fuelType,
+          liters: 0,
+          amount: 0
+        });
+      }
+    };
+
+    const pumpInfo = results.pumpData?.data || {};
+    addSkeleton(Number(pumpInfo.petrol_nozzle), 'Petrol', 'Petrol Pump');
+    addSkeleton(Number(pumpInfo.diesel_nozzle), 'Diesel', 'Diesel Pump');
+    addSkeleton(Number(pumpInfo.xp_petrol_nozzle), 'XP Petrol', 'xpPetrol Pump');
+    addSkeleton(Number(pumpInfo.powe_diesel_nozzle), 'Power Diesel', 'powerDiesel Pump');
+
+    const merge = (list: any[], fuelType: string, ltrField: string) => {
+      if (!list || !Array.isArray(list)) return;
+      list.forEach(item => {
+        const rawName = item.pump || 'Unknown';
+        const name = rawName.trim();
+        const key = `${name.toLowerCase()}|${fuelType.toLowerCase()}`;
+
+        if (!nozzleSalesMap.has(key)) {
+          nozzleSalesMap.set(key, {
+            nozzleName: name,
+            fuelType: fuelType,
+            liters: 0,
+            amount: 0
+          });
+        }
+
+        const data = nozzleSalesMap.get(key);
+        data.liters += Number(item[ltrField]) || 0;
+        data.amount += Number(item.total_sell) || 0;
+      });
+    };
+
+    merge(results.petrolSales, 'Petrol', 'petrol_ltr');
+    merge(results.dieselSales, 'Diesel', 'diesel_ltr');
+    merge(results.xpPetrolSales, 'XP Petrol', 'xppetrol_ltr');
+    merge(results.powerDieselSales, 'Power Diesel', 'powerdiesel_ltr');
+
+    this.nozzleSalesData = Array.from(nozzleSalesMap.values());
   }
 
   onFilterChange() {
@@ -434,6 +601,44 @@ export class DashboardComponent implements OnInit {
         }]
       };
 
+    });
+  }
+
+  getFinancialData() {
+    let params = new HttpParams()
+      .set('userId', this.userId)
+      .set('filter', this.financialFilterType);
+
+    if (this.financialFilterType === 'fy') {
+      params = params.set('year', this.financialSelectedYear.toString());
+    }
+
+    this.http.get<any>(`${API_DAILY_CHART}`, { params }).subscribe((data) => {
+      const income = (Number(data.petrolSellTotal) || 0) +
+        (Number(data.xpPetrolSellTotal) || 0) +
+        (Number(data.powerDieselSellTotal) || 0) +
+        (Number(data.dieselSellTotal) || 0) +
+        (Number(data.oilSellTotal) || 0);
+
+      const expense = (Number(data.kharchTotal) || 0) +
+        (Number(data.totalPetrolPurchase) || 0) +
+        (Number(data.totalDieselPurchase) || 0) +
+        (Number(data.xpTotalPetrolPurchase) || 0) +
+        (Number(data.powerTotalDieselPurchase) || 0) +
+        (Number(data.totalOilPurchase) || 0);
+
+      const profit = income - expense;
+
+      this.financialChartData = {
+        labels: ['Income', 'Expense', 'Profit'],
+        datasets: [{
+          data: [income, expense, profit],
+          backgroundColor: ['#28a745', '#dc3545', '#007bff'],
+          hoverBackgroundColor: ['#218838', '#c82333', '#0069d9'],
+          borderRadius: 8,
+          barThickness: 40
+        }]
+      };
     });
   }
 
