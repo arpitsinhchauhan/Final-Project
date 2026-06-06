@@ -221,7 +221,10 @@ public class PurchaseController {
         }
 
         UserDetails userdetails = userDetailsService.loadUserByUsername(authenticationRequest.getUsername());
-        String role = userdetails.getAuthorities().stream().findFirst().get().getAuthority();
+        String role = userdetails.getAuthorities().stream()
+                .findFirst()
+                .map(grantedAuthority -> grantedAuthority.getAuthority())
+                .orElse("ROLE_USER");
         DAOUser user = userRepository.findByUsername(authenticationRequest.getUsername());
         Long userId = user.getId();
         String token = jwtUtil.generateToken(userdetails);
@@ -326,6 +329,7 @@ public class PurchaseController {
                     expense.getDate(), expense.getType(), expense.getUserId());
             if (existingEntry.isPresent()) {
                 Purchase existingExpense = existingEntry.get();
+                // ... rest of the logic
                 existingExpense.setQuantity(expense.getQuantity());
                 existingExpense.setTotal(expense.getTotal());
                 existingExpense.setVat(expense.getVat());
@@ -376,6 +380,7 @@ public class PurchaseController {
                     expense.getDate(), expense.getType(), expense.getUserId());
             if (existingEntry.isPresent()) {
                 Oilpurchase existingExpense = existingEntry.get();
+                // ...
                 existingExpense.setQuantity(expense.getQuantity());
                 existingExpense.setVendorName(expense.getVendorName());
                 existingExpense.setSkuName(expense.getSkuName());
@@ -439,6 +444,7 @@ public class PurchaseController {
 
             if (existingEntry.isPresent()) {
                 extraPurchases existingExpense = existingEntry.get();
+                // ...
 
                 // Perform arithmetic addition instead of string concatenation
                 existingExpense.setExtra_quantity(expense.getExtra_quantity());
@@ -2145,7 +2151,7 @@ public class PurchaseController {
                 + "SUM(total) AS total_sum, "
                 + "SUM(testing) AS total_testing, "
                 + "SUM(petrol_ltr) AS petrol_ltr, "
-                + "rate, "
+                + "MAX(rate) AS rate, "
                 + "SUM(total_sell) AS total_total_sell "
                 + "FROM "
                 + "petrolsell "
@@ -2162,7 +2168,7 @@ public class PurchaseController {
                 + "SUM(total) AS total_sum, "
                 + "SUM(testing) AS total_testing, "
                 + "SUM(diesel_ltr) AS diesel_ltr, "
-                + "rate, "
+                + "MAX(rate) AS rate, "
                 + "SUM(total_sell) AS total_total_sell "
                 + "FROM "
                 + "dieselsell "
@@ -2178,7 +2184,7 @@ public class PurchaseController {
                 + "date, "
                 + "SUM(price) AS total_price "
                 + "FROM "
-                + "OilSell "
+                + "oilsell "
                 + "WHERE "
                 + "date BETWEEN  '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' " // Filter by userId
@@ -2303,7 +2309,7 @@ public class PurchaseController {
                 + "SUM(testing) AS total_testing, "
                 + "SUM(total) AS total_sum, "
                 + "SUM(total_sell) AS total_sell, "
-                + "rate "
+                + "MAX(rate) AS rate "
                 + "FROM xppetrol "
                 + "WHERE date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' "
@@ -2316,7 +2322,7 @@ public class PurchaseController {
                 + "SUM(testing) AS total_testing, "
                 + "SUM(total) AS total_sum, "
                 + "SUM(total_sell) AS total_sell, "
-                + "rate "
+                + "MAX(rate) AS rate "
                 + "FROM powerdiesel "
                 + "WHERE date BETWEEN '" + startDate + "' AND '" + endDate + "' "
                 + "AND user_id = '" + userId + "' "

@@ -29,7 +29,7 @@ public interface DieselSellRepository extends JpaRepository<Dieselsell, Integer>
         // @Param("endDate") String endDate);
         @Query(value = "SELECT d.date, SUM(d.close_meter) AS total_close_meter, SUM(d.open_meter) AS total_open_meter, "
                         + "SUM(d.total) AS total_sum, SUM(d.testing) AS total_testing, SUM(d.diesel_ltr) AS diesel_ltr, "
-                        + "d.rate, SUM(d.total_sell) AS total_total_sell "
+                        + "MAX(d.rate), SUM(d.total_sell) AS total_total_sell "
                         + "FROM dieselsell d "
                         + "WHERE d.date BETWEEN :startDate AND :endDate "
                         + "GROUP BY d.date ", nativeQuery = true)

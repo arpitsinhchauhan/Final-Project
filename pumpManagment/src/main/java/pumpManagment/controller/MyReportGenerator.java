@@ -43,533 +43,490 @@ import org.springframework.http.MediaType;
 @Service
 public class MyReportGenerator implements ProfitLossService {
 
-    @Autowired
-    private DailyskockRepository dailyskockRepository;
+        @Autowired
+        private DailyskockRepository dailyskockRepository;
 
-    @Autowired
-    private DailydieselstockRepository dailydieselstockRepository;
+        @Autowired
+        private DailydieselstockRepository dailydieselstockRepository;
 
-    @Autowired
-    private XpdailystockRepository xpdailystockRepository;
+        @Autowired
+        private XpdailystockRepository xpdailystockRepository;
 
-    @Autowired
-    private PowerdieseldailystockRepository powerdieseldailystockRepository;
+        @Autowired
+        private PowerdieseldailystockRepository powerdieseldailystockRepository;
 
-    @Autowired
-    private PetrolSellRepository petrolSellRepository;
+        @Autowired
+        private PetrolSellRepository petrolSellRepository;
 
-    @Autowired
-    private DieselSellRepository dieselSellRepository;
+        @Autowired
+        private DieselSellRepository dieselSellRepository;
 
-    @Autowired
-    private XpPetorlRepository xpPetorlRepository;
+        @Autowired
+        private XpPetorlRepository xpPetorlRepository;
 
-    @Autowired
-    private powerDieselRepository powerDieselRepository;
+        @Autowired
+        private powerDieselRepository powerDieselRepository;
 
-    @Autowired
-    private kharchrepository kharchrepository;
+        @Autowired
+        private kharchrepository kharchrepository;
 
-    @Autowired
-    private PurchaseRepository purchaseRepository;
+        @Autowired
+        private PurchaseRepository purchaseRepository;
 
-    @Autowired
-    private extraPurchaseRepository extraPurchaseRepository;
+        @Autowired
+        private extraPurchaseRepository extraPurchaseRepository;
 
+        @Autowired
+        private loclcreditRepository loclcreditRepository;
 
-    @Autowired
-    private loclcreditRepository loclcreditRepository;
+        @Autowired
+        private OilPurchaseRepository oilPurchaseRepository;
 
-    @Autowired
-    private OilPurchaseRepository oilPurchaseRepository;
+        @Autowired
+        private OilSellRepository oilSellRepository;
 
-    @Autowired
-    private OilSellRepository oilSellRepository;
+        public ResponseEntity<byte[]> generatePdf(String userId, String startDate, String endDate)
+                        throws ParseException {
+                try {
+                        double totalPetrolOpenAmount = 0;
+                        double totalDieselOpenAmount = 0;
+                        double totalPetrolAmount = 0;
+                        double totalDieselAmount = 0;
 
+                        DecimalFormat df = new DecimalFormat("#,###");
 
-    public ResponseEntity<byte[]> generatePdf(String userId, String startDate, String endDate) throws ParseException {
-        try {
-            double totalPetrolOpenAmount = 0;
-            double totalDieselOpenAmount = 0;
-            double totalPetrolAmount = 0;
-            double totalDieselAmount = 0;
+                        // ---------- NULL SAFE FETCH ----------
+                        double petrolStock = Optional.ofNullable(
+                                        dailyskockRepository.getTotalOpenstockBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            DecimalFormat df = new DecimalFormat("#,###");
+                        double dieselStock = Optional.ofNullable(
+                                        dailydieselstockRepository.getTotalDieselOpenstockBetweenDates(startDate,
+                                                        endDate, userId))
+                                        .orElse(0.0);
 
-            // ---------- NULL SAFE FETCH ----------
-            double petrolStock = Optional.ofNullable(
-                    dailyskockRepository.getTotalOpenstockBetweenDates(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double petrolPurchase = Optional.ofNullable(
+                                        purchaseRepository.findPetrolTotalPurchase(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            double dieselStock = Optional.ofNullable(
-                    dailydieselstockRepository.getTotalDieselOpenstockBetweenDates(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double dieselPurchase = Optional.ofNullable(
+                                        purchaseRepository.findDieselTotalPurchase(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            double petrolPurchase = Optional.ofNullable(
-                    purchaseRepository.findPetrolTotalPurchase(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double petrolSale = Optional.ofNullable(
+                                        petrolSellRepository.getTotalPetrolSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            double dieselPurchase = Optional.ofNullable(
-                    purchaseRepository.findDieselTotalPurchase(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double dieselSale = Optional.ofNullable(
+                                        dieselSellRepository.getTotalDieselSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            double petrolSale = Optional.ofNullable(
-                    petrolSellRepository.getTotalPetrolSellBetweenDates(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double petrolFirstRate = petrolSellRepository
+                                        .findfirstRateByDateRangeAndUser(startDate, endDate, userId)
+                                        .orElse(0.0);
 
-            double dieselSale = Optional.ofNullable(
-                    dieselSellRepository.getTotalDieselSellBetweenDates(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double dieselFirstRate = dieselSellRepository
+                                        .findfirstRateByDateRangeAndUser(startDate, endDate, userId)
+                                        .orElse(0.0);
 
-            double petrolFirstRate = petrolSellRepository
-                    .findfirstRateByDateRangeAndUser(startDate, endDate, userId)
-                    .orElse(0.0);
+                        double petrolLastRate = petrolSellRepository
+                                        .findLastRateByDateRangeAndUser(startDate, endDate, userId)
+                                        .orElse(0.0);
 
-            double dieselFirstRate = dieselSellRepository
-                    .findfirstRateByDateRangeAndUser(startDate, endDate, userId)
-                    .orElse(0.0);
+                        double dieselLastRate = dieselSellRepository
+                                        .findLastRateByDateRangeAndUser(startDate, endDate, userId)
+                                        .orElse(0.0);
 
-            double petrolLastRate = petrolSellRepository
-                    .findLastRateByDateRangeAndUser(startDate, endDate, userId)
-                    .orElse(0.0);
+                        double petrolOneDayAgoStock = Optional.ofNullable(
+                                        dailyskockRepository.findLatestOpenstockInRange(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            double dieselLastRate = dieselSellRepository
-                    .findLastRateByDateRangeAndUser(startDate, endDate, userId)
-                    .orElse(0.0);
+                        double dieselOneDayAgoStock = Optional.ofNullable(
+                                        dailydieselstockRepository.findLatestDieselOpenstockInRange(startDate, endDate,
+                                                        userId))
+                                        .orElse(0.0);
 
-            double petrolOneDayAgoStock = Optional.ofNullable(
-                    dailyskockRepository.findLatestOpenstockInRange(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double oilPurchase = Optional.ofNullable(
+                                        oilPurchaseRepository.findOilTotalPurchase(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            double dieselOneDayAgoStock = Optional.ofNullable(
-                    dailydieselstockRepository.findLatestDieselOpenstockInRange(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double oilSell = Optional.ofNullable(
+                                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
 
+                        double openOilSell = Optional.ofNullable(
+                                        oilPurchaseRepository.findfirstDateAndPrice(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            double oilPurchase = Optional.ofNullable(
-                    oilPurchaseRepository.findOilTotalPurchase(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double closeOilSell = Optional.ofNullable(
+                                        oilPurchaseRepository.findLastDateAndPrice(startDate, endDate, userId))
+                                        .orElse(0.0);
 
-            double oilSell = Optional.ofNullable(
-                    oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId)
-            ).orElse(0.0);
+                        // ---------- CALCULATIONS ----------
+                        totalPetrolAmount = petrolOneDayAgoStock * petrolLastRate;
+                        totalDieselAmount = dieselOneDayAgoStock * dieselLastRate;
 
-            double openOilSell = Optional.ofNullable(
-                    oilPurchaseRepository.findfirstDateAndPrice(startDate, endDate, userId)
-            ).orElse(0.0);
+                        totalPetrolOpenAmount = petrolStock * petrolFirstRate;
+                        totalDieselOpenAmount = dieselStock * dieselFirstRate;
 
-            double closeOilSell = Optional.ofNullable(
-                    oilPurchaseRepository.findLastDateAndPrice(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double creditBalance = Optional.ofNullable(
+                                        loclcreditRepository.sumBalanceNative(startDate, endDate, userId)).orElse(0.0);
 
-            // ---------- CALCULATIONS ----------
-            totalPetrolAmount = petrolOneDayAgoStock * petrolLastRate;
-            totalDieselAmount = dieselOneDayAgoStock * dieselLastRate;
+                        double totalStockAndPurchase = totalPetrolOpenAmount + petrolPurchase + dieselPurchase
+                                        + totalDieselOpenAmount;
 
-            totalPetrolOpenAmount = petrolStock * petrolFirstRate;
-            totalDieselOpenAmount = dieselStock * dieselFirstRate;
+                        double totalCloseAndSale = petrolSale + totalPetrolAmount + dieselSale + totalDieselAmount;
 
-            double creditBalance = Optional.ofNullable(
-                    loclcreditRepository.sumBalanceNative(startDate, endDate, userId)
-            ).orElse(0.0);
+                        double grossProfit = totalCloseAndSale - totalStockAndPurchase;
 
-            double totalStockAndPurchase =
-                    totalPetrolOpenAmount + petrolPurchase + dieselPurchase + totalDieselOpenAmount;
+                        // ---------- EXPENSE ----------
+                        List<Object[]> kharchList = kharchrepository.getExpenseDetails(startDate, endDate, userId);
+                        double totalPrice = 0.0;
 
-            double totalCloseAndSale =
-                    petrolSale + totalPetrolAmount + dieselSale + totalDieselAmount;
+                        for (Object[] row : kharchList) {
+                                Number price = (Number) row[1];
+                                if (price != null) {
+                                        totalPrice += price.doubleValue();
+                                }
+                        }
+                        double totalRs = grossProfit - totalPrice + creditBalance;
 
-            double grossProfit = totalCloseAndSale - totalStockAndPurchase;
+                        // ---------- THYMELEAF ----------
+                        Context ctx = new Context();
+                        ctx.setVariable("startDate", toIndianDate(startDate));
+                        ctx.setVariable("endDate", toIndianDate(endDate));
+                        ctx.setVariable("petrolStock", df.format(totalPetrolOpenAmount));
+                        ctx.setVariable("dieselstock", df.format(totalDieselOpenAmount));
+                        ctx.setVariable("petrolPurchase", df.format(petrolPurchase));
+                        ctx.setVariable("dieselPurchase", df.format(dieselPurchase));
+                        ctx.setVariable("totalStockAndPurchase", df.format(totalStockAndPurchase));
 
-            // ---------- EXPENSE ----------
-            List<Object[]> kharchList = kharchrepository.getExpenseDetails(startDate, endDate, userId);
-            double totalPrice = 0.0;
+                        ctx.setVariable("petrolSale", df.format(petrolSale));
+                        ctx.setVariable("dieselSale", df.format(dieselSale));
+                        ctx.setVariable("closePetrolMeter", df.format(totalPetrolAmount));
+                        ctx.setVariable("closedieselMeter", df.format(totalDieselAmount));
+                        ctx.setVariable("totalCloseAndSale", df.format(totalCloseAndSale));
 
-            for (Object[] row : kharchList) {
-                Number price = (Number) row[1];
-                if (price != null) {
-                    totalPrice += price.doubleValue();
+                        ctx.setVariable("grossProfit", df.format(grossProfit));
+                        ctx.setVariable("kharchList", kharchList);
+                        ctx.setVariable("totalRs", df.format(totalRs));
+
+                        ctx.setVariable("creditBalance", df.format(creditBalance));
+                        ctx.setVariable("oilPurchase", df.format(oilPurchase));
+                        ctx.setVariable("oilSell", df.format(oilSell));
+                        ctx.setVariable("openOilSell", df.format(openOilSell));
+                        ctx.setVariable("closeOilSell", df.format(closeOilSell));
+
+                        // ---------- PDF ----------
+                        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+                        resolver.setPrefix("templates/");
+                        resolver.setSuffix(".html");
+                        resolver.setTemplateMode(TemplateMode.HTML);
+                        resolver.setCharacterEncoding("UTF-8");
+
+                        TemplateEngine templateEngine = new TemplateEngine();
+                        templateEngine.setTemplateResolver(resolver);
+                        String html = templateEngine.process("ItReturn", ctx);
+
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        ITextRenderer renderer = new ITextRenderer();
+                        renderer.setDocumentFromString(html);
+                        renderer.layout();
+                        renderer.createPDF(outputStream);
+
+                        byte[] pdfBytes = outputStream.toByteArray();
+
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(MediaType.APPLICATION_PDF);
+                        headers.add("Content-Disposition", "attachment; filename=Profit&Loss.pdf");
+
+                        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+
+                } catch (Exception ex) {
+                        Logger.getLogger(MyReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
                 }
-            }
-            double totalRs = grossProfit - totalPrice +creditBalance;
-
-            // ---------- THYMELEAF ----------
-            Context ctx = new Context();
-            ctx.setVariable("startDate", toIndianDate(startDate));
-            ctx.setVariable("endDate", toIndianDate(endDate));
-            ctx.setVariable("petrolStock", df.format(totalPetrolOpenAmount));
-            ctx.setVariable("dieselstock", df.format(totalDieselOpenAmount));
-            ctx.setVariable("petrolPurchase", df.format(petrolPurchase));
-            ctx.setVariable("dieselPurchase", df.format(dieselPurchase));
-            ctx.setVariable("totalStockAndPurchase", df.format(totalStockAndPurchase));
-
-            ctx.setVariable("petrolSale", df.format(petrolSale));
-            ctx.setVariable("dieselSale", df.format(dieselSale));
-            ctx.setVariable("closePetrolMeter", df.format(totalPetrolAmount));
-            ctx.setVariable("closedieselMeter", df.format(totalDieselAmount));
-            ctx.setVariable("totalCloseAndSale", df.format(totalCloseAndSale));
-
-            ctx.setVariable("grossProfit", df.format(grossProfit));
-            ctx.setVariable("kharchList", kharchList);
-            ctx.setVariable("totalRs", df.format(totalRs));
-
-            ctx.setVariable("creditBalance", df.format(creditBalance));
-            ctx.setVariable("oilPurchase", df.format(oilPurchase));
-            ctx.setVariable("oilSell", df.format(oilSell));
-            ctx.setVariable("openOilSell", df.format(openOilSell));
-            ctx.setVariable("closeOilSell", df.format(closeOilSell));
-
-            // ---------- PDF ----------
-            ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-            resolver.setPrefix("templates/");
-            resolver.setSuffix(".html");
-            resolver.setTemplateMode(TemplateMode.HTML);
-            resolver.setCharacterEncoding("UTF-8");
-
-            TemplateEngine templateEngine = new TemplateEngine();
-            templateEngine.setTemplateResolver(resolver);
-            String html = templateEngine.process("ItReturn", ctx);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-            ITextRenderer renderer = new ITextRenderer();
-            renderer.setDocumentFromString(html);
-            renderer.layout();
-            renderer.createPDF(outputStream);
-
-            byte[] pdfBytes = outputStream.toByteArray();
-
-            HttpHeaders headers = new HttpHeaders();
-            headers.setContentType(MediaType.APPLICATION_PDF);
-            headers.add("Content-Disposition", "attachment; filename=Profit&Loss.pdf");
-
-            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
-
-        } catch (Exception ex) {
-            Logger.getLogger(MyReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-    }
-
-
-//    @Override
-//    public ResponseEntity<byte[]> generatePdf(String userId, String startDate, String endDate) throws ParseException {
-//        try {
-//            double totalPetrolOpenAmount = 0;
-//            double totalDieselOpenAmount = 0;
-//
-//            double totalPetrolAmount = 0;
-//            double totalDieselAmount = 0;
-//            DecimalFormat df = new DecimalFormat("#,###");
-//
-//            Double petrolStock = dailyskockRepository.getTotalOpenstockBetweenDates(startDate, endDate, userId);
-//            Double dieselstock=dailydieselstockRepository.getTotalDieselOpenstockBetweenDates(startDate,endDate,userId);
-//            Double petrolPurchase=purchaseRepository.findPetrolTotalPurchase(startDate,endDate,userId);
-//            Double dieselPurchase=purchaseRepository.findDieselTotalPurchase(startDate,endDate,userId);
-//            Optional<Double> petrolfirstRate=petrolSellRepository.findfirstRateByDateRangeAndUser(startDate,endDate,userId);
-//            Optional<Double> dieselfirstRate=dieselSellRepository.findfirstRateByDateRangeAndUser(startDate,endDate,userId);
-//
-//            Double petrolSale = petrolSellRepository.getTotalPetrolSellBetweenDates(startDate, endDate, userId);
-//            Double dieselSale = dieselSellRepository.getTotalDieselSellBetweenDates(startDate, endDate, userId);
-//            Optional<Double> petrolRate=petrolSellRepository.findLastRateByDateRangeAndUser(startDate,endDate,userId);
-//            Optional<Double> dieselRate=dieselSellRepository.findLastRateByDateRangeAndUser(startDate,endDate,userId);
-//            Double petrolOneDayAgoStcok=dailyskockRepository.findLatestOpenstockInRange(startDate,endDate,userId);
-//            Double dieselOneDayAgoStcok=dailydieselstockRepository.findLatestDieselOpenstockInRange(startDate,endDate,userId);
-//
-//            List<Object[]> kharchList = kharchrepository.getExpenseDetails(startDate, endDate, userId);
-//
-//
-//            if (petrolRate.isPresent() && petrolOneDayAgoStcok != null) {
-//                totalPetrolAmount = petrolOneDayAgoStcok * petrolRate.get();
-//            }
-//
-//            if (dieselRate.isPresent() && dieselOneDayAgoStcok != null) {
-//                totalDieselAmount = dieselOneDayAgoStcok * dieselRate.get();
-//            }
-//
-//            if (petrolfirstRate.isPresent() && petrolStock != null) {
-//                totalPetrolOpenAmount = petrolStock * petrolfirstRate.get();
-//            }
-//
-//            if (dieselfirstRate.isPresent() && dieselstock != null) {
-//                totalDieselOpenAmount = dieselstock * dieselfirstRate.get();
-//            }
-//
-//            Double totalStockAndPurchase = totalPetrolOpenAmount + petrolPurchase + dieselPurchase + totalDieselOpenAmount;
-//            Double totalCloseAndSale = petrolSale + totalPetrolAmount + dieselSale + totalDieselAmount;
-//            Double grossProfit=totalCloseAndSale-totalStockAndPurchase;
-//
-//            Double totalPrice = 0.0;
-//
-//            for (Object[] row : kharchList) {
-//                // assuming price is at index 1
-//                Number price = (Number) row[1];
-//                if (price != null) {
-//                    totalPrice += price.doubleValue();
-//                }
-//            }
-//
-//            System.out.println("Total Price: " + totalPrice);
-//
-//            Double totalRs=grossProfit-totalPrice;
-//
-//            final Context ctx = new Context();
-//            ctx.setVariable("petrolStock",df.format(totalPetrolOpenAmount));
-//            ctx.setVariable("dieselstock", df.format(totalDieselOpenAmount));
-//            ctx.setVariable("petrolPurchase", petrolPurchase);
-//            ctx.setVariable("dieselPurchase", dieselPurchase);
-//            ctx.setVariable("totalStockAndPurchase",  df.format(totalStockAndPurchase));
-//
-//            ctx.setVariable("petrolSale", df.format(petrolSale));
-//            ctx.setVariable("dieselSale", df.format(dieselSale));
-//            ctx.setVariable("closePetrolMeter", df.format(totalPetrolAmount));
-//            ctx.setVariable("closedieselMeter",df.format( totalDieselAmount));
-//            ctx.setVariable("totalCloseAndSale",  df.format(totalCloseAndSale));
-//
-//            ctx.setVariable("grossProfit",  df.format(grossProfit));
-//
-//            ctx.setVariable("kharchList", kharchList);
-//
-//            ctx.setVariable("totalRs",  df.format(totalRs));
-//
-//
-//            ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-//            resolver.setPrefix("templates/");
-//            resolver.setSuffix(".html");
-//            resolver.setTemplateMode(TemplateMode.HTML);
-//            resolver.setCharacterEncoding("UTF-8");
-//
-//            // 3. Process template
-//            TemplateEngine templateEngine = new TemplateEngine();
-//            templateEngine.setTemplateResolver(resolver);
-//            String html = templateEngine.process( "ItReturn", ctx);
-//
-//            // 4. Generate PDF
-//            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-//            ITextRenderer renderer = new ITextRenderer();
-//            renderer.setDocumentFromString(html);
-//            renderer.layout();
-//
-//            renderer.createPDF(outputStream);
-//
-//            byte[] pdfBytes = outputStream.toByteArray();
-//
-//            String desktopPath = System.getProperty("user.home") + "/Desktop/Personal/";
-//            String fileName = "Profit&Loss"+startDate +"to"+endDate+".pdf";
-//            Path outputPath = Paths.get(desktopPath + fileName);
-//
-//            Files.createDirectories(outputPath.getParent());
-//
-//                // Write PDF file
-//                Files.write(outputPath, pdfBytes);
-//            HttpHeaders headers = new HttpHeaders();
-//            headers.setContentType(MediaType.APPLICATION_PDF);
-//            headers.add("Content-Disposition", "attachment; filename=Profit&Loss.pdf");
-//            System.out.println("PDF saved to: " + outputPath.toAbsolutePath());
-//            return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
-//        } catch (IOException ex) {
-//            Logger.getLogger(MyReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (DocumentException ex) {
-//            Logger.getLogger(MyReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//        return null;
-//    }
-
-    @Override
-    public ResponseEntity<byte[]> extrageneratePdf(String userId, String startDate, String endDate) throws ParseException {
-            try {
-
-                double totalOpenPetrolAmount = 0;
-                double totalOpenDieselAmount = 0;
-                double totalOpenXpPetrolAmount = 0;
-                double totalOpenPowerDieselAmount = 0;
-
-                double totalPetrolAmount = 0;
-                double totalDieselAmount = 0;
-                double totalXpPetrolAmount = 0;
-                double totalPowerDieselAmount = 0;
-                DecimalFormat df = new DecimalFormat("#,###");
-
-                Double petrolStock = dailyskockRepository.getTotalOpenstockBetweenDates(startDate, endDate, userId);
-                Double dieselstock = dailydieselstockRepository.getTotalDieselOpenstockBetweenDates(startDate, endDate, userId);
-                Double petrolPurchase = purchaseRepository.findPetrolTotalPurchase(startDate, endDate, userId);
-                Double dieselPurchase = purchaseRepository.findDieselTotalPurchase(startDate, endDate, userId);
-                Double xpPetrolStock = xpdailystockRepository.getTotalOpenstockBetweenDates(startDate, endDate, userId);
-                Double powerDieselstock = powerdieseldailystockRepository.getTotalOpenstockBetweenDates(startDate, endDate, userId);
-
-                Optional<Double> petrolOpenRate = petrolSellRepository.findfirstRateByDateRangeAndUser(startDate, endDate, userId);
-                Optional<Double> dieselOpenRate = dieselSellRepository.findfirstRateByDateRangeAndUser(startDate, endDate, userId);
-                Optional<Double> xpPetrolOpenRate = xpPetorlRepository.findfirstRateByDateRangeAndUser(startDate, endDate, userId);
-                Optional<Double> powerDieselOpenRate = powerDieselRepository.findfirstRateByDateRangeAndUser(startDate, endDate, userId);
-
-                Double xpPetrolPurchase = extraPurchaseRepository.findXpPetrolTotalPurchase(startDate, endDate, userId);
-                Double powerDieselPurchase = extraPurchaseRepository.findPowerDieselTotalPurchase(startDate, endDate, userId);
-
-                Double petrolSale = petrolSellRepository.getTotalPetrolSellBetweenDates(startDate, endDate, userId);
-                Double dieselSale = dieselSellRepository.getTotalDieselSellBetweenDates(startDate, endDate, userId);
-                Double xpPetrolSale = xpPetorlRepository.getTotalXpPetrolSellBetweenDates(startDate, endDate, userId);
-                Double powerDieselSale = powerDieselRepository.getTotalDieselSellBetweenDates(startDate, endDate, userId);
-
-                Optional<Double> petrolRate = petrolSellRepository.findLastRateByDateRangeAndUser(startDate, endDate, userId);
-                Optional<Double> dieselRate = dieselSellRepository.findLastRateByDateRangeAndUser(startDate, endDate, userId);
-                Double petrolOneDayAgoStcok = dailyskockRepository.findLatestOpenstockInRange(startDate, endDate, userId);
-                Double dieselOneDayAgoStcok = dailydieselstockRepository.findLatestDieselOpenstockInRange(startDate, endDate, userId);
-
-                Optional<Double> xpPetrolRate = xpPetorlRepository.findLastRateByDateRangeAndUser(startDate, endDate, userId);
-                Optional<Double> powerDieselRate = powerDieselRepository.findLastRateByDateRangeAndUser(startDate, endDate, userId);
-                Double xpPetrolOneDayAgoStcok = xpdailystockRepository.findLatestXpUgadtoStockInRange(startDate, endDate, userId);
-                Double powerDieselOneDayAgoStcok = powerdieseldailystockRepository.findLatestPowerDieselDailyStockInRange(startDate, endDate, userId);
-                double creditBalance = Optional.ofNullable(loclcreditRepository.sumBalanceNative(startDate, endDate, userId)).orElse(0.0);
-
-                List<Object[]> kharchList = kharchrepository.getExpenseDetails(startDate, endDate, userId);
-                double oilPurchase = Optional.ofNullable(
-                        oilPurchaseRepository.findOilTotalPurchase(startDate, endDate, userId)
-                ).orElse(0.0);
-                double oilSell = Optional.ofNullable(
-                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId)
-                ).orElse(0.0);
-
-                double openOilSell = Optional.ofNullable(
-                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId)
-                ).orElse(0.0);
-
-                double closeOilSell = Optional.ofNullable(
-                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId)
-                ).orElse(0.0);
-
-
-                if (petrolRate.isPresent() && petrolOneDayAgoStcok != null) {
-                    totalPetrolAmount = petrolOneDayAgoStcok * petrolRate.get();
-                }
-
-                if (dieselRate.isPresent() && dieselOneDayAgoStcok != null) {
-                    totalDieselAmount = dieselOneDayAgoStcok * dieselRate.get();
-                }
-
-                if (xpPetrolRate.isPresent() && xpPetrolOneDayAgoStcok != null) {
-                    totalXpPetrolAmount = xpPetrolOneDayAgoStcok * xpPetrolRate.get();
-                }
-
-                if (powerDieselRate.isPresent() && powerDieselstock != null) {
-                    totalPowerDieselAmount = powerDieselstock * powerDieselRate.get();
-                }
-
-
-                if (petrolOpenRate.isPresent() && petrolStock != null) {
-                    totalOpenPetrolAmount = petrolStock * petrolOpenRate.get();
-                }
-
-                if (dieselOpenRate.isPresent() && dieselstock != null) {
-                    totalOpenDieselAmount = dieselstock * dieselOpenRate.get();
-                }
-
-                if (xpPetrolOpenRate.isPresent() && xpPetrolStock != null) {
-                    totalOpenXpPetrolAmount = xpPetrolStock * xpPetrolOpenRate.get();
-                }
-
-                if (powerDieselOpenRate.isPresent() && powerDieselOneDayAgoStcok != null) {
-                    totalOpenPowerDieselAmount = powerDieselOneDayAgoStcok * powerDieselOpenRate.get();
-                }
-
-                Double totalStockAndPurchase = totalOpenPetrolAmount + petrolPurchase + dieselPurchase + totalOpenDieselAmount +totalOpenXpPetrolAmount + xpPetrolPurchase + powerDieselPurchase + totalOpenPowerDieselAmount;
-                Double totalCloseAndSale = petrolSale + totalPetrolAmount + dieselSale + totalDieselAmount +
-                        xpPetrolSale + totalXpPetrolAmount + powerDieselSale + totalPowerDieselAmount;
-                Double grossProfit = totalCloseAndSale - totalStockAndPurchase;
-
-                Double totalPrice = 0.0;
-
-                for (Object[] row : kharchList) {
-                    // assuming price is at index 1
-                    Number price = (Number) row[1];
-                    if (price != null) {
-                        totalPrice += price.doubleValue();
-                    }
-                }
-
-                System.out.println("Total Price: " + totalPrice);
-                Double totalRs = grossProfit - totalPrice +creditBalance;
-
-                final Context ctx = new Context();
-                ctx.setVariable("startDate", toIndianDate(startDate));
-                ctx.setVariable("endDate", toIndianDate(endDate));
-                ctx.setVariable("petrolStock", df.format(totalOpenPetrolAmount));
-                ctx.setVariable("dieselstock", df.format(totalOpenDieselAmount));
-                ctx.setVariable("petrolPurchase", petrolPurchase);
-                ctx.setVariable("dieselPurchase", dieselPurchase);
-                ctx.setVariable("xpPetrolStock", totalOpenXpPetrolAmount);
-                ctx.setVariable("powerDieselstock", df.format(totalOpenPowerDieselAmount));
-                ctx.setVariable("xpPetrolPurchase", xpPetrolPurchase);
-                ctx.setVariable("powerDieselPurchase", powerDieselPurchase);
-                ctx.setVariable("totalStockAndPurchase", df.format(totalStockAndPurchase));
-
-                ctx.setVariable("petrolSale", df.format(petrolSale));
-                ctx.setVariable("dieselSale", df.format(dieselSale));
-                ctx.setVariable("xpPetrolSale", df.format(xpPetrolSale));
-                ctx.setVariable("powerDieselSale", powerDieselSale);
-                ctx.setVariable("closePetrolMeter", df.format(totalPetrolAmount));
-                ctx.setVariable("closedieselMeter", df.format(totalDieselAmount));
-                ctx.setVariable("closeXpPetrolAmount", df.format(totalXpPetrolAmount));
-                ctx.setVariable("closePowerDieselAmount", df.format(totalPowerDieselAmount));
-                ctx.setVariable("totalCloseAndSale", df.format(totalCloseAndSale));
-                ctx.setVariable("oilSell", df.format(oilSell));
-                ctx.setVariable("openOilSell", df.format(openOilSell));
-                ctx.setVariable("closeOilSell", df.format(closeOilSell));
-
-                ctx.setVariable("grossProfit", df.format(grossProfit));
-
-                ctx.setVariable("kharchList", kharchList);
-
-                ctx.setVariable("creditBalance", df.format(creditBalance));
-                ctx.setVariable("oilPurchase", df.format(oilPurchase));
-
-                ctx.setVariable("totalRs", df.format(totalRs));
-
-                ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
-                resolver.setPrefix("templates/");
-                resolver.setSuffix(".html");
-                resolver.setTemplateMode(TemplateMode.HTML);
-                resolver.setCharacterEncoding("UTF-8");
-
-                // 3. Process template
-                TemplateEngine templateEngine = new TemplateEngine();
-                templateEngine.setTemplateResolver(resolver);
-                String html = templateEngine.process("extraItReturn", ctx);
-
-                // 4. Generate PDF
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                ITextRenderer renderer = new ITextRenderer();
-                renderer.setDocumentFromString(html);
-                renderer.layout();
-
-                renderer.createPDF(outputStream);
-
-                byte[] pdfBytes = outputStream.toByteArray();
-
-                String desktopPath = System.getProperty("user.home") + "/Desktop/Personal/";
-                String fileName = "Extra_Profit&Loss" + startDate + "to" + endDate + ".pdf";
-                Path outputPath = Paths.get(desktopPath + fileName);
-
-                Files.createDirectories(outputPath.getParent());
-
-                    // Write PDF file
-                    Files.write(outputPath, pdfBytes);
-
-                HttpHeaders headers = new HttpHeaders();
-                headers.setContentType(MediaType.APPLICATION_PDF);
-                headers.add("Content-Disposition", "attachment; filename=Extra_Profit&Loss.pdf");
-                System.out.println("PDF saved to: " + outputPath.toAbsolutePath());
-                return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
-            } catch (IOException ex) {
-                Logger.getLogger(MyReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (DocumentException ex) {
-                Logger.getLogger(MyReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
-            }
-            return null;
         }
 
-    public static String toIndianDate(String dateStr) {
-        DateTimeFormatter in = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        DateTimeFormatter out = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        return LocalDate.parse(dateStr, in).format(out);
-    }
+        // @Override
+        // public ResponseEntity<byte[]> generatePdf(String userId, String startDate,
+        // String endDate) throws ParseException {
+        // try {
+        // double totalPetrolOpenAmount = 0;
+        // double totalDieselOpenAmount = 0;
+        //
+        // double totalPetrolAmount = 0;
+        // double totalDieselAmount = 0;
+        // DecimalFormat df = new DecimalFormat("#,###");
+        //
+        // Double petrolStock =
+        // dailyskockRepository.getTotalOpenstockBetweenDates(startDate, endDate,
+        // userId);
+        // Double
+        // dieselstock=dailydieselstockRepository.getTotalDieselOpenstockBetweenDates(startDate,endDate,userId);
+        // Double
+        // petrolPurchase=purchaseRepository.findPetrolTotalPurchase(startDate,endDate,userId);
+        // Double
+        // dieselPurchase=purchaseRepository.findDieselTotalPurchase(startDate,endDate,userId);
+        // Optional<Double>
+        // petrolfirstRate=petrolSellRepository.findfirstRateByDateRangeAndUser(startDate,endDate,userId);
+        // Optional<Double>
+        // dieselfirstRate=dieselSellRepository.findfirstRateByDateRangeAndUser(startDate,endDate,userId);
+        //
+        // Double petrolSale =
+        // petrolSellRepository.getTotalPetrolSellBetweenDates(startDate, endDate,
+        @Override
+        public ResponseEntity<byte[]> extrageneratePdf(String userId, String startDate, String endDate)
+                        throws ParseException {
+                try {
+
+                        double totalOpenPetrolAmount = 0;
+                        double totalOpenDieselAmount = 0;
+                        double totalOpenXpPetrolAmount = 0;
+                        double totalOpenPowerDieselAmount = 0;
+
+                        double totalPetrolAmount = 0;
+                        double totalDieselAmount = 0;
+                        double totalXpPetrolAmount = 0;
+                        double totalPowerDieselAmount = 0;
+                        DecimalFormat df = new DecimalFormat("#,###");
+
+                        Double petrolStock = Optional.ofNullable(
+                                        dailyskockRepository.getTotalOpenstockBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        Double dieselstock = Optional.ofNullable(dailydieselstockRepository
+                                        .getTotalDieselOpenstockBetweenDates(startDate, endDate, userId)).orElse(0.0);
+                        Double petrolPurchase = Optional.ofNullable(
+                                        purchaseRepository.findPetrolTotalPurchase(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        Double dieselPurchase = Optional.ofNullable(
+                                        purchaseRepository.findDieselTotalPurchase(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        Double xpPetrolStock = Optional.ofNullable(xpdailystockRepository
+                                        .getTotalOpenstockBetweenDates(startDate, endDate, userId)).orElse(0.0);
+                        Double powerDieselstock = Optional
+                                        .ofNullable(powerdieseldailystockRepository
+                                                        .getTotalOpenstockBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
+
+                        Optional<Double> petrolOpenRate = petrolSellRepository
+                                        .findfirstRateByDateRangeAndUser(startDate, endDate, userId);
+                        Optional<Double> dieselOpenRate = dieselSellRepository
+                                        .findfirstRateByDateRangeAndUser(startDate, endDate, userId);
+                        Optional<Double> xpPetrolOpenRate = xpPetorlRepository
+                                        .findfirstRateByDateRangeAndUser(startDate, endDate, userId);
+                        Optional<Double> powerDieselOpenRate = powerDieselRepository
+                                        .findfirstRateByDateRangeAndUser(startDate, endDate, userId);
+
+                        Double xpPetrolPurchase = Optional.ofNullable(
+                                        extraPurchaseRepository.findXpPetrolTotalPurchase(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        Double powerDieselPurchase = Optional.ofNullable(extraPurchaseRepository
+                                        .findPowerDieselTotalPurchase(startDate, endDate, userId)).orElse(0.0);
+
+                        Double petrolSale = Optional.ofNullable(
+                                        petrolSellRepository.getTotalPetrolSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        Double dieselSale = Optional.ofNullable(
+                                        dieselSellRepository.getTotalDieselSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        Double xpPetrolSale = Optional.ofNullable(
+                                        xpPetorlRepository.getTotalXpPetrolSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        Double powerDieselSale = Optional.ofNullable(powerDieselRepository
+                                        .getTotalDieselSellBetweenDates(startDate, endDate, userId)).orElse(0.0);
+
+                        Optional<Double> petrolRate = petrolSellRepository.findLastRateByDateRangeAndUser(startDate,
+                                        endDate, userId);
+                        Optional<Double> dieselRate = dieselSellRepository.findLastRateByDateRangeAndUser(startDate,
+                                        endDate, userId);
+                        Double petrolOneDayAgoStcok = Optional.ofNullable(
+                                        dailyskockRepository.findLatestOpenstockInRange(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        Double dieselOneDayAgoStcok = Optional
+                                        .ofNullable(dailydieselstockRepository
+                                                        .findLatestDieselOpenstockInRange(startDate, endDate, userId))
+                                        .orElse(0.0);
+
+                        Optional<Double> xpPetrolRate = xpPetorlRepository.findLastRateByDateRangeAndUser(startDate,
+                                        endDate, userId);
+                        Optional<Double> powerDieselRate = powerDieselRepository
+                                        .findLastRateByDateRangeAndUser(startDate, endDate, userId);
+                        Double xpPetrolOneDayAgoStcok = Optional.ofNullable(xpdailystockRepository
+                                        .findLatestXpUgadtoStockInRange(startDate, endDate, userId)).orElse(0.0);
+                        Double powerDieselOneDayAgoStcok = Optional.ofNullable(powerdieseldailystockRepository
+                                        .findLatestPowerDieselDailyStockInRange(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        double creditBalance = Optional
+                                        .ofNullable(loclcreditRepository.sumBalanceNative(startDate, endDate, userId))
+                                        .orElse(0.0);
+
+                        List<Object[]> kharchList = kharchrepository.getExpenseDetails(startDate, endDate, userId);
+                        double oilPurchase = Optional.ofNullable(
+                                        oilPurchaseRepository.findOilTotalPurchase(startDate, endDate, userId))
+                                        .orElse(0.0);
+                        double oilSell = Optional.ofNullable(
+                                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
+
+                        double openOilSell = Optional.ofNullable(
+                                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
+
+                        double closeOilSell = Optional.ofNullable(
+                                        oilSellRepository.getTotalOilSellBetweenDates(startDate, endDate, userId))
+                                        .orElse(0.0);
+
+                        if (petrolRate.isPresent() && petrolOneDayAgoStcok != null) {
+                                totalPetrolAmount = petrolOneDayAgoStcok * petrolRate.get();
+                        } else {
+                                totalPetrolAmount = 0.0;
+                        }
+
+                        if (dieselRate.isPresent() && dieselOneDayAgoStcok != null) {
+                                totalDieselAmount = dieselOneDayAgoStcok * dieselRate.get();
+                        } else {
+                                totalDieselAmount = 0.0;
+                        }
+
+                        if (xpPetrolRate.isPresent() && xpPetrolOneDayAgoStcok != null) {
+                                totalXpPetrolAmount = xpPetrolOneDayAgoStcok * xpPetrolRate.get();
+                        } else {
+                                totalXpPetrolAmount = 0.0;
+                        }
+
+                        if (powerDieselRate.isPresent() && powerDieselstock != null) {
+                                totalPowerDieselAmount = powerDieselstock * powerDieselRate.get();
+                        } else {
+                                totalPowerDieselAmount = 0.0;
+                        }
+
+                        if (petrolOpenRate.isPresent() && petrolStock != null) {
+                                totalOpenPetrolAmount = petrolStock * petrolOpenRate.get();
+                        } else {
+                                totalOpenPetrolAmount = 0.0;
+                        }
+
+                        if (dieselOpenRate.isPresent() && dieselstock != null) {
+                                totalOpenDieselAmount = dieselstock * dieselOpenRate.get();
+                        } else {
+                                totalOpenDieselAmount = 0.0;
+                        }
+
+                        if (xpPetrolOpenRate.isPresent() && xpPetrolStock != null) {
+                                totalOpenXpPetrolAmount = xpPetrolStock * xpPetrolOpenRate.get();
+                        } else {
+                                totalOpenXpPetrolAmount = 0.0;
+                        }
+
+                        if (powerDieselOpenRate.isPresent() && powerDieselOneDayAgoStcok != null) {
+                                totalOpenPowerDieselAmount = powerDieselOneDayAgoStcok * powerDieselOpenRate.get();
+                        } else {
+                                totalOpenPowerDieselAmount = 0.0;
+                        }
+
+                        Double totalStockAndPurchase = totalOpenPetrolAmount + petrolPurchase + dieselPurchase
+                                        + totalOpenDieselAmount + totalOpenXpPetrolAmount + xpPetrolPurchase
+                                        + powerDieselPurchase + totalOpenPowerDieselAmount;
+                        Double totalCloseAndSale = petrolSale + totalPetrolAmount + dieselSale + totalDieselAmount +
+                                        xpPetrolSale + totalXpPetrolAmount + powerDieselSale + totalPowerDieselAmount;
+                        Double grossProfit = totalCloseAndSale - totalStockAndPurchase;
+
+                        Double totalPrice = 0.0;
+
+                        for (Object[] row : kharchList) {
+                                // assuming price is at index 1
+                                Number price = (Number) row[1];
+                                if (price != null) {
+                                        totalPrice += price.doubleValue();
+                                }
+                        }
+
+                        System.out.println("Total Price: " + totalPrice);
+                        Double totalRs = grossProfit - totalPrice + creditBalance;
+
+                        final Context ctx = new Context();
+                        ctx.setVariable("startDate", toIndianDate(startDate));
+                        ctx.setVariable("endDate", toIndianDate(endDate));
+                        ctx.setVariable("petrolStock", df.format(totalOpenPetrolAmount));
+                        ctx.setVariable("dieselstock", df.format(totalOpenDieselAmount));
+                        ctx.setVariable("petrolPurchase", petrolPurchase);
+                        ctx.setVariable("dieselPurchase", dieselPurchase);
+                        ctx.setVariable("xpPetrolStock", totalOpenXpPetrolAmount);
+                        ctx.setVariable("powerDieselstock", df.format(totalOpenPowerDieselAmount));
+                        ctx.setVariable("xpPetrolPurchase", xpPetrolPurchase);
+                        ctx.setVariable("powerDieselPurchase", powerDieselPurchase);
+                        ctx.setVariable("totalStockAndPurchase", df.format(totalStockAndPurchase));
+
+                        ctx.setVariable("petrolSale", df.format(petrolSale));
+                        ctx.setVariable("dieselSale", df.format(dieselSale));
+                        ctx.setVariable("xpPetrolSale", df.format(xpPetrolSale));
+                        ctx.setVariable("powerDieselSale", powerDieselSale);
+                        ctx.setVariable("closePetrolMeter", df.format(totalPetrolAmount));
+                        ctx.setVariable("closedieselMeter", df.format(totalDieselAmount));
+                        ctx.setVariable("closeXpPetrolAmount", df.format(totalXpPetrolAmount));
+                        ctx.setVariable("closePowerDieselAmount", df.format(totalPowerDieselAmount));
+                        ctx.setVariable("totalCloseAndSale", df.format(totalCloseAndSale));
+                        ctx.setVariable("oilSell", df.format(oilSell));
+                        ctx.setVariable("openOilSell", df.format(openOilSell));
+                        ctx.setVariable("closeOilSell", df.format(closeOilSell));
+
+                        ctx.setVariable("grossProfit", df.format(grossProfit));
+
+                        ctx.setVariable("kharchList", kharchList);
+
+                        ctx.setVariable("creditBalance", df.format(creditBalance));
+                        ctx.setVariable("oilPurchase", df.format(oilPurchase));
+
+                        ctx.setVariable("totalRs", df.format(totalRs));
+
+                        ClassLoaderTemplateResolver resolver = new ClassLoaderTemplateResolver();
+                        resolver.setPrefix("templates/");
+                        resolver.setSuffix(".html");
+                        resolver.setTemplateMode(TemplateMode.HTML);
+                        resolver.setCharacterEncoding("UTF-8");
+
+                        // 3. Process template
+                        TemplateEngine templateEngine = new TemplateEngine();
+                        templateEngine.setTemplateResolver(resolver);
+                        String html = templateEngine.process("extraItReturn", ctx);
+
+                        // 4. Generate PDF
+                        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                        ITextRenderer renderer = new ITextRenderer();
+                        renderer.setDocumentFromString(html);
+                        renderer.layout();
+
+                        renderer.createPDF(outputStream);
+
+                        byte[] pdfBytes = outputStream.toByteArray();
+
+                        String desktopPath = System.getProperty("user.home") + "/Desktop/Personal/";
+                        String fileName = "Extra_Profit&Loss" + startDate + "to" + endDate + ".pdf";
+                        Path outputPath = Paths.get(desktopPath + fileName);
+
+                        Files.createDirectories(outputPath.getParent());
+
+                        // Write PDF file
+                        Files.write(outputPath, pdfBytes);
+
+                        HttpHeaders headers = new HttpHeaders();
+                        headers.setContentType(MediaType.APPLICATION_PDF);
+                        headers.add("Content-Disposition", "attachment; filename=Extra_Profit&Loss.pdf");
+                        System.out.println("PDF saved to: " + outputPath.toAbsolutePath());
+                        return new ResponseEntity<>(pdfBytes, headers, HttpStatus.OK);
+                } catch (IOException ex) {
+                        Logger.getLogger(MyReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (DocumentException ex) {
+                        Logger.getLogger(MyReportGenerator.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                return null;
+        }
+
+        public static String toIndianDate(String dateStr) {
+                DateTimeFormatter in = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+                DateTimeFormatter out = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+                return LocalDate.parse(dateStr, in).format(out);
+        }
 
 }

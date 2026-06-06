@@ -15,7 +15,7 @@ public interface PetrolSellRepository extends JpaRepository<PetrolSell, Integer>
 
         @Query(value = "SELECT p.date, SUM(p.close_meter) AS total_close_meter, SUM(p.open_meter) AS total_open_meter, "
                         + "SUM(p.total) AS total_sum, SUM(p.testing) AS total_testing, SUM(p.petrol_ltr) AS petrol_ltr, "
-                        + "p.rate, SUM(p.total_sell) AS total_total_sell "
+                        + "MAX(p.rate), SUM(p.total_sell) AS total_total_sell "
                         + "FROM petrolsell p "
                         + "WHERE p.date BETWEEN :startDate AND :endDate "
                         + "GROUP BY p.date", nativeQuery = true)

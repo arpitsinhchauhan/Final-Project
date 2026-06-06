@@ -113,6 +113,7 @@ import {
   API_OIL_PURCHASE,
   API_OIL_PURCHASE_EDIT,
   API_OIL_PURCHASE_DELETE,
+  API_EMPLOYEE_IMAGES_ADD,
 } from "app/serviceult";
 import { BehaviorSubject, Observable } from "rxjs";
 import { PurchaseDetails } from "app/models/PurchaseDetails ";
@@ -302,7 +303,7 @@ export class UserServiceService {
   // Employee Details
 
   getImageUrls(): Observable<string[]> {
-    return this.http.get<string[]>(API_UPLOAD);
+    return this.http.get<string[]>(API_EMPLOYEE_IMAGES_ADD);
   }
 
   // feedBack

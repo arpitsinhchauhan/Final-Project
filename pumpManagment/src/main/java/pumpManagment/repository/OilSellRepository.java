@@ -21,34 +21,35 @@ import pumpManagment.Entity.OilSell;
 @Repository
 public interface OilSellRepository extends JpaRepository<OilSell, Integer> {
 
-    List<OilSell> findByUserId(String userId);
+        List<OilSell> findByUserId(String userId);
 
-//    @Query("Select SUM(t1.price) AS total_price from OilSell t1 where t1.date=:date")
-//    List<Object[]> getoilDataOnDate(@Param("date") String date);
-    @Query("SELECT SUM(t1.price) AS total_price FROM OilSell t1 WHERE t1.date = :date AND t1.userId = :userId")
-    List<Object[]> getoilDataOnDate(@Param("date") String date, @Param("userId") String userId);
+        // @Query("Select SUM(t1.price) AS total_price from OilSell t1 where
+        // t1.date=:date")
+        // List<Object[]> getoilDataOnDate(@Param("date") String date);
+        @Query("SELECT SUM(t1.price) AS total_price FROM OilSell t1 WHERE t1.date = :date AND t1.userId = :userId")
+        List<Object[]> getoilDataOnDate(@Param("date") String date, @Param("userId") String userId);
 
-    @Query(value = "SELECT o.date, SUM(o.price) AS total_price "
-            + "FROM OilSell o "
-            + "WHERE o.date BETWEEN :startDate AND :endDate "
-            + "GROUP BY o.date ", nativeQuery = true)
-    List<Object[]> findOilSellSummaryBetweenDates(@Param("startDate") String startDate,
-            @Param("endDate") String endDate);
+        @Query(value = "SELECT o.date, SUM(o.price) AS total_price "
+                        + "FROM oilsell o "
+                        + "WHERE o.date BETWEEN :startDate AND :endDate "
+                        + "GROUP BY o.date ", nativeQuery = true)
+        List<Object[]> findOilSellSummaryBetweenDates(@Param("startDate") String startDate,
+                        @Param("endDate") String endDate);
 
-    @Query("SELECT SUM(os.price) FROM OilSell os WHERE os.date = CURRENT_DATE")
-    List<Object[]> findTotalOilSellPriceForToday();
+        @Query("SELECT SUM(os.price) FROM OilSell os WHERE os.date = CURRENT_DATE")
+        List<Object[]> findTotalOilSellPriceForToday();
 
-    @Query("SELECT SUM(o.price) AS OilSell "
-            + "FROM OilSell o "
-            + "WHERE o.date = :date AND o.userId = :userId "
-            + "GROUP BY o.userId, o.date")
-    List<Double> findOilsellSumByDate(@Param("date") String date, @Param("userId") String userId);
+        @Query("SELECT SUM(o.price) AS OilSell "
+                        + "FROM OilSell o "
+                        + "WHERE o.date = :date AND o.userId = :userId "
+                        + "GROUP BY o.userId, o.date")
+        List<Double> findOilsellSumByDate(@Param("date") String date, @Param("userId") String userId);
 
-    @Query("SELECT SUM(t1.price) AS total_price FROM OilSell t1 WHERE t1.date = :date AND t1.userId = :userId")
-    List<OilSell> getoilData(@Param("date") String date, @Param("userId") String userId);
+        @Query("SELECT SUM(t1.price) AS total_price FROM OilSell t1 WHERE t1.date = :date AND t1.userId = :userId")
+        List<OilSell> getoilData(@Param("date") String date, @Param("userId") String userId);
 
-    @Query(value = "SELECT COALESCE(SUM(price), 0) FROM OilSell WHERE date BETWEEN :startDate AND :endDate AND user_id = :userId", nativeQuery = true)
-    Double getTotalOilSellBetweenDates(@Param("startDate") String startDate,
-                                          @Param("endDate") String endDate,
-                                          @Param("userId") String userId);
+        @Query(value = "SELECT COALESCE(SUM(price), 0) FROM oilsell WHERE date BETWEEN :startDate AND :endDate AND user_id = :userId", nativeQuery = true)
+        Double getTotalOilSellBetweenDates(@Param("startDate") String startDate,
+                        @Param("endDate") String endDate,
+                        @Param("userId") String userId);
 }
